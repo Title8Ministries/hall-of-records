@@ -48,6 +48,32 @@ a{color:var(--gold)}
  filter:invert(62%) sepia(38%) saturate(420%) hue-rotate(6deg) brightness(.86)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  border-top:1px solid rgba(201,165,92,.16);font-size:.86rem;color:rgba(243,236,224,.55)}
+/* ── the 1873 chamber: engraved stone, gilding = verification ── */
+.tablet{display:flex;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
+.tablet-half{flex:1;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
+ border:1px solid rgba(214,207,196,.14);padding:1.5rem 1.7rem}
+.tablet-half p{font:300 clamp(1.15rem,2vw,1.7rem)/1.35 "Cormorant Garamond",serif;
+ letter-spacing:.04em;color:#d9d2c4;margin:0;max-width:none;
+ text-shadow:0 1px 0 rgba(0,0,0,.55), 0 -1px 0 rgba(255,255,255,.06)}   /* engraved, not printed */
+.tablet-crack{width:3px;background:linear-gradient(180deg,transparent,rgba(12,17,29,.9) 12%,rgba(12,17,29,.9) 88%,transparent);
+ transform:rotate(1.6deg);margin:0 -1px;box-shadow:0 0 14px 2px rgba(0,0,0,.6)}
+.plaques{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.7rem;margin-top:1.6rem;max-width:56rem}
+.plaque{text-align:left;background:rgba(12,17,29,.42);border:1px solid rgba(125,133,155,.25);
+ padding:.9rem 1rem;cursor:pointer;transition:border-color .9s,background .9s;font:inherit;color:inherit}
+.plaque .pl-name{display:block;font:400 .6rem/1.8 "JetBrains Mono",monospace;letter-spacing:.28em;
+ text-transform:uppercase;color:var(--muted);transition:color .9s}
+.plaque .pl-quote{display:block;font:300 italic .95rem/1.45 "Cormorant Garamond",serif;
+ color:rgba(217,210,196,.72);margin-top:.35rem;transition:color .9s,text-shadow .9s}
+.plaque.gild{border-color:rgba(201,165,92,.55);background:rgba(201,165,92,.06)}
+.plaque.gild .pl-name{color:var(--gold)}
+.plaque.gild .pl-quote{color:var(--gold-soft);text-shadow:0 0 18px rgba(201,165,92,.30)}
+.thread{display:block;margin-top:1.6rem;border-left:1px solid rgba(201,165,92,.4);padding-left:1.1rem;max-width:44rem}
+.thread .waypoint{display:block;font-size:.9rem;color:rgba(243,236,224,.75);margin:.55rem 0}
+.thread .waypoint b{color:var(--gold);font-weight:500;margin-right:.5rem}
+.chip{display:inline-block;font:400 .58rem/1.6 "JetBrains Mono",monospace;letter-spacing:.14em;
+ text-transform:uppercase;color:rgba(201,165,92,.75);border:1px solid rgba(201,165,92,.28);
+ border-radius:9999px;padding:.12rem .6rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
+.chip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
 #hint{position:fixed;left:50%;bottom:2rem;transform:translateX(-50%);z-index:30;
  font:400 .6rem/1 "JetBrains Mono",monospace;letter-spacing:.3em;text-transform:uppercase;
  color:rgba(201,165,92,.7);transition:opacity .6s;pointer-events:none}
@@ -149,6 +175,42 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   </div></div>
 </section>
 
+<!-- V·c · THE 1873 CHAMBER — the flagship. COPY LAW: every display string here is verbatim
+     from POST v5 ("The Case Nobody Names"); bin/hall-gates string-matches them at build time.
+     Citation chips link PRIMARY sources only (LOC US Reports scans / supremecourt.gov). -->
+<section id="chamber1873" style="height:260vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-corridor.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:64rem">
+    <p class="kicker">The Case Nobody Names · 1873</p>
+    <div class="tablet">
+      <div class="tablet-half"><p>"It is quite clear, then, that there is a citizenship of the United&nbsp;States,</p></div>
+      <div class="tablet-crack" aria-hidden="true"></div>
+      <div class="tablet-half"><p>and a citizenship of a State, which are distinct from each other"</p></div>
+    </div>
+    <p class="caption">The Slaughter-House Cases, 83 U.S. 36 (1873) — decided by one vote.
+      <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep083/usrep083036/usrep083036.pdf" target="_blank" rel="noopener">83 U.S. 36 — read the opinion</a></p>
+    <div class="plaques">
+      <button class="plaque" type="button"><span class="pl-name">Justice Field</span>
+        <span class="pl-quote">"a vain and idle enactment, which accomplished nothing."</span></button>
+      <button class="plaque" type="button"><span class="pl-name">Justice Swayne</span>
+        <span class="pl-quote">"turns, as it were, what was meant for bread into a stone."</span></button>
+      <button class="plaque" type="button"><span class="pl-name">Justice Bradley</span>
+        <span class="pl-quote">citizenship of the United States is "primary" — and citizenship of a State "secondary and derivative."</span></button>
+      <button class="plaque" type="button"><span class="pl-name">Chief Justice Chase</span>
+        <span class="pl-quote">joined them. Not on appeal. Not years later. Same volume, same morning.</span></button>
+    </div>
+    <div class="thread">
+      <span class="waypoint"><b>1999</b> "the Clause does not mean what the Court said it meant in 1873"
+        <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep526/usrep526489/usrep526489.pdf" target="_blank" rel="noopener">526 U.S. 489, 522 n.1</a></span>
+      <span class="waypoint"><b>2010</b> "I reject Slaughter-House insofar as it precludes any overlap between the privileges and immunities of state and federal citizenship."
+        <a class="chip" href="https://www.supremecourt.gov/opinions/boundvolumes/561bv.pdf" target="_blank" rel="noopener">561 U.S. 742, 855</a></span>
+      <span class="waypoint"><b>2019</b> "may well be the appropriate vehicle for incorporation."
+        <a class="chip" href="https://www.supremecourt.gov/opinions/18pdf/17-1091_5536.pdf" target="_blank" rel="noopener">Timbs v. Indiana (Gorsuch, J.)</a></span>
+    </div>
+    <p class="quote" style="max-width:34ch;margin-top:1.6rem">The dissent never went quiet. We just stopped being told about it.</p>
+  </div></div>
+</section>
+
 <!-- VI · THE HALL — epilogue of the slice; the Door's one invitation -->
 <section id="hall" style="height:240vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
@@ -210,13 +272,14 @@ const load = (u,srgb=true)=>new Promise(r=>TL.load(u,t=>{
   t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; t.minFilter=THREE.LinearFilter; r(t);}));
 const [texWaters,texDeep,texBreach,texHall,
        depWaters,depDeep,depBreach,depHall,
-       texSig,texThumb,texPaper] = await Promise.all([
+       texSig,texThumb,texPaper,texCorr,depCorr] = await Promise.all([
   load("assets/plate-waters.jpg"), load("assets/plate-deep.jpg"),
   load("assets/plate-breach.jpg"), load("assets/plate-hall.jpg"),
   load("assets/depth-waters.jpg",false), load("assets/depth-deep.jpg",false),
   load("assets/depth-breach.jpg",false), load("assets/depth-hall.jpg",false),
   load("assets/MARK-signature-alpha.png",false), load("assets/MARK-thumbprint-alpha.png",false),
-  load("assets/PAPER-height.png",false)]);
+  load("assets/PAPER-height.png",false),
+  load("assets/plate-corridor.jpg"), load("assets/depth-corridor.jpg",false)]);
 const texCodex = await load("assets/codex-leaf.png");
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
 
@@ -270,6 +333,7 @@ const F = new THREE.ShaderMaterial({
     uSealT:{value:0},
     tWaters:{value:texWaters}, tDeep:{value:texDeep}, tBreach:{value:texBreach}, tHall:{value:texHall},
     dWaters:{value:depWaters}, dDeep:{value:depDeep}, dBreach:{value:depBreach}, dHall:{value:depHall},
+    tCorr:{value:texCorr}, dCorr:{value:depCorr},
     tSig:{value:texSig}, tThumb:{value:texThumb}, tPaper:{value:texPaper},
     uPlateAspect:{value:1672/941},
   },
@@ -279,7 +343,7 @@ precision highp float;
 varying vec2 vUv;
 uniform vec2 uRes,uMouse,uJitter; uniform float uTime,uFlash,uBlend,uPA,uPB,uSealT,uPlateAspect;
 uniform int uActA,uActB;
-uniform sampler2D tWaters,tDeep,tBreach,tHall,dWaters,dDeep,dBreach,dHall,tSig,tThumb,tPaper;
+uniform sampler2D tWaters,tDeep,tBreach,tHall,dWaters,dDeep,dBreach,dHall,tSig,tThumb,tPaper,tCorr,dCorr;
 
 float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
 float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
@@ -485,6 +549,24 @@ vec3 actHall(vec2 uv, float p){
   return col;
 }
 
+/* ═ ACT 7 · THE 1873 CHAMBER — the flagship: the corridor re-lit cold ═ */
+vec3 actChamber(vec2 uv, float p){
+  vec2 cuv = cover(uv);
+  cuv = zoomAt(cuv, vec2(.5,.48), 1.04+.10*p);                     /* drift forward, walking pace */
+  float d = texture2D(dCorr,cuv).r;
+  cuv += (d-.5)*vec2(uMouse.x*.022, uMouse.y*.012);
+  vec3 col = texture2D(tCorr,cuv).rgb;
+  /* the cold key: one white judicial light from high left kills the corridor's warmth */
+  float cold = smoothstep(.15,.75,cuv.y)*smoothstep(.9,.25,cuv.x);
+  vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
+  col = mix(col, g*vec3(.82,.90,1.05), .45+.25*cold);              /* marble drained toward monochrome */
+  float fl = 1.+.015*sin(uTime*11.3)+.012*sin(uTime*6.7+2.1);      /* one candle survives, low right */
+  col += vec3(1.,.72,.38)*smoothstep(.5,.0,distance(cuv,vec2(.82,.30)))*.05*fl;
+  col *= .80+.10*p;
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*.72;
+  return col;
+}
+
 vec3 act(int id, vec2 uv, float p){
   if(id==0) return actSeal(uv,p);
   if(id==1) return actWaters(uv,p);
@@ -492,6 +574,7 @@ vec3 act(int id, vec2 uv, float p){
   if(id==3) return actJar(uv,p);
   if(id==4) return actBreach(uv,p);
   if(id==5) return actLand(uv,p);
+  if(id==7) return actChamber(uv,p);
   return actHall(uv,p);
 }
 
@@ -594,15 +677,16 @@ void main(){vec4 c=texture2D(tDiffuse,v);
 composer.addPass(grainPost);
 
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
-const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 2440vh) */
-  {id:0, s:0.0000, e:0.0799},   /* seal      195vh */
-  {id:1, s:0.0799, e:0.2828},   /* waters    495vh */
-  {id:2, s:0.2828, e:0.4713},   /* deep      460vh */
-  {id:3, s:0.4713, e:0.6086},   /* jar       335vh */
-  {id:4, s:0.6086, e:0.7541},   /* breach    355vh */
-  {id:5, s:0.7541, e:0.8443},   /* landfall  220vh */
-  {id:6, s:0.8443, e:0.9016},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
-  {id:6, s:0.9016, e:1.0001},   /* hall      240vh */
+const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 2700vh) */
+  {id:0, s:0.0000, e:0.0722},   /* seal      195vh */
+  {id:1, s:0.0722, e:0.2556},   /* waters    495vh */
+  {id:2, s:0.2556, e:0.4259},   /* deep      460vh */
+  {id:3, s:0.4259, e:0.5500},   /* jar       335vh */
+  {id:4, s:0.5500, e:0.6815},   /* breach    355vh */
+  {id:5, s:0.6815, e:0.7630},   /* landfall  220vh */
+  {id:6, s:0.7630, e:0.8148},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
+  {id:7, s:0.8148, e:0.9111},   /* 1873      260vh — the flagship chamber, corridor re-lit cold */
+  {id:6, s:0.9111, e:1.0001},   /* hall      240vh */
 ];
 const BLEND = .024;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
@@ -623,6 +707,13 @@ addEventListener("resize",()=>{ camera.aspect=innerWidth/innerHeight; camera.upd
 const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("on"); }),
   {threshold:.18});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
+
+/* INSPECT — a dissent plaque gilds when touched; gold is earned, never ambient */
+document.querySelectorAll(".plaque").forEach(pl=>{
+  pl.addEventListener("mouseenter", ()=>pl.classList.add("gild"));
+  pl.addEventListener("mouseleave", ()=>pl.classList.remove("gild"));
+  pl.addEventListener("click", ()=>pl.classList.toggle("gild"));   /* touch */
+});
 
 function setActs(p){
   let A = ACTS[0];
