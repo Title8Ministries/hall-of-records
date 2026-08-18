@@ -71,7 +71,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <main>
 
 <!-- 0 · THE SEAL — his name, his print, into the water -->
-<section id="seal" style="height:195vh">
+<section id="seal" style="height:195vh;align-items:flex-start">
   <div class="still" style="background-image:none;background:#0c111d"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">Joseph Fain McDaniel™</p>
@@ -124,7 +124,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- V · LANDFALL — the inversion -->
-<section id="landfall" style="height:220vh">
+<section id="landfall" style="height:220vh;align-items:flex-start">
   <div class="still" style="background:#f3ece0"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">IV · Landfall</p>
@@ -136,7 +136,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- VI · THE HALL — epilogue of the slice; the Door's one invitation -->
-<section id="hall" style="height:240vh">
+<section id="hall" style="height:240vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">V · The Hall</p>
@@ -555,10 +555,11 @@ function setActs(p){
 let prev=0;
 /* __shot renders SYNCHRONOUSLY — it must never depend on rAF, which a hidden
    pane throttles to zero. That dependency is how three bad builds shipped. */
-window.__shot = (p, tSec=8, W=1280, H=720)=>{
+window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   /* explicit size: a hidden pane reports a 0×0 viewport and would return "data:," */
   renderer.setSize(W,H,false); composer.setSize(W,H);
   camera.aspect=W/H; camera.updateProjectionMatrix();
+  F.uniforms.uMouse.value.set(mx,my);   /* depth parallax is mouse-driven; shots need it settable */
   F.uniforms.uRes.value.set(W,H);
   target=cur=p; sealT=1; setActs(p);
   F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=1; F.uniforms.uFlash.value=0;
