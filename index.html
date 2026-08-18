@@ -643,6 +643,10 @@ vec3 act(int id, vec2 uv, float p){
   if(id==4) return actBreach(uv,p);
   if(id==5) return actLand(uv,p);
   if(id==7) return actChamber(uv,p);
+  if(id==8){ vec3 c=actHall(uv,p);                                 /* the Study: emerald warmth */
+    return mix(c, c*vec3(.86,1.06,.93), .55) + vec3(.02,.05,.03)*smoothstep(.6,.2,distance(uv,vec2(.5,.55))); }
+  if(id==9){ vec3 c=actHall(uv,p);                                 /* the Turn: the hall darkens, the door holds the light */
+    vec2 o=uv-.5; return c*vec3(.88,.90,1.0)*.78*(1.-dot(o,o)*.5); }
   return actHall(uv,p);
 }
 
@@ -755,8 +759,8 @@ const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections 
   {id:6, s:0.6438, e:0.6875},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
   {id:7, s:0.6875, e:0.7688},   /* 1873      260vh — the flagship chamber, corridor re-lit cold */
   {id:6, s:0.7688, e:0.8375},   /* wall      220vh — the eight definitions, candlelit */
-  {id:6, s:0.8375, e:0.8875},   /* study     160vh */
-  {id:6, s:0.8875, e:0.9250},   /* statutes  120vh — the turn */
+  {id:8, s:0.8375, e:0.8875},   /* study     160vh — emerald warmth */
+  {id:9, s:0.8875, e:0.9250},   /* statutes  120vh — the turn: darkened, door-lit */
   {id:6, s:0.9250, e:1.0001},   /* hall      240vh */
 ];
 const BLEND = .024;
