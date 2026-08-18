@@ -135,6 +135,20 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   </div></div>
 </section>
 
+<!-- V·b · THE MINISTRY BEAT — three lines, the third gilds in.
+     ⚠️ data-pending-confirm: exact canonical wording awaits Joseph (lives on his socials);
+     placed per the 8/17 decision: the ministry turn before the Door/CTA. -->
+<section id="ministry" style="height:140vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">The Ministry</p>
+    <p class="quote" style="max-width:30ch">My body is a temple of the Holy Spirit.</p>
+    <p class="quote" style="max-width:30ch">My body is a place of worship and reverence.</p>
+    <p class="quote" style="max-width:30ch;color:var(--gold);text-shadow:0 0 24px rgba(201,165,92,.35)">My body is tax exempt.</p>
+    <p class="cite">Title 8 Ministries™</p>
+  </div></div>
+</section>
+
 <!-- VI · THE HALL — epilogue of the slice; the Door's one invitation -->
 <section id="hall" style="height:240vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
@@ -251,6 +265,7 @@ const F = new THREE.ShaderMaterial({
   uniforms:{
     uRes:{value:new THREE.Vector2(innerWidth||1280,innerHeight||720)},
     uTime:{value:0}, uFlash:{value:0}, uMouse:{value:new THREE.Vector2(0,0)},
+    uJitter:{value:new THREE.Vector2(0,0)},
     uActA:{value:0}, uActB:{value:0}, uBlend:{value:0}, uPA:{value:0}, uPB:{value:0},
     uSealT:{value:0},
     tWaters:{value:texWaters}, tDeep:{value:texDeep}, tBreach:{value:texBreach}, tHall:{value:texHall},
@@ -262,7 +277,7 @@ const F = new THREE.ShaderMaterial({
   fragmentShader:`
 precision highp float;
 varying vec2 vUv;
-uniform vec2 uRes,uMouse; uniform float uTime,uFlash,uBlend,uPA,uPB,uSealT,uPlateAspect;
+uniform vec2 uRes,uMouse,uJitter; uniform float uTime,uFlash,uBlend,uPA,uPB,uSealT,uPlateAspect;
 uniform int uActA,uActB;
 uniform sampler2D tWaters,tDeep,tBreach,tHall,dWaters,dDeep,dBreach,dHall,tSig,tThumb,tPaper;
 
@@ -278,6 +293,21 @@ vec2 cover(vec2 uv){
   return (uv-.5)*s+.5;
 }
 vec2 zoomAt(vec2 uv, vec2 c, float z){ return c + (uv-c)/z; }
+
+/* volumetric shafts — 8-tap march toward the light source, accumulating the
+   plate's own bright pixels (luminance-masked), pre-tonemap so bloom finds it */
+float lum(vec3 c){ return dot(c, vec3(.299,.587,.114)); }
+vec3 shaft(sampler2D plate, vec2 cuv, vec2 src, float strength){
+  vec2 d = (src - cuv) / 8.0;
+  float acc = 0.0, w = 1.0;
+  vec2 p = cuv;
+  for(int i=0;i<8;i++){
+    p += d;
+    acc += max(0., lum(texture2D(plate, p).rgb) - 0.55) * w;
+    w *= 0.82;
+  }
+  return vec3(acc * strength / 8.0);
+}
 
 /* caustic light — thin refracted web, used sparingly */
 float caustic(vec2 p, float t){
@@ -368,6 +398,7 @@ vec3 actWaters(vec2 uv, float p){
      the plate already carries the light; we only make it breathe. */
   float surf = smoothstep(.62,.95,cuv.y);
   col *= 1. + caustic(cuv*vec2(2.,1.2), uTime)*surf*.10;
+  col += shaft(tWaters, cuv, vec2(.5,1.05), .55) * vec3(.75,.92,1.) * (1.-.55*p);
   col *= mix(1.05,.42,smoothstep(0.,1.,p));                        /* pressure = darkness */
   col = mix(col, vec3(.012,.030,.044), .28*p);                     /* the cold comes in */
   vec2 o=uv-.5; col *= 1.-dot(o,o)*(.55+.55*p);
@@ -385,6 +416,7 @@ vec3 actDeep(vec2 uv, float p){
   /* the floor is the LOWER half of the plate (GL v<.5); its baked caustics just breathe */
   float fl = smoothstep(.55,.15,cuv.y);
   col *= 1. + caustic(cuv*vec2(2.6,1.8), uTime)*fl*.12;
+  col += shaft(tDeep, cuv, vec2(.5,1.1), .38) * vec3(.7,.85,1.);
   col *= .9+.12*smoothstep(0.,.4,p);
   vec2 o=uv-.5; col *= 1.-dot(o,o)*.62;
   return col;
@@ -426,6 +458,7 @@ vec3 actBreach(vec2 uv, float p){
   float nearLine = smoothstep(.30,.66,cuv.y);
   col *= mix(.55, 1.0+.28*nearLine, rise);
   col += vec3(1.,.9,.62)*pow(rise,3.)*nearLine*.14;
+  col += shaft(tBreach, cuv, vec2(.5,.72), .32) * vec3(1.,.88,.6) * rise*rise;  /* dawn shafts arrive late — the flash stays the peak */
   vec2 o=uv-.5; col *= 1.-dot(o,o)*(.6-.35*rise);
   return col;
 }
@@ -463,7 +496,7 @@ vec3 act(int id, vec2 uv, float p){
 }
 
 void main(){
-  vec2 uv = vUv;
+  vec2 uv = vUv + uJitter;      /* operator breath + gate weave — never a locked CG camera */
   vec3 col = act(uActA, uv, uPA);
   if(uBlend>0.001){
     vec3 colB = act(uActB, uv, uPB);
@@ -501,6 +534,15 @@ const codexGeo = new THREE.PlaneGeometry(.34,.46,8,10);
 const codexMat = new THREE.MeshStandardMaterial({map:texCodex, alphaMap:texCodex,
   color:0xdccfae, roughness:.9, metalness:0, side:THREE.DoubleSide, transparent:true,
   opacity:0, alphaTest:.12, emissive:0x9a7b3a, emissiveMap:texCodex, emissiveIntensity:0});
+/* light wrap: the water's light bleeds onto the leaf edges — the composite→cinema fix,
+   so the codices sit IN the water instead of pasted over it */
+codexMat.onBeforeCompile = sh => {
+  sh.fragmentShader = sh.fragmentShader.replace(
+    "#include <emissivemap_fragment>",
+    `#include <emissivemap_fragment>
+     float rim = pow(1.0 - abs(dot(normalize(vNormal), normalize(vViewPosition))), 2.5);
+     totalEmissiveRadiance += vec3(0.45,0.62,0.72) * rim * 0.35;`);
+};
 const codices = [];
 for(let i=0;i<13;i++){                     /* exactly thirteen — countable in a paused frame */
   const m = new THREE.Mesh(codexGeo, codexMat.clone());
@@ -524,6 +566,8 @@ function makePoints(n, size, color, opacity){
 }
 const silt    = makePoints(900, .012, 0xa8cdd6, 0);  scene.add(silt);
 const bubbles = makePoints(320, .02,  0xcfe8ee, 0);  scene.add(bubbles);
+/* second particulate depth: near motes — larger, slower, warm in the hall (candle heat) */
+const motes   = makePoints(260, .03,  0xd8cdb2, 0);  scene.add(motes);
 
 /* ── post — bloom high-threshold, grain last ─────────────────────────────── */
 const composer = new EffectComposer(renderer);
@@ -533,28 +577,38 @@ const grain = new ShaderPass({uniforms:{tDiffuse:{value:null},t:{value:0},vig:{v
  vertexShader:`varying vec2 v;void main(){v=uv;gl_Position=vec4(position,1.);}`,
  fragmentShader:`precision highp float;
 uniform sampler2D tDiffuse;uniform float t,vig;varying vec2 v;
-float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
 void main(){vec2 o=v-.5;float k=dot(o,o)*.0013;vec4 c;
  c.r=texture2D(tDiffuse,v+o*k).r;c.g=texture2D(tDiffuse,v).g;c.b=texture2D(tDiffuse,v-o*k).b;c.a=1.;
- c.rgb+=(h(v*1024.+fract(t)*13.)-.5)*.028;
  c.rgb*=1.-dot(o,o)*vig; gl_FragColor=c;}`});
 composer.addPass(grain);
 composer.addPass(new OutputPass());
+/* grain AFTER tone mapping — in linear HDR a fixed nudge is invisible in highlights and huge
+   in shadows (awwwards-3d/POST_PROCESSING.md); the lens pass above keeps CA + vignette. */
+const grainPost = new ShaderPass({uniforms:{tDiffuse:{value:null},t:{value:0}},
+ vertexShader:`varying vec2 v;void main(){v=uv;gl_Position=vec4(position,1.);}`,
+ fragmentShader:`precision highp float;
+uniform sampler2D tDiffuse;uniform float t;varying vec2 v;
+float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+void main(){vec4 c=texture2D(tDiffuse,v);
+ c.rgb+=(h(v*1024.+fract(t)*13.)-.5)*.028; gl_FragColor=c;}`});
+composer.addPass(grainPost);
 
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
-const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match */
-  {id:0, s:0.0000, e:0.0848},   /* seal      195vh */
-  {id:1, s:0.0848, e:0.3000},   /* waters    495vh */
-  {id:2, s:0.3000, e:0.5000},   /* deep      460vh */
-  {id:3, s:0.5000, e:0.6457},   /* jar       335vh */
-  {id:4, s:0.6457, e:0.8000},   /* breach    355vh */
-  {id:5, s:0.8000, e:0.8957},   /* landfall  220vh */
-  {id:6, s:0.8957, e:1.0001},   /* hall      240vh */
+const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 2440vh) */
+  {id:0, s:0.0000, e:0.0799},   /* seal      195vh */
+  {id:1, s:0.0799, e:0.2828},   /* waters    495vh */
+  {id:2, s:0.2828, e:0.4713},   /* deep      460vh */
+  {id:3, s:0.4713, e:0.6086},   /* jar       335vh */
+  {id:4, s:0.6086, e:0.7541},   /* breach    355vh */
+  {id:5, s:0.7541, e:0.8443},   /* landfall  220vh */
+  {id:6, s:0.8443, e:0.9016},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
+  {id:6, s:0.9016, e:1.0001},   /* hall      240vh */
 ];
 const BLEND = .024;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
-const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t))});
+const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),
+  touchMultiplier:1.4});   /* mobile flicks overshoot; ~1.4x heavier inertia per the pacing law */
 lenis.on("scroll",()=>{ target = scrollY/maxScroll();
   document.getElementById("rail").style.width=(target*100)+"%";
   document.getElementById("hint").style.opacity = scrollY>90?0:.85;
@@ -609,8 +663,11 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
     const sc=1+rr*1.3; m.scale.set(sc,sc,sc);
     m.rotation.set(Math.sin(tSec*.4+d.ph)*.4+.2, d.a+tSec*.22, Math.sin(tSec*.5+d.ph)*.3);});
   silt.material.opacity=(A.id>=1&&A.id<=3)? .5:0;
+  motes.material.opacity=A.id===6? .35 : (A.id>=1&&A.id<=3? .15:0);
+  motes.material.color.setHex(A.id===6? 0xd8bd92 : 0xa8cdd6);
+  F.uniforms.uJitter.value.set(0,0);   /* shots stay deterministic */
   bubbles.material.opacity=A.id===4? .6:0;
-  grain.uniforms.t.value=tSec; grain.uniforms.vig.value=A.id===5?.12:.5;
+  grain.uniforms.t.value=tSec; grainPost.uniforms.t.value=tSec; grain.uniforms.vig.value=A.id===5?.12:.5;
   composer.render();
   return cv.toDataURL("image/jpeg",.82);
 };
@@ -670,8 +727,20 @@ renderer.setAnimationLoop(t=>{
     frags.instanceMatrix.needsUpdate=true; fragMat.opacity=codices[0].material.opacity*.7; }
 
   /* deeper = heavier vignette; ivory = almost none */
-  grain.uniforms.t.value=T;
+  grain.uniforms.t.value=T; grainPost.uniforms.t.value=T;
   grain.uniforms.vig.value = A.id===5? .12 : (A.id===1? .5+.25*local : .5);
+
+  /* camera micro-language: breath (slow) + gate weave (fast, sub-pixel), louder while moving */
+  const vel = Math.min(1, Math.abs(target-cur)*40);
+  const jx = Math.sin(T*.9)*.0004 + Math.sin(T*7.3+1.7)*.00018*(1.+vel);
+  const jy = Math.cos(T*.7+.6)*.0005 + Math.cos(T*8.1)*.00015*(1.+vel);
+  F.uniforms.uJitter.value.set(jx, jy);
+
+  /* near motes: dust in the candle heat (hall + ministry approach), faint silt twin in water */
+  const inHall = A.id===6 ? 1 : 0;
+  motes.material.opacity += ((inHall? .35 : (A.id>=1&&A.id<=3? .15:0)) - motes.material.opacity)*(1-Math.exp(-2*dt));
+  motes.rotation.y = -T*.008; motes.position.y = Math.sin(T*.05)*.3;
+  motes.material.color.setHex(inHall? 0xd8bd92 : 0xa8cdd6);
 
   composer.render();
 });
