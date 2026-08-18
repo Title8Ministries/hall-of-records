@@ -206,6 +206,38 @@ const [texWaters,texDeep,texBreach,texHall,
 const texCodex = await load("assets/codex-leaf.png");
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
 
+/* ── motion plates — scrubbed by scroll, never autoplay ────────────────────
+   The static plates are the poster and the permanent fallback: if a video
+   never loads, the film is exactly what shipped before. Disabled under
+   ?shots so the __shot harness stays deterministic (video seeks are async). */
+const VIDEO_OK = !SHOTS;
+const motionPlates = [];
+function motionPlate(src, uniformName){
+  const v = document.createElement("video");
+  v.src = src; v.muted = true; v.playsInline = true; v.preload = "auto";
+  const mp = {v, tex:null, uniformName, ready:false};
+  v.addEventListener("canplaythrough", ()=>{
+    const tex = new THREE.VideoTexture(v);
+    tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter;
+    mp.tex = tex; mp.ready = true;
+    F.uniforms[uniformName].value = tex;      /* binds early, usually during the seal */
+  }, {once:true});
+  motionPlates.push(mp);
+  return mp;
+}
+let mpWaters=null, mpBreach=null;
+if(VIDEO_OK) setTimeout(()=>{                 /* lazy: after the opening settles */
+  mpWaters = motionPlate("assets/motion-waters.mp4","tWaters");
+  mpBreach = motionPlate("assets/motion-breach.mp4","tBreach");
+  window.__mp = motionPlates;                 /* verification handle */
+}, 2500);
+function scrubPlate(mp, active, local){
+  if(!mp || !mp.ready || !active) return;
+  const d = mp.v.duration || 8;
+  const t = Math.max(0, Math.min(d-0.06, local*d));
+  if(Math.abs((mp.v.currentTime||0) - t) > 0.08) mp.v.currentTime = t;
+}
+
 /* environment for the codices (the only 3D objects in the slice) */
 new RGBELoader().load("assets/env.hdr", hdr=>{
   const pm = new THREE.PMREMGenerator(renderer);
@@ -591,6 +623,8 @@ renderer.setAnimationLoop(t=>{
   const {A, local} = setActs(cur);
   F.uniforms.uTime.value=T; F.uniforms.uSealT.value=sealT;
   F.uniforms.uMouse.value.lerp(mouse,1-Math.exp(-3*dt));
+  scrubPlate(mpWaters, A.id===1, local);
+  scrubPlate(mpBreach, A.id===4, local);
 
   /* the one flash — crossing the waterline */
   const risen = A.id===4 && local>.74;
