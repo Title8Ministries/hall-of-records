@@ -74,6 +74,13 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  text-transform:uppercase;color:rgba(201,165,92,.75);border:1px solid rgba(201,165,92,.28);
  border-radius:9999px;padding:.12rem .6rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
 .chip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
+.tiles{grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.55rem;margin-top:1.1rem}
+.tiles .plaque{padding:.6rem .75rem}
+.tiles .plaque .pl-quote{font-size:.74rem;line-height:1.35;margin-top:.25rem}
+.tiles .plaque .chip{margin:.4rem 0 0;display:inline-block}
+#wall .quote{font-size:clamp(1.05rem,1.9vw,1.45rem);max-width:52ch}
+#wall .kicker{margin-bottom:.8rem}
+#wall .caption{margin-top:1rem}
 #hint{position:fixed;left:50%;bottom:2rem;transform:translateX(-50%);z-index:30;
  font:400 .6rem/1 "JetBrains Mono",monospace;letter-spacing:.3em;text-transform:uppercase;
  color:rgba(201,165,92,.7);transition:opacity .6s;pointer-events:none}
@@ -208,6 +215,67 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
         <a class="chip" href="https://www.supremecourt.gov/opinions/18pdf/17-1091_5536.pdf" target="_blank" rel="noopener">Timbs v. Indiana (Gorsuch, J.)</a></span>
     </div>
     <p class="quote" style="max-width:34ch;margin-top:1.6rem">The dissent never went quiet. We just stopped being told about it.</p>
+  </div></div>
+</section>
+
+<!-- V·d · THE LANGUAGE WALL — the eight enacted definitions of "person," his sworn text
+     (affidavit v10 ¶20B a–h, ¶20I). bin/hall-gates string-matches these against the v10 file. -->
+<section id="wall" style="height:220vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:66rem">
+    <p class="kicker">The Language Wall · eight definitions of one word</p>
+    <p class="quote" style="max-width:40ch">I contend that a word bearing seven meanings is capable of being
+    applied to the wrong one; that where my rights are at stake I am entitled to know
+    which is meant; and that I am entitled to ask.</p>
+    <div class="plaques tiles">
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">1 U.S.C. § 1</span>
+        <span class="pl-quote">"the words 'person' and 'whoever' include corporations, companies, associations, firms, partnerships, societies, and joint stock companies, as well as individuals."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title1-section1&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 1</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">1 U.S.C. § 8(a)</span>
+        <span class="pl-quote">"the words 'person', 'human being', 'child', and 'individual', shall include every infant member of the species homo sapiens who is born alive at any stage of development."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title1-section8&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 8</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">26 U.S.C. § 7701(a)(1)</span>
+        <span class="pl-quote">"The term 'person' shall be construed to mean and include an individual, a trust, estate, partnership, association, company or corporation."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section7701&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 7701</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">26 U.S.C. § 7343</span>
+        <span class="pl-quote">"The term 'person' as used in this chapter includes an officer or employee of a corporation, or a member or employee of a partnership, who as such officer, employee, or member is under a duty to perform the act in respect of which the violation occurs."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section7343&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 7343</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">5 U.S.C. § 551(2)</span>
+        <span class="pl-quote">"'person' includes an individual, partnership, corporation, association, or public or private organization other than an agency."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section551&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 551</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">U.C.C. § 1-201(b)(27)</span>
+        <span class="pl-quote">"'Person' means an individual, corporation, business trust, estate, trust, partnership, limited liability company, association, joint venture, government, governmental subdivision, agency, or instrumentality, public corporation, or any other legal or commercial entity."</span>
+        <a class="chip" href="https://www.law.cornell.edu/ucc/1/1-201" target="_blank" rel="noopener">read § 1-201</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">11 U.S.C. § 101(41)</span>
+        <span class="pl-quote">"The term 'person' includes individual, partnership, and corporation, but does not include governmental unit"</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title11-section101&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 101</a></div>
+      <div class="plaque" role="button" tabindex="0"><span class="pl-name">15 U.S.C. § 1602(d)-(e)</span>
+        <span class="pl-quote">"The term 'person' means a natural person or an organization."</span>
+        <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title15-section1602&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 1602</a></div>
+    </div>
+    <p class="caption" style="margin-top:1.4rem">It is three questions, each answerable
+    in a sentence by any party who has read the statute he is invoking.</p>
+  </div></div>
+</section>
+
+<!-- V·e · THE STUDY — warmth; the patience doctrine -->
+<section id="study" style="height:160vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker" style="color:rgba(134,204,166,.8)">The Study · I checked my own book</p>
+    <p class="quote">I waited because I wanted to know this stuff in my soul not just in my mind.</p>
+    <p>Not what somebody said on YouTube. The published text. Section numbers you can pull yourself.</p>
+  </div></div>
+</section>
+
+<!-- V·f · THE STATUTES TURN — from system to remedy, his teaching voice -->
+<section id="statutes" style="height:120vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">The Turn</p>
+    <p class="quote" style="max-width:30ch">When you know who you are, you don't argue. You simply declare.</p>
+    <p class="lead" style="max-width:44ch">You can't file your way into knowing who you are. You have to know it
+    first. Then the filing becomes a declaration — not a plea.</p>
   </div></div>
 </section>
 
@@ -677,16 +745,19 @@ void main(){vec4 c=texture2D(tDiffuse,v);
 composer.addPass(grainPost);
 
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
-const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 2700vh) */
-  {id:0, s:0.0000, e:0.0722},   /* seal      195vh */
-  {id:1, s:0.0722, e:0.2556},   /* waters    495vh */
-  {id:2, s:0.2556, e:0.4259},   /* deep      460vh */
-  {id:3, s:0.4259, e:0.5500},   /* jar       335vh */
-  {id:4, s:0.5500, e:0.6815},   /* breach    355vh */
-  {id:5, s:0.6815, e:0.7630},   /* landfall  220vh */
-  {id:6, s:0.7630, e:0.8148},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
-  {id:7, s:0.8148, e:0.9111},   /* 1873      260vh — the flagship chamber, corridor re-lit cold */
-  {id:6, s:0.9111, e:1.0001},   /* hall      240vh */
+const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 3200vh) */
+  {id:0, s:0.0000, e:0.0609},   /* seal      195vh */
+  {id:1, s:0.0609, e:0.2156},   /* waters    495vh */
+  {id:2, s:0.2156, e:0.3594},   /* deep      460vh */
+  {id:3, s:0.3594, e:0.4641},   /* jar       335vh */
+  {id:4, s:0.4641, e:0.5750},   /* breach    355vh */
+  {id:5, s:0.5750, e:0.6438},   /* landfall  220vh */
+  {id:6, s:0.6438, e:0.6875},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
+  {id:7, s:0.6875, e:0.7688},   /* 1873      260vh — the flagship chamber, corridor re-lit cold */
+  {id:6, s:0.7688, e:0.8375},   /* wall      220vh — the eight definitions, candlelit */
+  {id:6, s:0.8375, e:0.8875},   /* study     160vh */
+  {id:6, s:0.8875, e:0.9250},   /* statutes  120vh — the turn */
+  {id:6, s:0.9250, e:1.0001},   /* hall      240vh */
 ];
 const BLEND = .024;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
