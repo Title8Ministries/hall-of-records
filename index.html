@@ -17,10 +17,10 @@ body{margin:0;background:var(--ink);color:var(--ivory);
 #rail{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--gold),#e8cf9a);z-index:40;width:0}
 main{position:relative;z-index:1}
 section{display:flex;align-items:center;padding:0 clamp(1.4rem,6vw,7rem);position:relative}
-.wrap{max-width:60rem;width:100%}
-.hold{position:sticky;top:0;height:100vh;display:flex;align-items:center}
+.wrap{max-width:60rem;width:100%;min-width:0}
+.hold{position:sticky;top:0;height:100vh;display:flex;align-items:center;min-width:0}
 .kicker{font:400 .64rem/1.9 "JetBrains Mono",monospace;letter-spacing:.34em;text-transform:uppercase;
- color:rgba(201,165,92,.72);margin:0 0 1.4rem}
+ color:rgba(219,192,137,.92);margin:0 0 1.4rem}
 h1,h2{font:300 clamp(2rem,5.4vw,4.4rem)/1.02 "Cormorant Garamond",serif;letter-spacing:-.015em;margin:0 0 .2rem}
 h2 em,h1 em{font-style:italic;color:var(--gold);display:block}
 p{max-width:44ch;color:rgba(243,236,224,.80);margin:1.1rem 0 0}
@@ -28,8 +28,8 @@ p.lead{font-size:clamp(1.05rem,1.5vw,1.3rem);color:rgba(243,236,224,.92);max-wid
 .quote{font:300 italic clamp(1.3rem,2.9vw,2.3rem)/1.25 "Cormorant Garamond",serif;
  color:var(--ivory);max-width:24ch;margin:0}
 .cite{font:400 .62rem/1.9 "JetBrains Mono",monospace;letter-spacing:.22em;text-transform:uppercase;
- color:rgba(201,165,92,.6);margin-top:1rem}
-.caption{font:400 .78rem/1.7 "JetBrains Mono",monospace;letter-spacing:.06em;color:rgba(243,236,224,.55);max-width:52ch}
+ color:rgba(219,192,137,.88);margin-top:1rem}
+.caption{font:400 .78rem/1.7 "JetBrains Mono",monospace;letter-spacing:.06em;color:rgba(243,236,224,.78);max-width:52ch}
 .cta{display:inline-block;margin-top:2.2rem;padding:1rem 2rem;border-radius:9999px;
  font:400 .68rem/1 "JetBrains Mono",monospace;letter-spacing:.26em;text-transform:uppercase;
  color:var(--ink);background:linear-gradient(180deg,#e6c98d,#c9a55c);text-decoration:none}
@@ -49,32 +49,38 @@ a{color:var(--gold)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  border-top:1px solid rgba(201,165,92,.16);font-size:.86rem;color:rgba(243,236,224,.55)}
 /* ── the 1873 chamber: engraved stone, gilding = verification ── */
-.tablet{display:flex;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
-.tablet-half{flex:1;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
+.tablet{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
+.tablet-half{flex:1 1 18rem;min-width:0;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
  border:1px solid rgba(214,207,196,.14);padding:1.5rem 1.7rem}
 .tablet-half p{font:300 clamp(1.15rem,2vw,1.7rem)/1.35 "Cormorant Garamond",serif;
  letter-spacing:.04em;color:#d9d2c4;margin:0;max-width:none;
  text-shadow:0 1px 0 rgba(0,0,0,.55), 0 -1px 0 rgba(255,255,255,.06)}   /* engraved, not printed */
 .tablet-crack{width:3px;background:linear-gradient(180deg,transparent,rgba(12,17,29,.9) 12%,rgba(12,17,29,.9) 88%,transparent);
  transform:rotate(1.6deg);margin:0 -1px;box-shadow:0 0 14px 2px rgba(0,0,0,.6)}
-.plaques{display:grid;grid-template-columns:repeat(auto-fit,minmax(13rem,1fr));gap:.7rem;margin-top:1.6rem;max-width:56rem}
+.plaques{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr));gap:.7rem;margin-top:1.6rem;max-width:56rem}
 .plaque{text-align:left;background:rgba(12,17,29,.42);border:1px solid rgba(125,133,155,.25);
  padding:.9rem 1rem;cursor:pointer;transition:border-color .9s,background .9s;font:inherit;color:inherit}
 .plaque .pl-name{display:block;font:400 .6rem/1.8 "JetBrains Mono",monospace;letter-spacing:.28em;
- text-transform:uppercase;color:var(--muted);transition:color .9s}
+ text-transform:uppercase;color:#b9c0d2;transition:color .9s}
 .plaque .pl-quote{display:block;font:300 italic .95rem/1.45 "Cormorant Garamond",serif;
- color:rgba(217,210,196,.72);margin-top:.35rem;transition:color .9s,text-shadow .9s}
+ color:rgba(230,224,210,.86);margin-top:.35rem;transition:color .9s,text-shadow .9s}
 .plaque.gild{border-color:rgba(201,165,92,.55);background:rgba(201,165,92,.06)}
 .plaque.gild .pl-name{color:var(--gold)}
 .plaque.gild .pl-quote{color:var(--gold-soft);text-shadow:0 0 18px rgba(201,165,92,.30)}
-.thread{display:block;margin-top:1.6rem;border-left:1px solid rgba(201,165,92,.4);padding-left:1.1rem;max-width:44rem}
+.thread{display:block;margin-top:1.6rem;border-left:1px solid rgba(201,165,92,.4);padding-left:1.1rem;max-width:44rem;min-width:0}
+/* the split tablet stacks before it can push the page sideways (measured: it did, below 1024px) */
+@media (max-width:900px){
+  .tablet{flex-direction:column}
+  .tablet-crack{width:auto;height:3px;transform:rotate(-.5deg);margin:-1px 0;
+   background:linear-gradient(90deg,transparent,rgba(12,17,29,.9) 12%,rgba(12,17,29,.9) 88%,transparent)}
+}
 .thread .waypoint{display:block;font-size:.9rem;color:rgba(243,236,224,.75);margin:.55rem 0}
 .thread .waypoint b{color:var(--gold);font-weight:500;margin-right:.5rem}
 .chip{display:inline-block;font:400 .58rem/1.6 "JetBrains Mono",monospace;letter-spacing:.14em;
- text-transform:uppercase;color:rgba(201,165,92,.75);border:1px solid rgba(201,165,92,.28);
+ text-transform:uppercase;color:rgba(219,192,137,1);border:1px solid rgba(201,165,92,.45);
  border-radius:9999px;padding:.12rem .6rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
 .chip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
-.tiles{grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:.55rem;margin-top:1.1rem}
+.tiles{grid-template-columns:repeat(auto-fit,minmax(min(14rem,100%),1fr));gap:.55rem;margin-top:1.1rem}
 .tiles .plaque{padding:.6rem .75rem}
 .tiles .plaque .pl-quote{font-size:.74rem;line-height:1.35;margin-top:.25rem}
 .tiles .plaque .chip{margin:.4rem 0 0;display:inline-block}
@@ -135,7 +141,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <h2>Older than<em>the paper.</em></h2>
     <p>Before the registry there was the rite, and before the rite there was the water. This chamber
     holds the oldest layer of the record — the part the modern file has no column for.</p>
-    <p class="cite">Teaching copy pending Joseph's own voice</p>
+    <!-- copy gate: Kemet/Deep teaching copy awaits Joseph's own voice memo (Film Bible copy law).
+         Held as a comment, NOT as visible page text — a production note is not display copy. -->
   </div></div>
 </section>
 
@@ -165,6 +172,141 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="lead">The stylised journey ends here and the man begins. Everything past this point is
     documented, checkable, and signed.</p>
     <img class="mark" src="assets/MARK-thumbprint-alpha.png" alt="The JFM thumbprint mark">
+  </div></div>
+</section>
+
+<!-- ════════════ THE PAPER CHAINS WING — the history under the affidavit ════════════
+     COPY LAW: every display string below is Joseph's own verbatim prose, from
+     "THE PAPER CHAINS by Rev Joseph Fain McDaniel" (the book) and, where marked,
+     from master-script m-ep11-paper-chains (the bonus episode narrated in his voice).
+     RECEIPTS LAW: every claim carries a live primary-source chip; all verified 200
+     on 2026-08-23. This wing claims nothing about him — it is history, and it is
+     the one part of this site that is safe in front of cold traffic. -->
+
+<!-- P·I · BABYLON — where the paper starts -->
+<section id="babylon" style="height:200vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-babylon.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">The Paper Chains · I — Babylon</p>
+    <p class="quote">Persons as collateral. Debt as a transferable instrument.
+      Time as the measure of human worth.</p>
+    <p class="caption">The Code of Hammurabi, c. 1754 BCE — the first surviving written law on debt,
+      interest rates, banking deposits and receipts, contract formation, and the transfer of persons
+      as collateral for debt. Article 117 allowed a man to pledge his wife, son, or daughter against
+      what he owed for a fixed term of three years.
+      <a class="chip" href="https://avalon.law.yale.edu/ancient/hamframe.asp" target="_blank" rel="noopener">the code — read it</a></p>
+    <p>Babylonian temples functioned as the first banks. A merchant could deposit grain or silver,
+      receive a sealed clay tablet as evidence of the deposit, and another person could redeem that
+      tablet at another temple. These were the first negotiable instruments.</p>
+    <p class="cite">When that civilization fell, the paper did not disappear. It moved.</p>
+  </div></div>
+</section>
+
+<!-- P·II · ROME — the mask, the thing, and the standing -->
+<section id="rome" style="height:290vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-rome.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:64rem">
+    <p class="kicker">The Paper Chains · II — Rome</p>
+    <p class="quote" style="max-width:32ch">The mask was always legally distinct from the breath behind the mask.</p>
+    <div class="plaques tiles">
+      <div class="plaque"><span class="pl-name">Persona</span>
+        <span class="pl-quote">Literally a mask, from the Etruscan <em>phersu</em>. In Roman law the persona became the legal identity worn by a human being in the eyes of the law. A single human could wear multiple personas. A persona could exist without any living human behind it at all.</span></div>
+      <div class="plaque"><span class="pl-name">Res</span>
+        <span class="pl-quote">A thing — an item of property capable of being owned, possessed, transferred, or destroyed.</span></div>
+      <div class="plaque"><span class="pl-name">Status</span>
+        <span class="pl-quote">Your legal standing, which determined what rights and obligations attached to you. The modern concept of standing in American courts descends directly from Roman status.</span></div>
+      <div class="plaque"><span class="pl-name">Caput</span>
+        <span class="pl-quote">Literally the head, but legally the sum of one&rsquo;s status. To suffer <em>capitis deminutio</em> was to lose legal capacity — to be reduced in head.</span></div>
+    </div>
+    <p class="caption" style="margin-top:1.2rem">Roman civil law was compiled under Justinian in 533 CE as the Corpus Juris Civilis.
+      <a class="chip" href="https://sourcebooks.fordham.edu/basis/535institutes.asp" target="_blank" rel="noopener">the institutes — read them</a></p>
+    <p class="quote" style="max-width:40ch;margin-top:1.4rem">When a modern American court treats your name in capital letters as
+      something distinct from you, it is operating on a concept Rome inherited from Babylon and
+      codified for the next two thousand years.</p>
+  </div></div>
+</section>
+
+<!-- P·III · THE CHURCH — a thousand years of canon law -->
+<section id="church" style="height:400vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-church.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:64rem">
+    <p class="kicker">The Paper Chains · III — The Church Holds the Paper</p>
+    <div class="tablet">
+      <div class="tablet-half"><p>&ldquo;Porro subesse Romano Pontifici omni humanae creaturae declaramus,
+        dicimus, definimus, et pronunciamus omnino esse de necessitate salutis.&rdquo;</p></div>
+      <div class="tablet-crack" aria-hidden="true"></div>
+      <div class="tablet-half"><p>&ldquo;We declare, we proclaim, we define that it is absolutely necessary
+        for salvation that every human creature be subject to the Roman Pontiff.&rdquo;</p></div>
+    </div>
+    <p class="caption">Boniface VIII, <em>Unam Sanctam</em>, 18 November 1302. <b>Subesse</b> — to be under, to be
+      subject to; a subject is by definition not sovereign. <b>Creatura</b> — a thing created, brought into
+      existence by another. The modern legal phrase &ldquo;creature of statute&rdquo; carries exactly this meaning forward.
+      <a class="chip" href="https://sourcebooks.fordham.edu/source/b8-unam.asp" target="_blank" rel="noopener">unam sanctam — read it</a></p>
+    <div class="plaques tiles">
+      <div class="plaque"><span class="pl-name">Dum Diversas · 1452</span>
+        <span class="pl-quote">Authorized the King of Portugal to &ldquo;invade, search out, capture, vanquish, and subdue&rdquo; and to &ldquo;reduce their persons into perpetual slavery.&rdquo; This is not theology. This is an operational order with legal effect.</span>
+        <a class="chip" href="https://www.doctrineofdiscovery.org/dum-diversas/" target="_blank" rel="noopener">read the bull</a></div>
+      <div class="plaque"><span class="pl-name">Romanus Pontifex · 1455</span>
+        <span class="pl-quote">Extended these rights specifically to lands and peoples seized along the African coast and beyond.</span>
+        <a class="chip" href="https://www.doctrineofdiscovery.org/romanus-pontifex/" target="_blank" rel="noopener">read the bull</a></div>
+      <div class="plaque"><span class="pl-name">Inter Caetera · 1493</span>
+        <span class="pl-quote">Alexander VI literally drew a line down the Atlantic. Continents he had never seen, populated by peoples he had never met, conveyed by a stroke of the pen.</span>
+        <a class="chip" href="https://www.doctrineofdiscovery.org/inter-caetera/" target="_blank" rel="noopener">read the bull</a></div>
+    </div>
+    <p class="quote" style="max-width:44ch;margin-top:1.4rem">The religious foundation has been withdrawn at its
+      source. The American cases resting on it have never been overruled.</p>
+    <p class="caption">On 30 March 2023 the Vatican stated that the doctrine of discovery &ldquo;is not part of the
+      teaching of the Catholic Church,&rdquo; naming Dum Diversas, Romanus Pontifex and Inter Caetera directly.
+      <a class="chip" href="https://press.vatican.va/content/salastampa/en/bollettino/pubblico/2023/03/30/230330b.html" target="_blank" rel="noopener">the 2023 statement</a>
+      <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep021/usrep021543/usrep021543.pdf" target="_blank" rel="noopener">johnson v. m&rsquo;intosh, 21 u.s. 543</a></p>
+  </div></div>
+</section>
+
+<!-- P·V · CESTUI QUE VIE — the statute of the presumed dead -->
+<section id="cestui" style="height:210vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-sixteensixtysix.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">The Paper Chains · V — Cestui Que Vie</p>
+    <p class="quote">A living human being and the legal estate associated with that human being are
+      separable entities.</p>
+    <p class="caption">1666 — the year of the Great Fire, in the lingering devastation of a plague that had
+      killed roughly a quarter of the English population. Parliament passed an Act for those absent beyond
+      the seas: after seven years of unexplained absence a person could be declared legally dead and his
+      estate administered by trustees. <em>Cestui que vie</em> is Anglo-Norman French — literally, the one whose life.
+      <a class="chip" href="https://www.legislation.gov.uk/aep/Cha2/18-19/11/contents" target="_blank" rel="noopener">the act of 1666 — read it</a></p>
+    <p class="cite">The statute sleeps but is not dead.</p>
+  </div></div>
+</section>
+
+<!-- P·VI · LA BANCA — the bench, the bank, and the broken bench -->
+<section id="labanca" style="height:320vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-labanca.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:64rem">
+    <p class="kicker">The Paper Chains · VI — La Banca</p>
+    <p class="quote" style="max-width:44ch">The judge on the bench and the banker behind the counter are
+      operating variations of the same ancient function — the holding and adjudication of paper that
+      represents value.</p>
+    <div class="plaques tiles">
+      <div class="plaque"><span class="pl-name">Banca</span>
+        <span class="pl-quote">Italian for bench. The wooden table where moneychangers conducted business in the marketplace.</span></div>
+      <div class="plaque"><span class="pl-name">Banca Rotta</span>
+        <span class="pl-quote">Broken bench. The literal breaking of a merchant&rsquo;s bench in the marketplace when he could not pay his debts.</span></div>
+      <div class="plaque"><span class="pl-name">Banc</span>
+        <span class="pl-quote">The raised platform in a courtroom where the judge sits. Same etymological root.</span></div>
+      <div class="plaque"><span class="pl-name">En Banc</span>
+        <span class="pl-quote">Literally &ldquo;on the bench.&rdquo; When all judges of a court sit together to hear a case.</span></div>
+    </div>
+    <div class="thread">
+      <span class="waypoint"><b>1927</b> a judge with &ldquo;a direct, personal, substantial pecuniary interest in
+        reaching a conclusion against him in his case&rdquo; denies the defendant due process
+        <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep273/usrep273510/usrep273510.pdf" target="_blank" rel="noopener">tumey v. ohio, 273 u.s. 510</a></span>
+      <span class="waypoint"><b>1972</b> the interest does not have to be in his pocket. It only has to be in
+        the institution he is responsible for
+        <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep409/usrep409057/usrep409057.pdf" target="_blank" rel="noopener">ward v. village of monroeville, 409 u.s. 57</a></span>
+    </div>
+    <p class="caption" style="margin-top:1.2rem">They are not a general theory that every court is a bank and
+      every case is a bond. They are something much better than a theory: they are two cases you can cite,
+      that have never been overruled, and that a judge has to answer.</p>
   </div></div>
 </section>
 
@@ -228,28 +370,28 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     applied to the wrong one; that where my rights are at stake I am entitled to know
     which is meant; and that I am entitled to ask.</p>
     <div class="plaques tiles">
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">1 U.S.C. § 1</span>
+      <div class="plaque"><span class="pl-name">1 U.S.C. § 1</span>
         <span class="pl-quote">"the words 'person' and 'whoever' include corporations, companies, associations, firms, partnerships, societies, and joint stock companies, as well as individuals."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title1-section1&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 1</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">1 U.S.C. § 8(a)</span>
+      <div class="plaque"><span class="pl-name">1 U.S.C. § 8(a)</span>
         <span class="pl-quote">"the words 'person', 'human being', 'child', and 'individual', shall include every infant member of the species homo sapiens who is born alive at any stage of development."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title1-section8&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 8</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">26 U.S.C. § 7701(a)(1)</span>
+      <div class="plaque"><span class="pl-name">26 U.S.C. § 7701(a)(1)</span>
         <span class="pl-quote">"The term 'person' shall be construed to mean and include an individual, a trust, estate, partnership, association, company or corporation."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section7701&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 7701</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">26 U.S.C. § 7343</span>
+      <div class="plaque"><span class="pl-name">26 U.S.C. § 7343</span>
         <span class="pl-quote">"The term 'person' as used in this chapter includes an officer or employee of a corporation, or a member or employee of a partnership, who as such officer, employee, or member is under a duty to perform the act in respect of which the violation occurs."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section7343&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 7343</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">5 U.S.C. § 551(2)</span>
+      <div class="plaque"><span class="pl-name">5 U.S.C. § 551(2)</span>
         <span class="pl-quote">"'person' includes an individual, partnership, corporation, association, or public or private organization other than an agency."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title5-section551&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 551</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">U.C.C. § 1-201(b)(27)</span>
+      <div class="plaque"><span class="pl-name">U.C.C. § 1-201(b)(27)</span>
         <span class="pl-quote">"'Person' means an individual, corporation, business trust, estate, trust, partnership, limited liability company, association, joint venture, government, governmental subdivision, agency, or instrumentality, public corporation, or any other legal or commercial entity."</span>
         <a class="chip" href="https://www.law.cornell.edu/ucc/1/1-201" target="_blank" rel="noopener">read § 1-201</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">11 U.S.C. § 101(41)</span>
+      <div class="plaque"><span class="pl-name">11 U.S.C. § 101(41)</span>
         <span class="pl-quote">"The term 'person' includes individual, partnership, and corporation, but does not include governmental unit"</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title11-section101&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 101</a></div>
-      <div class="plaque" role="button" tabindex="0"><span class="pl-name">15 U.S.C. § 1602(d)-(e)</span>
+      <div class="plaque"><span class="pl-name">15 U.S.C. § 1602(d)-(e)</span>
         <span class="pl-quote">"The term 'person' means a natural person or an organization."</span>
         <a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title15-section1602&amp;num=0&amp;edition=prelim" target="_blank" rel="noopener">read § 1602</a></div>
     </div>
@@ -262,7 +404,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <section id="study" style="height:160vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
-    <p class="kicker" style="color:rgba(134,204,166,.8)">The Study · I checked my own book</p>
+    <p class="kicker" style="color:rgba(160,222,190,.95)">The Study · I checked my own book</p>
     <p class="quote">I waited because I wanted to know this stuff in my soul not just in my mind.</p>
     <p>Not what somebody said on YouTube. The published text. Section numbers you can pull yourself.</p>
   </div></div>
@@ -286,7 +428,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="kicker">V · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
-    <a class="cta" href="mailto:joe@themediabutler.com">Bring me your matter</a>
+    <a class="cta" href="https://info.josephfainmcdaniel.com/widget/bookings/consultation-w-joe"
+       target="_blank" rel="noopener">Bring me your matter</a>
     <p class="cite">Be found faithful. — J.F.M.</p>
   </div></div>
 </section>
@@ -335,9 +478,18 @@ camera.position.set(0,0,6);
 
 /* ── textures: the plates ARE the world ──────────────────────────────────── */
 const TL = new THREE.TextureLoader();
+/* ⛔ a missing asset used to HANG the whole page: TextureLoader's error path was not
+   wired, the await never settled, and the film simply never started with no console error.
+   Now a 404 resolves to a black 1x1 and says so. */
 const load = (u,srgb=true)=>new Promise(r=>TL.load(u,t=>{
   if(srgb) t.colorSpace = THREE.SRGBColorSpace;
-  t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; t.minFilter=THREE.LinearFilter; r(t);}));
+  t.wrapS=t.wrapT=THREE.ClampToEdgeWrapping; t.minFilter=THREE.LinearFilter; r(t);},
+  undefined,
+  ()=>{ console.error("asset failed to load:",u);
+        (window.__assetFails ||= []).push(u);
+        const c=document.createElement("canvas"); c.width=c.height=1;
+        c.getContext("2d").fillRect(0,0,1,1);
+        const t=new THREE.CanvasTexture(c); if(srgb) t.colorSpace=THREE.SRGBColorSpace; r(t); }));
 const [texWaters,texDeep,texBreach,texHall,
        depWaters,depDeep,depBreach,depHall,
        texSig,texThumb,texPaper,texCorr,depCorr] = await Promise.all([
@@ -349,6 +501,12 @@ const [texWaters,texDeep,texBreach,texHall,
   load("assets/PAPER-height.png",false),
   load("assets/plate-corridor.jpg"), load("assets/depth-corridor.jpg",false)]);
 const texCodex = await load("assets/codex-leaf.png");
+/* the Paper Chains plates + their Depth-Anything maps */
+const CHAM = {};
+await Promise.all(["babylon","rome","church","sixteensixtysix","labanca"].map(async k=>{
+  CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
+}));
+const GRADE = {10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],14:["labanca",4]};
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
 
 /* ── motion plates — scrubbed by scroll, never autoplay ────────────────────
@@ -402,6 +560,10 @@ const F = new THREE.ShaderMaterial({
     tWaters:{value:texWaters}, tDeep:{value:texDeep}, tBreach:{value:texBreach}, tHall:{value:texHall},
     dWaters:{value:depWaters}, dDeep:{value:depDeep}, dBreach:{value:depBreach}, dHall:{value:depHall},
     tCorr:{value:texCorr}, dCorr:{value:depCorr},
+    /* ONE pair of slots serves all five Paper Chains chambers: the act blend dips
+       through black, so two chamber plates are never on screen at the same moment
+       and the swap at the midpoint is invisible. 23 samplers would break the 16-unit floor. */
+    tCham:{value:texHall}, dCham:{value:depHall}, uGrade:{value:0},
     tSig:{value:texSig}, tThumb:{value:texThumb}, tPaper:{value:texPaper},
     uPlateAspect:{value:1672/941},
   },
@@ -412,6 +574,7 @@ varying vec2 vUv;
 uniform vec2 uRes,uMouse,uJitter; uniform float uTime,uFlash,uBlend,uPA,uPB,uSealT,uPlateAspect;
 uniform int uActA,uActB;
 uniform sampler2D tWaters,tDeep,tBreach,tHall,dWaters,dDeep,dBreach,dHall,tSig,tThumb,tPaper,tCorr,dCorr;
+uniform sampler2D tCham,dCham; uniform int uGrade;
 
 float hash(vec2 p){ return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
 float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
@@ -635,7 +798,54 @@ vec3 actChamber(vec2 uv, float p){
   return col;
 }
 
+/* ═ ACTS 10-14 · THE PAPER CHAINS WING — one renderer, five grades ═
+   Each chamber is its OWN photograph with its OWN depth map: the back half of this
+   site used to be a single plate under colour filters, which is why five movements
+   measured 5/255 apart. */
+vec3 actPaper(vec2 uv, float p){
+  vec2 cuv = cover(uv);
+  /* start at the plate's full frame: at 1.03 the engine was cropping the very objects the
+     room is about (Babylon's clay tablets, La Banca's scales sat outside the safe area) */
+  cuv = zoomAt(cuv, vec2(.5,.48), 1.00+.07*p);          /* walking pace, into the room */
+  float d = texture2D(dCham,cuv).r;
+  cuv += (d-.5)*vec2(uMouse.x*.026, uMouse.y*.014);
+  vec3 col = texture2D(tCham,cuv).rgb;
+  if(uGrade==0){                                        /* Babylon — one lamp outside the frame */
+    float fl = 1.+.020*sin(uTime*9.1)+.014*sin(uTime*5.3+1.1);
+    col *= fl*vec3(1.06,.99,.90);
+    col += vec3(1.,.72,.36)*smoothstep(.55,.0,distance(cuv,vec2(.16,.54)))*.05*fl;
+  } else if(uGrade==1){                                 /* Rome — cold marble, no flame in the room */
+    vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
+    col = mix(col, g*vec3(.94,.97,1.07), .30);
+    col = (col-.5)*1.10+.5;
+  } else if(uGrade==2){                                 /* the Church — one candle, gold, hard fall-off */
+    float fl = 1.+.026*sin(uTime*12.1)+.019*sin(uTime*7.7+2.3);
+    col *= fl*vec3(1.07,.98,.86);
+    col += vec3(1.,.74,.38)*smoothstep(.42,.0,distance(cuv,vec2(.76,.44)))*.07*fl;
+    vec2 o2=uv-.5; col *= 1.-dot(o2,o2)*.34;
+  } else if(uGrade==3){                                 /* 1666 — an unheated room, one distant ember */
+    vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
+    col = mix(col, g*vec3(.86,.92,1.10), .38);
+    col += vec3(1.,.55,.20)*smoothstep(.50,.0,distance(cuv,vec2(.30,.32)))*.05;
+    col *= .92;
+  } else {                                              /* La Banca — dusk, low sun down the arcade */
+    col *= vec3(1.05,1.0,.92);
+    col += shaft(tCham, cuv, vec2(.06,.60), .30)*vec3(1.,.86,.62);
+  }
+  col *= .94+.10*p;
+  /* COPY-SIDE SCRIM. These five plates are brighter than the water acts, and the small mono
+     type (act numerals, source chips, tile labels) fell to 2.8:1 against them. The scrim is
+     ADAPTIVE — its strength follows the plate's own luminance, so the dark rooms are barely
+     touched and only the bright ones are pulled down under the copy column. */
+  float lumHere = dot(col, vec3(.299,.587,.114));
+  float need = smoothstep(.030,.130, lumHere);
+  col *= 1.0 - smoothstep(.70,.0,uv.x)*need*0.90;
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*.52;                 /* softened: .66 was crushing the corners */
+  return col;
+}
+
 vec3 act(int id, vec2 uv, float p){
+  if(id>=10) return actPaper(uv,p);
   if(id==0) return actSeal(uv,p);
   if(id==1) return actWaters(uv,p);
   if(id==2) return actDeep(uv,p);
@@ -749,20 +959,23 @@ void main(){vec4 c=texture2D(tDiffuse,v);
 composer.addPass(grainPost);
 
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
-const ACTS = [  /* [start,end] in overall progress; heights of the DOM sections match (total 3200vh) */
-  {id:0, s:0.0000, e:0.0609},   /* seal      195vh */
-  {id:1, s:0.0609, e:0.2156},   /* waters    495vh */
-  {id:2, s:0.2156, e:0.3594},   /* deep      460vh */
-  {id:3, s:0.3594, e:0.4641},   /* jar       335vh */
-  {id:4, s:0.4641, e:0.5750},   /* breach    355vh */
-  {id:5, s:0.5750, e:0.6438},   /* landfall  220vh */
-  {id:6, s:0.6438, e:0.6875},   /* ministry  140vh — the hall's candlelight carries the catchphrase */
-  {id:7, s:0.6875, e:0.7688},   /* 1873      260vh — the flagship chamber, corridor re-lit cold */
-  {id:6, s:0.7688, e:0.8375},   /* wall      220vh — the eight definitions, candlelit */
-  {id:8, s:0.8375, e:0.8875},   /* study     160vh — emerald warmth */
-  {id:9, s:0.8875, e:0.9250},   /* statutes  120vh — the turn: darkened, door-lit */
-  {id:6, s:0.9250, e:1.0001},   /* hall      240vh */
-];
+/* The act table is DERIVED from the real section geometry — the hand-kept table had to be
+   "remapped" by hand after every new movement, and a hand-kept table drifts. */
+const ACT_OF = {seal:0, waters:1, deep:2, jar:3, breach:4, landfall:5,
+                babylon:10, rome:11, church:12, cestui:13, labanca:14,
+                ministry:6, chamber1873:7, wall:6, study:8, statutes:9, hall:6};
+let ACTS = [];
+function buildActs(){
+  const max = Math.max(1, document.body.scrollHeight - innerHeight);
+  const secs = [...document.querySelectorAll("main section")];
+  ACTS = secs.map((el,i)=>({
+    id: ACT_OF[el.id] ?? 6,
+    s: el.offsetTop / max,
+    e: (i===secs.length-1) ? 1.0001 : (el.offsetTop + el.offsetHeight) / max,
+  }));
+  ACTS[0].s = 0;
+}
+buildActs();
 const BLEND = .024;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
@@ -775,7 +988,7 @@ lenis.on("scroll",()=>{ target = scrollY/maxScroll();
 document.getElementById("skip").onclick = ()=> lenis.scrollTo(innerHeight*2.1,{duration:1.6});
 const mouse = new THREE.Vector2();
 addEventListener("pointermove",e=>{ mouse.set(e.clientX/innerWidth-.5, e.clientY/innerHeight-.5); });
-addEventListener("resize",()=>{ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+addEventListener("resize",()=>{ buildActs(); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight);
   F.uniforms.uRes.value.set(innerWidth,innerHeight); });
 
@@ -797,6 +1010,14 @@ function setActs(p){
   let blend=0, B=A;
   const i = ACTS.indexOf(A);
   if(i<ACTS.length-1 && (A.e-p)<BLEND){ B=ACTS[i+1]; blend=1-(A.e-p)/BLEND; }
+  /* bind at the blend midpoint: before .5 only A is on screen, after .5 only B */
+  const shown = (blend>0.5 ? B : A);
+  if(shown.id>=10){
+    const [key,g] = GRADE[shown.id];
+    F.uniforms.tCham.value = CHAM[key][0];
+    F.uniforms.dCham.value = CHAM[key][1];
+    F.uniforms.uGrade.value = g;
+  }
   F.uniforms.uActA.value=A.id; F.uniforms.uActB.value=B.id;
   F.uniforms.uPA.value=THREE.MathUtils.clamp(local,0,1);
   F.uniforms.uPB.value=blend>0?0:0;
@@ -816,6 +1037,8 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   target=cur=p; sealT=1; setActs(p);
   F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=1; F.uniforms.uFlash.value=0;
   const A = ACTS.find(a=>p>=a.s&&p<a.e)||ACTS[ACTS.length-1];
+  if(A.id>=10){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
+                F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g; }
   const local=(p-A.s)/(A.e-A.s);
   const rise = A.id===3? Math.max(0,Math.min(1,(local-.42)/.58)) : A.id>3?1:0;
   codexLight.intensity=rise*22;
