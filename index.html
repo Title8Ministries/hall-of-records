@@ -19,7 +19,9 @@ main{position:relative;z-index:1}
 section{display:flex;align-items:center;padding:0 clamp(1.4rem,6vw,7rem);position:relative}
 .wrap{max-width:60rem;width:100%;min-width:0}
 .hold{position:sticky;top:0;height:100vh;display:flex;align-items:center;min-width:0}
-.kicker{font:400 .84rem/1.85 "JetBrains Mono",monospace;letter-spacing:.28em;text-transform:uppercase;
+/* set at runtime on any section whose copy is taller than the screen — see fitSections() */
+section.flow > .hold{position:static;height:auto;align-items:flex-start;padding:16vh 0 18vh}
+.kicker{font:400 .9rem/1.8 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;
  color:rgba(219,192,137,.92);margin:0 0 1.4rem}
 h1,h2{font:300 clamp(2rem,5.4vw,4.4rem)/1.02 "Cormorant Garamond",serif;letter-spacing:-.015em;margin:0 0 .2rem}
 h2 em,h1 em{font-style:italic;color:var(--gold);display:block}
@@ -27,7 +29,7 @@ p{max-width:56ch;color:rgba(243,236,224,.86);margin:1.15rem 0 0}
 p.lead{font-size:clamp(1.15rem,1.7vw,1.5rem);color:rgba(243,236,224,.94);max-width:48ch}
 .quote{font:300 italic clamp(1.5rem,3.2vw,2.6rem)/1.25 "Cormorant Garamond",serif;
  color:var(--ivory);max-width:30ch;margin:0}
-.cite{font:400 .8rem/1.85 "JetBrains Mono",monospace;letter-spacing:.18em;text-transform:uppercase;
+.cite{font:400 .88rem/1.8 "JetBrains Mono",monospace;letter-spacing:.15em;text-transform:uppercase;
  color:rgba(219,192,137,.88);margin-top:1rem}
 .caption{font:400 .95rem/1.72 "JetBrains Mono",monospace;letter-spacing:.03em;color:rgba(243,236,224,.86);max-width:60ch}
 .cta{display:inline-block;margin-top:2.2rem;padding:1.15rem 2.4rem;border-radius:9999px;
@@ -48,12 +50,16 @@ a{color:var(--gold)}
 #landfall h2{color:#101420}#landfall h2 em{color:#8a6b2f}
 #landfall p{color:rgba(16,20,32,.78)}#landfall .lead{color:rgba(16,20,32,.9)}
 #landfall .kicker{color:rgba(138,107,47,.85)}
-/* the thumbprint rendered as a solid gold RECTANGLE — the invert() filter was filling
-   the PNG alpha. Multiply puts the real ridges back onto the paper. */
-#landfall .mark{height:8.5rem;width:auto;opacity:.85;margin:2.8rem auto 0;display:block;
- mix-blend-mode:multiply;filter:sepia(50%) saturate(300%) brightness(.6) contrast(1.2)}
+/* ⛔ Both marks shipped as mode-L greyscale with NO alpha channel at all, so as <img> they
+   painted their own dark background — the gold rectangle Joseph photographed. They are
+   rebuilt as real RGBA (alpha taken from luminance) and now sit on the paper as ink. */
+#landfall .signed{margin:3.2rem auto 0;display:flex;flex-direction:column;align-items:center;gap:.5rem}
+#landfall .sig{width:min(26rem,64%);height:auto;display:block;opacity:.88;
+  filter:sepia(28%) saturate(140%) brightness(.42)}
+#landfall .mark{height:6.4rem;width:auto;display:block;opacity:.62;transform:rotate(-4deg);
+  filter:sepia(34%) saturate(150%) brightness(.5)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
- border-top:1px solid rgba(201,165,92,.16);font-size:.86rem;color:rgba(243,236,224,.55)}
+ border-top:1px solid rgba(201,165,92,.16);font-size:.98rem;color:rgba(243,236,224,.72)}
 /* ── the 1873 chamber: engraved stone, gilding = verification ── */
 .tablet{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
 .tablet-half{flex:1 1 18rem;min-width:0;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
@@ -67,7 +73,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 .plaque{text-align:left;background:rgba(8,11,19,.72);backdrop-filter:blur(3px);
   border:1px solid rgba(125,133,155,.28);
  padding:.9rem 1rem;cursor:pointer;transition:border-color .9s,background .9s;font:inherit;color:inherit}
-.plaque .pl-name{display:block;font:400 .8rem/1.75 "JetBrains Mono",monospace;letter-spacing:.2em;
+.plaque .pl-name{display:block;font:400 .88rem/1.7 "JetBrains Mono",monospace;letter-spacing:.16em;
  text-transform:uppercase;color:#b9c0d2;transition:color .9s}
 .plaque .pl-quote{display:block;font:300 italic 1.06rem/1.48 "Cormorant Garamond",serif;
  color:rgba(230,224,210,.86);margin-top:.35rem;transition:color .9s,text-shadow .9s}
@@ -83,9 +89,9 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 }
 .thread .waypoint{display:block;font-size:1.0rem;color:rgba(243,236,224,.75);margin:.55rem 0}
 .thread .waypoint b{color:var(--gold);font-weight:500;margin-right:.5rem}
-.chip{display:inline-block;font:400 .78rem/1.65 "JetBrains Mono",monospace;letter-spacing:.1em;
+.chip{display:inline-block;font:400 .86rem/1.7 "JetBrains Mono",monospace;letter-spacing:.08em;
  text-transform:uppercase;color:rgba(219,192,137,1);border:1px solid rgba(201,165,92,.45);
- border-radius:9999px;padding:.12rem .6rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
+ border-radius:9999px;padding:.2rem .75rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
 .chip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
 .tiles{grid-template-columns:repeat(auto-fit,minmax(min(21rem,100%),1fr));gap:.8rem;margin-top:1.3rem}
 .tiles .plaque{padding:.85rem 1rem}
@@ -191,14 +197,17 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- V · LANDFALL — the inversion -->
-<section id="landfall" style="height:220vh;align-items:center;justify-content:center;text-align:center">
-  <div class="still" style="background:#f3ece0"></div>
+<section id="landfall" style="height:270vh;align-items:center;justify-content:center;text-align:center">
+  <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">IV · Landfall</p>
     <h2>Named by water.<em>Standing in truth.</em></h2>
     <p class="lead">The stylised journey ends here and the man begins. Everything past this point is
     documented, checkable, and signed.</p>
-    <img class="mark" src="assets/MARK-thumbprint-alpha.png" alt="The JFM thumbprint mark">
+    <div class="signed">
+      <img class="sig" src="assets/MARK-signature-rgba.png" alt="Signed, Joseph Fain McDaniel">
+      <img class="mark" src="assets/MARK-thumbprint-rgba.png" alt="His thumbprint, pressed">
+    </div>
   </div></div>
 </section>
 
@@ -341,7 +350,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
      ⚠️ data-pending-confirm: exact canonical wording awaits Joseph (lives on his socials);
      placed per the 8/17 decision: the ministry turn before the Door/CTA. -->
 <section id="ministry" style="height:140vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="still" style="background-image:url(assets/plate-ministry.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Ministry</p>
     <p class="quote" style="max-width:30ch">My body is a temple of the Holy Spirit.</p>
@@ -390,7 +399,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <!-- V·d · THE LANGUAGE WALL — the eight enacted definitions of "person," his sworn text
      (affidavit v10 ¶20B a–h, ¶20I). bin/hall-gates string-matches these against the v10 file. -->
 <section id="wall" style="height:220vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="still" style="background-image:url(assets/plate-wall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:66rem">
     <p class="kicker">The Language Wall · eight definitions of one word</p>
     <p class="quote" style="max-width:40ch">I contend that a word bearing seven meanings is capable of being
@@ -429,7 +438,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 
 <!-- V·e · THE STUDY — warmth; the patience doctrine -->
 <section id="study" style="height:160vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="still" style="background-image:url(assets/plate-study.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker" style="color:rgba(160,222,190,.95)">The Study · I checked my own book</p>
     <p class="quote">I waited because I wanted to know this stuff in my soul not just in my mind.</p>
@@ -439,7 +448,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 
 <!-- V·f · THE STATUTES TURN — from system to remedy, his teaching voice -->
 <section id="statutes" style="height:120vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
+  <div class="still" style="background-image:url(assets/plate-statutes.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Turn</p>
     <p class="quote" style="max-width:30ch">When you know who you are, you don't argue. You simply declare.</p>
@@ -465,7 +474,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <footer>
   <p>Every quotation on this site was verified word-for-word against the published text.
   The numbers are there so you can check me.</p>
-  <p style="font:400 .62rem/1.9 'JetBrains Mono',monospace;letter-spacing:.2em;text-transform:uppercase">
+  <p style="font:400 .86rem/1.9 'JetBrains Mono',monospace;letter-spacing:.1em;text-transform:uppercase">
   Joseph Fain McDaniel™ · trademark applications pending before the USPTO ·
   © 2026 Joseph Fain McDaniel. All rights reserved. · Vertical slice — not the live site.</p>
 </footer>
@@ -530,10 +539,21 @@ const [texWaters,texDeep,texBreach,texHall,
 const texCodex = await load("assets/codex-leaf.png");
 /* the Paper Chains plates + their Depth-Anything maps */
 const CHAM = {};
-await Promise.all(["babylon","rome","church","sixteensixtysix","labanca"].map(async k=>{
+/* The rooms you meet first are paid for up front. The last four are not reached until ~78%
+   of the scroll, so they load in the background after the film is already running — the
+   visitor never waits on a picture they are four minutes from seeing. */
+const EAGER = ["landfall","babylon","rome","church","sixteensixtysix","labanca"];
+const LATER = ["ministry","wall","study","statutes"];
+await Promise.all(EAGER.map(async k=>{
   CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
 }));
-const GRADE = {10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],14:["labanca",4]};
+for (const k of LATER) CHAM[k] = [texHall, depHall];        /* stand-in until the real one lands */
+setTimeout(()=>{ LATER.forEach(async k=>{
+  CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
+}); }, 1800);
+const GRADE = {10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],
+               14:["labanca",4],15:["landfall",5],16:["ministry",6],17:["wall",7],
+               18:["study",8],19:["statutes",9]};
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
 
 /* ── motion plates — scrubbed by scroll, never autoplay ────────────────────
@@ -895,11 +915,41 @@ vec3 actPaper(vec2 uv, float p){
     col += shaft(tCham, cuv, src, .26)*vec3(1.,.52,.18)*em;
     col = mix(col, col*vec3(.66,.72,.86)+vec3(.010,.012,.018), far*.66);
     col *= .92;
-  } else {                                              /* La Banca — dusk, low sun down the arcade */
+  } else if(uGrade==4){                                 /* La Banca — dusk, low sun down the arcade */
     col *= vec3(1.05,1.0,.92);
     vec2 src = vec2(.06+.14*p,.60-.05*p);               /* the sun sets down the arcade */
     col += shaft(tCham, cuv, src, .42)*vec3(1.,.86,.62);
     col = mix(col, col*vec3(.78,.76,.74)+vec3(.020,.019,.017), far*.58);
+  } else if(uGrade==5){                                 /* LANDFALL — the one inversion. Daylight. */
+    col *= vec3(1.02,1.0,.985);
+    col += vec3(1.,.99,.95)*smoothstep(.85,.0,distance(cuv,vec2(.16-.06*p,.30)))*.10;
+    col = mix(col, col*1.04+vec3(.03,.028,.024), far*.30);   /* the far side stays open, not murky */
+  } else if(uGrade==6){                                 /* the Ministry — three candles, honey */
+    float fl = 1.+.042*sin(uTime*11.7)+.030*sin(uTime*7.1+1.9)+.016*sin(uTime*17.9);
+    vec2 src = vec2(.50+.05*p,.46+.04*p);
+    col *= fl*vec3(1.08,.99,.85);
+    col += vec3(1.,.76,.40)*smoothstep(.44,.0,distance(cuv,src))*.11*fl;
+    col += shaft(tCham, cuv, src, .32)*vec3(1.,.80,.44)*fl;
+    col = mix(col, col*vec3(.58,.53,.50)+vec3(.010,.008,.006), far*.72);
+  } else if(uGrade==7){                                 /* the Language Wall — one hard cold rake */
+    vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
+    col = mix(col, g*vec3(.96,.98,1.05), .34);
+    col += shaft(tCham, cuv, vec2(.02+.10*p,.72), .30)*vec3(.88,.92,1.0);
+    col = mix(col, col*vec3(.68,.72,.80)+vec3(.012,.014,.020), far*.66);
+    col *= .96;
+  } else if(uGrade==8){                                 /* the Study — one small warm pool, green glass */
+    float fl = 1.+.012*sin(uTime*5.3)+.008*sin(uTime*8.9+1.1);
+    vec2 src = vec2(.40+.07*p,.44);
+    col *= fl;
+    col = mix(col, col*vec3(.92,1.06,.96), .28);        /* the green shade tints the room */
+    col += vec3(1.,.82,.48)*smoothstep(.30,.0,distance(cuv,src))*.10*fl;
+    col = mix(col, col*vec3(.52,.56,.52)+vec3(.008,.010,.008), far*.78);
+  } else {                                              /* the Turn — a closed door, one cold blade */
+    vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
+    col = mix(col, g*vec3(.88,.93,1.08), .40);
+    col += vec3(.82,.90,1.0)*smoothstep(.26,.0,distance(cuv,vec2(.50,.14+.03*p)))*.09;
+    col = mix(col, col*vec3(.60,.64,.76)+vec3(.008,.010,.016), far*.74);
+    col *= .88;
   }
   col *= .94+.10*p;
   /* COPY-SIDE SCRIM. These five plates are brighter than the water acts, and the small mono
@@ -907,8 +957,21 @@ vec3 actPaper(vec2 uv, float p){
      ADAPTIVE — its strength follows the plate's own luminance, so the dark rooms are barely
      touched and only the bright ones are pulled down under the copy column. */
   float lumHere = dot(col, vec3(.299,.587,.114));
-  float need = smoothstep(.030,.130, lumHere);
-  col *= 1.0 - smoothstep(.70,.0,uv.x)*need*0.90;
+  if(uGrade==5){
+    /* Landfall runs ink-on-ivory — the scrim must LIFT the paper under the centred copy,
+       not darken it. Same idea, opposite direction. */
+    float band = smoothstep(.98,.30,distance(uv,vec2(.5,.5)));
+    col = mix(col, col*1.06+vec3(.045,.043,.038), band*.85);
+  } else {
+    /* ⛔ The scrim used to be a fixed curve tuned to the plates that existed when it was
+       written, and the next five plates broke it — the Language Wall's limestone dropped the
+       citation type to 2.95:1. It now aims at an ABSOLUTE target luminance instead: darken
+       the copy side until what is behind the type is dark enough, whatever the plate is.
+       Self-correcting for every plate added after this one. */
+    float target = 0.019;   /* the Language Wall's limestone is the brightest plate on the site */
+    float k = clamp(1.0 - target/max(lumHere, 0.0005), 0.0, 0.90);
+    col *= 1.0 - smoothstep(.86,.10,uv.x)*k;
+  }
   vec2 o=uv-.5; col *= 1.-dot(o,o)*.52;                 /* softened: .66 was crushing the corners */
   return col;
 }
@@ -1030,9 +1093,9 @@ composer.addPass(grainPost);
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
 /* The act table is DERIVED from the real section geometry — the hand-kept table had to be
    "remapped" by hand after every new movement, and a hand-kept table drifts. */
-const ACT_OF = {seal:0, waters:1, deep:2, jar:3, breach:4, landfall:5,
+const ACT_OF = {seal:0, waters:1, deep:2, jar:3, breach:4, landfall:15,
                 babylon:10, rome:11, church:12, cestui:13, labanca:14,
-                ministry:6, chamber1873:7, wall:6, study:8, statutes:9, hall:6};
+                ministry:16, chamber1873:7, wall:17, study:18, statutes:19, hall:6};
 let ACTS = [];
 function buildActs(){
   const max = Math.max(1, document.body.scrollHeight - innerHeight);
@@ -1063,6 +1126,22 @@ addEventListener("pointermove",e=>{ mouse.set(e.clientX/innerWidth-.5, e.clientY
 addEventListener("resize",()=>{ buildActs(); camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
   renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight);
   F.uniforms.uRes.value.set(innerWidth,innerHeight); });
+
+/* ⛔ A section whose copy is taller than the viewport must not pin, or its text prints on
+   top of the next section's. Measured, not guessed, and re-measured on resize — the point at
+   which a section stops fitting depends entirely on the window. */
+function fitSections(){
+  for (const sec of document.querySelectorAll("main section")){
+    const wrap = sec.querySelector(".wrap");
+    if (!wrap) continue;
+    sec.classList.remove("flow");
+    if (wrap.scrollHeight > innerHeight * 0.86) sec.classList.add("flow");
+  }
+  buildActs();
+}
+fitSections();
+addEventListener("resize", fitSections);
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSections);
 
 const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("on"); }),
   {threshold:.18});
@@ -1217,11 +1296,16 @@ window.__ready = true;
 }
 </script>
 <script>
-/* THE COLD OPEN — see the CSS note. Deliberately plain 2D canvas: it must paint on the
-   first frame, before the module graph, the importmap or a single texture has loaded. */
+/* THE COLD OPEN — falling ancient script that resolves into his own words.
+   ⛔ NOT the Matrix glyph set. Joseph's call 2026-08-23: "let's not copy the matrix lettering
+   exactly... make it look more like ancient Sumerian letters in Aramaic letters and stuff like
+   that... so we don't do any copyright infringement." The katakana set is gone. What falls now
+   is the actual writing of the record this site is about — cuneiform first, because Babylon is
+   where his own history starts, then the Semitic scripts that carried the paper west.
+   The MOTION recipe is still his own (Credit Dojo video/matrix/coderain.py): rgb(0,224,108)
+   tail, rgb(200,255,214) leading character, (1-t)^1.7 fade, 7-22 tails, 4-14 churn.
+   Plain 2D canvas on purpose: it paints on the first frame, before the module graph. */
 (function(){
-  /* skipped under ?shots — the deterministic frame harness must never wait on the intro,
-     and reduced-motion users get the record, not the film. */
   if (matchMedia("(prefers-reduced-motion: reduce)").matches ||
       new URLSearchParams(location.search).has("shots")) {
     const c=document.getElementById("rain"), k=document.getElementById("rainskip");
@@ -1230,20 +1314,62 @@ window.__ready = true;
   const cv = document.getElementById("rain"), skip = document.getElementById("rainskip");
   if (!cv) return;
   const ctx = cv.getContext("2d", {alpha:false});
-  let W=0,H=0,CELL=0,COLS=0,ROWS=0,streams=[];
-  const GLYPHS = "ｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ0123456789§$%";
+
+  /* ── the scripts, ordered by weight. Every one is FEATURE-DETECTED below: a codepoint with
+        no glyph on the visitor's machine measures the same as .notdef and is dropped, so a
+        machine without cuneiform quietly falls back to what it does have. ── */
+  const SCRIPTS = [
+    {n:"cuneiform", w:4, r:[[0x12000,0x120F0]]},              /* Sumerian — where the paper starts */
+    {n:"aramaic",   w:3, r:[[0x10840,0x10855]]},              /* Imperial Aramaic */
+    {n:"phoenician",w:3, r:[[0x10900,0x10915]]},
+    {n:"ugaritic",  w:2, r:[[0x10380,0x1039D]]},
+    {n:"samaritan", w:2, r:[[0x0800,0x0815]]},
+    {n:"syriac",    w:2, r:[[0x0710,0x072C]]},
+    {n:"sarabian",  w:1, r:[[0x10A60,0x10A7C]]},              /* Old South Arabian */
+    {n:"egyptian",  w:1, r:[[0x13000,0x1307F]]},              /* the Kemet chamber's own writing */
+    {n:"hebrew",    w:3, r:[[0x05D0,0x05EA]]},                /* Aramaic square — the safe floor */
+  ];
+  let GLYPHS = [];
+  function buildGlyphs(){
+    ctx.font = "40px serif";
+    const tofu = ctx.measureText("\u{10FFFD}").width;
+    GLYPHS = [];
+    for (const sc of SCRIPTS){
+      const ok = [];
+      for (const [a,b] of sc.r){
+        for (let cp=a; cp<=b; cp++){
+          const ch = String.fromCodePoint(cp);
+          const w = ctx.measureText(ch).width;
+          if (w > 0 && Math.abs(w - tofu) > 0.3) ok.push(ch);
+        }
+      }
+      if (ok.length >= 8) for (let k=0;k<sc.w;k++) GLYPHS = GLYPHS.concat(ok);
+    }
+    if (GLYPHS.length < 24) GLYPHS = "אבגדהוזחטיכלמנסעפצקרשת0123456789".split("");
+  }
+
   const HEAD="rgb(200,255,214)", R=0,G=224,B=108;
-  /* his own H1, spelled by the rain as it locks — copy law: his words, nothing invented */
-  const WORD = "YOU ARE NOT CARGO";
+  /* his words, in his order: the question first, then the answer the site is built on */
+  const BEATS = [
+    {t0:1600, lock:1000, hold:1300, text:"WHO IS YOUR MAKER?"},
+    {t0:4200, lock: 950, hold:1200, text:"YOU ARE NOT CARGO"}
+  ];
+  const LONGEST = Math.max(...BEATS.map(b=>b.text.length));
+  const END = BEATS[1].t0 + BEATS[1].lock + BEATS[1].hold;
+
+  let W=0,H=0,CELL=0,COLS=0,ROWS=0,streams=[];
   let rnd = 1337; const rand = ()=> (rnd = (rnd*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
 
   function layout(){
     const dpr = Math.min(devicePixelRatio||1, 2);
     W = cv.width = Math.floor(innerWidth*dpr); H = cv.height = Math.floor(innerHeight*dpr);
     cv.style.width = innerWidth+"px"; cv.style.height = innerHeight+"px";
-    CELL = Math.max(14*dpr, Math.floor(W/Math.max(26, Math.min(52, Math.round(innerWidth/34)))));
+    let cell = Math.max(14*dpr, Math.floor(W/Math.max(26, Math.min(52, Math.round(innerWidth/34)))));
+    /* the longest line must fit the field with a margin, or the words cannot assemble */
+    cell = Math.min(cell, Math.floor(W/(LONGEST+3)));
+    CELL = cell;
     COLS = Math.ceil(W/CELL); ROWS = Math.ceil(H/CELL)+2;
-    ctx.font = Math.floor(CELL*0.95)+"px 'Hiragino Sans GB','Hiragino Kaku Gothic ProN',monospace";
+    ctx.font = Math.floor(CELL*0.92)+"px 'Noto Sans Cuneiform','Segoe UI Historic','Noto Sans Symbols2',serif";
     ctx.textBaseline = "top";
     rnd = 1337; streams = [];
     for(let c=0;c<COLS;c++) streams.push({
@@ -1254,10 +1380,11 @@ window.__ready = true;
       glyphs:Array.from({length:ROWS+30},()=>GLYPHS[Math.floor(rand()*GLYPHS.length)])
     });
   }
-  layout(); addEventListener("resize", layout);
+  buildGlyphs(); layout();
+  addEventListener("resize", ()=>{ buildGlyphs(); layout(); });
 
   const T0 = performance.now();
-  const HOLD = 2600, LOCK = 1500, MAXWAIT = 7000;   /* fall, then lock into the word, then hand over */
+  const MAXWAIT = END + 2200;
   let done = false, f = 0;
 
   function finish(){
@@ -1268,22 +1395,39 @@ window.__ready = true;
   skip.addEventListener("click", finish);
   cv.addEventListener("click", finish);
   addEventListener("keydown", e=>{ if(e.key==="Escape"||e.key===" ") finish(); });
-  /* ⛔ HARD FLOOR, independent of rAF. If the tab is backgrounded during the intro, rAF stops,
-     `t` stops advancing, and the visitor comes back to a black screen with no way out. This
-     timer does not depend on the animation loop running at all. */
-  setTimeout(finish, 9000);
   addEventListener("wheel", finish, {passive:true, once:true});
   addEventListener("touchstart", finish, {passive:true, once:true});
+  /* ⛔ HARD FLOOR, independent of rAF. A backgrounded tab stops rAF, `t` stops advancing, and
+     the visitor would come back to a black screen with no way out. */
+  setTimeout(finish, END + 4000);
+
+  /* which line is assembling right now, and how far in */
+  function beatState(t){
+    for (const b of BEATS){
+      if (t < b.t0) return {a:0, text:null};
+      const inLock = (t - b.t0) / b.lock;
+      if (inLock < 1) return {a: Math.max(0,inLock), text:b.text};
+      const held = t - (b.t0 + b.lock);
+      if (held < b.hold) return {a:1, text:b.text};
+      if (b === BEATS[0] && t < BEATS[1].t0){
+        const out = (t - (b.t0+b.lock+b.hold)) / Math.max(1, BEATS[1].t0-(b.t0+b.lock+b.hold));
+        return {a: Math.max(0, 1-out), text:b.text};      /* the question dissolves back to rain */
+      }
+      if (b === BEATS[1]) return {a:1, text:b.text};
+    }
+    return {a:0, text:null};
+  }
 
   (function draw(){
     if(done) return;
     const t = performance.now()-T0;
     f++;
     ctx.fillStyle = "#000"; ctx.fillRect(0,0,W,H);
-    /* where the word will assemble */
-    const wordRow = Math.floor(ROWS*0.46);
-    const wordStart = Math.max(0, Math.floor((COLS - WORD.length)/2));
-    const lock = t<HOLD ? 0 : Math.min(1,(t-HOLD)/LOCK);
+    const st = beatState(t);
+    const wordRow = Math.floor(ROWS*0.44);
+    const word = st.text, lock = st.a;
+    const wordStart = word ? Math.max(0, Math.floor((COLS - word.length)/2)) : 0;
+
     for(let c=0;c<COLS;c++){
       const s = streams[c], total = ROWS + s.length;
       const pos = (((t/1000)*s.speed*0.42 + s.phase)%1)*total;
@@ -1291,31 +1435,29 @@ window.__ready = true;
         const r = Math.floor(pos)-i;
         if(r<0||r>=ROWS) continue;
         const tt = i/s.length;
-        const inWord = lock>0 && r===wordRow && c>=wordStart && c<wordStart+WORD.length;
-        let ch = s.glyphs[(r + Math.floor(f/s.churn)*(c+1)) % s.glyphs.length];
-        let col;
-        if(inWord && lock>0.35){
-          ch = WORD[c-wordStart];
-          const g = 224+Math.round(31*lock);
-          col = "rgba("+Math.round(200*lock+0*(1-lock))+","+g+","+Math.round(108+106*lock)+",1)";
-        } else if(i===0){ col = HEAD; }
-        else { const fade = Math.pow(1-tt,1.7)*(1-lock*0.72);
-               col = "rgb("+Math.round(R*fade)+","+Math.round(G*fade)+","+Math.round(B*fade)+")"; }
-        ctx.fillStyle = col;
+        const fade = Math.pow(1-tt,1.7)*(1-lock*0.74);
+        const ch = s.glyphs[(r + Math.floor(f/s.churn)*(c+1)) % s.glyphs.length];
+        ctx.fillStyle = (i===0)
+          ? "rgba(200,255,214,"+(1-lock*0.6).toFixed(3)+")"
+          : "rgb("+Math.round(R*fade)+","+Math.round(G*fade)+","+Math.round(B*fade)+")";
         ctx.fillText(ch, c*CELL, r*CELL);
       }
     }
-    /* the word holds alone after the rain drains */
-    if(lock>0.35){
-      ctx.font = Math.floor(CELL*0.95)+"px 'Hiragino Sans GB','Hiragino Kaku Gothic ProN',monospace";
-      for(let k=0;k<WORD.length;k++){
-        const a = Math.min(1,(lock-0.35)/0.4);
-        ctx.fillStyle = "rgba(214,255,226,"+a+")";
-        ctx.fillText(WORD[k], (wordStart+k)*CELL, wordRow*CELL);
+    /* the line assembles out of the field, in latin, so it can actually be read */
+    if(word && lock>0.02){
+      ctx.font = Math.floor(CELL*0.78)+"px 'JetBrains Mono',ui-monospace,monospace";
+      for(let k=0;k<word.length;k++){
+        const ch = word[k];
+        if(ch === " ") continue;
+        /* letters resolve left to right as the lock closes */
+        const settle = Math.min(1, Math.max(0, (lock - k/word.length*0.45) / 0.55));
+        if(settle<=0) continue;
+        ctx.fillStyle = "rgba("+Math.round(150+64*settle)+",255,"+Math.round(150+70*settle)+","+settle.toFixed(3)+")";
+        ctx.fillText(ch, (wordStart+k)*CELL + CELL*0.12, wordRow*CELL + CELL*0.1);
       }
+      ctx.font = Math.floor(CELL*0.92)+"px 'Noto Sans Cuneiform','Segoe UI Historic','Noto Sans Symbols2',serif";
     }
-    /* hand over once the film is actually ready, or on the hard cap */
-    if(lock>=1 && (window.__ready || t>MAXWAIT)) return finish();
+    if (t > END && (window.__ready || t > MAXWAIT)) return finish();
     requestAnimationFrame(draw);
   })();
 })();

@@ -1,0 +1,13 @@
+# Terms this repo is allowed to publish, read by ~/.claude/bin/prepush-scan.
+#
+# WHY. This is Joseph's own public brand site. Every push was blocked by six hits that were
+# his own trademarked name and his ministry's name -- on the very site whose job is to carry
+# them. A guard that fires on every single push of a repo teaches its owner to pass
+# --no-verify by reflex, and a reflex bypass is worse than no guard at all, because the one
+# push that carries a real case file gets waved through with the rest.
+#
+# SCOPE. This suppresses `inventory-term` findings ONLY, and only in this repo. Structural
+# paths (_case/, attorney-client), SSN and EIN shapes, API keys and private keys are NOT
+# allowlistable here or anywhere -- those are the findings the scanner exists for.
+Joseph Fain McDaniel
+Title 8 Ministries
