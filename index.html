@@ -542,11 +542,21 @@ function scrubPlate(mp, active, local){
 }
 
 /* environment for the codices (the only 3D objects in the slice) */
-new RGBELoader().load("assets/env.hdr", hdr=>{
-  const pm = new THREE.PMREMGenerator(renderer);
-  scene.environment = pm.fromEquirectangular(hdr).texture;
-  scene.environmentIntensity = .5; hdr.dispose();
-});
+/* The 1.7MB HDRI lights exactly one thing — the thirteen codices, which do not appear until
+   ~29% of the scroll. It was 40% of the initial page budget, paid before the first frame.
+   RoomEnvironment (procedural, zero bytes) stands in instantly; the real HDRI loads in the
+   background and takes over long before the jar. Measured: swapping permanently to
+   RoomEnvironment changes 4.6% of the pixels in the jar act, so it is a stand-in, not a
+   replacement. */
+{ const pm = new THREE.PMREMGenerator(renderer);
+  const { RoomEnvironment } = await import("three/addons/environments/RoomEnvironment.js");
+  scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
+  scene.environmentIntensity = .5;
+  setTimeout(()=>{ new RGBELoader().load("assets/env.hdr", hdr=>{
+      scene.environment = pm.fromEquirectangular(hdr).texture;
+      scene.environmentIntensity = .5; hdr.dispose();
+    }, undefined, ()=>console.warn("env.hdr unavailable — RoomEnvironment stands")); }, 1200);
+}
 
 /* ── THE FILM PLANE — one full-screen shader; the plates + his marks ─────── */
 const F = new THREE.ShaderMaterial({
@@ -760,9 +770,15 @@ vec3 actBreach(vec2 uv, float p){
 
 /* ═ ACT 5 · LANDFALL — ivory; the film hands over to the page ═ */
 vec3 actLand(vec2 uv, float p){
-  float pap = texture2D(tPaper, uv*vec2(4.,4.*uRes.y/uRes.x)).r;
-  vec3 col = vec3(.953,.925,.878)*(.97+.05*pap);
-  col *= 1.-smoothstep(.4,1.4,distance(uv,vec2(.5,.15)))*.10;      /* ivory daylight from above */
+  /* This act used to ignore p entirely — measured 0.00 change across 220vh of scroll, a
+     motionless cream rectangle for two full screens. The light now crosses the page as you
+     descend, the grain settles, and the sheet warms very slightly toward the hall. */
+  float pap = texture2D(tPaper, uv*vec2(4.,4.*uRes.y/uRes.x)*(1.0+.06*p)).r;
+  vec3 col = vec3(.953,.925,.878)*(.97+.05*pap*(1.15-.30*p));
+  vec2 sun = vec2(.20+.66*p, .06+.20*p);                            /* daylight travels */
+  col *= 1.-smoothstep(.28,1.25,distance(uv,sun))*(.07+.20*p);
+  col *= mix(vec3(1.0,1.0,1.0), vec3(1.012,.998,.978), p);          /* the ivory warms toward the hall */
+  col *= 1.-.035*p;                                                  /* and settles a touch */
   return col;
 }
 
@@ -806,7 +822,7 @@ vec3 actPaper(vec2 uv, float p){
   vec2 cuv = cover(uv);
   /* start at the plate's full frame: at 1.03 the engine was cropping the very objects the
      room is about (Babylon's clay tablets, La Banca's scales sat outside the safe area) */
-  cuv = zoomAt(cuv, vec2(.5,.48), 1.00+.07*p);          /* walking pace, into the room */
+  cuv = zoomAt(cuv, vec2(.5,.48), 1.00+.115*p);         /* walking pace, into the room */
   float d = texture2D(dCham,cuv).r;
   cuv += (d-.5)*vec2(uMouse.x*.026, uMouse.y*.014);
   vec3 col = texture2D(tCham,cuv).rgb;
@@ -976,7 +992,10 @@ function buildActs(){
   ACTS[0].s = 0;
 }
 buildActs();
-const BLEND = .024;
+/* BLEND was a fixed slice of the WHOLE page. At 3200vh that was fine; at 4620vh the short
+   movements are proportionally shorter, and the Statutes turn (2.6% of the page) was spending
+   ~92% of itself dipping to black. The window now scales with each act's own span. */
+const BLEND_MAX = .024, BLEND_FRAC = .22;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
 const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),
@@ -1009,7 +1028,8 @@ function setActs(p){
   const local = (p-A.s)/(A.e-A.s);
   let blend=0, B=A;
   const i = ACTS.indexOf(A);
-  if(i<ACTS.length-1 && (A.e-p)<BLEND){ B=ACTS[i+1]; blend=1-(A.e-p)/BLEND; }
+  const bw = Math.min(BLEND_MAX, (A.e-A.s)*BLEND_FRAC);
+  if(i<ACTS.length-1 && (A.e-p)<bw){ B=ACTS[i+1]; blend=1-(A.e-p)/bw; }
   /* bind at the blend midpoint: before .5 only A is on screen, after .5 only B */
   const shown = (blend>0.5 ? B : A);
   if(shown.id>=10){
@@ -1034,8 +1054,9 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   camera.aspect=W/H; camera.updateProjectionMatrix();
   F.uniforms.uMouse.value.set(mx,my);   /* depth parallax is mouse-driven; shots need it settable */
   F.uniforms.uRes.value.set(W,H);
-  target=cur=p; sealT=1; setActs(p);
-  F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=1; F.uniforms.uFlash.value=0;
+  target=cur=p; setActs(p);
+  sealT = ACTS[0] ? Math.min(1, Math.max(0, p/(ACTS[0].e*0.82))) : 1;   /* shots must see the same seal the scroll does */
+  F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=sealT; F.uniforms.uFlash.value=0;
   const A = ACTS.find(a=>p>=a.s&&p<a.e)||ACTS[ACTS.length-1];
   if(A.id>=10){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
                 F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g; }
@@ -1065,7 +1086,10 @@ renderer.setAnimationLoop(t=>{
   lenis.raf(t);
   cur += (target-cur)*(1-Math.exp(-4.6*dt));                       /* framerate-independent glide */
   const T=t/1000;
-  sealT = Math.min(1, sealT + dt*.42);                             /* the seal presses itself */
+  /* the seal used to press purely on a timer: 195vh of scrolling changed nothing on screen.
+     It still presses itself if you simply wait, but the scroll can now drive it forward. */
+  const sealScroll = ACTS[0] ? Math.min(1, Math.max(0, cur/(ACTS[0].e*0.82))) : 0;
+  sealT = Math.max(Math.min(1, sealT + dt*.42), sealScroll);
   const {A, local} = setActs(cur);
   F.uniforms.uTime.value=T; F.uniforms.uSealT.value=sealT;
   F.uniforms.uMouse.value.lerp(mouse,1-Math.exp(-3*dt));
