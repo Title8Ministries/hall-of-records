@@ -11,6 +11,16 @@
   --muted:#7d859b; --dawn:#e3c878;
 }
 *{box-sizing:border-box}html{scroll-behavior:auto}
+/* READABILITY HALO (8/24, his call: "words are still blending into the background") — every
+   light-on-dark text block carries a soft dark halo so no bright patch of plate, caustic or
+   shaft can swallow it. :where() keeps specificity at floor level, so every deliberate
+   treatment (engraved tablet, gild glow, ink-on-ivory rooms) still wins its own fight. */
+main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
+  :where(h1,h2,p,span,a){text-shadow:0 1px 2px rgba(4,6,10,.85),0 0 12px rgba(4,6,10,.72)}
+main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
+  :where(.kicker,.cite){text-shadow:0 1px 3px rgba(4,6,10,.95),0 0 10px rgba(4,6,10,.88),0 0 20px rgba(4,6,10,.6)}
+/* the new movements' chips ride open light — a quiet ink pill keeps the gold legible */
+#creation .chip,#standing .chip{background:rgba(4,6,10,.55);border-radius:999px}
 body{margin:0;background:var(--ink);color:var(--ivory);
  font:400 clamp(16px,1.15vw,19px)/1.75 "EB Garamond",Georgia,serif;-webkit-font-smoothing:antialiased}
 #gl{position:fixed;inset:0;z-index:0;display:block}
@@ -49,7 +59,22 @@ a{color:var(--gold)}
 #landfall .kicker{margin-bottom:2rem}
 #landfall h2{color:#101420}#landfall h2 em{color:#8a6b2f}
 #landfall p{color:rgba(16,20,32,.78)}#landfall .lead{color:rgba(16,20,32,.9)}
-#landfall .kicker{color:rgba(138,107,47,.85)}
+#landfall .kicker{color:rgba(99,76,30,.95)}   /* darkened 8/24: 2.8:1 on ivory measured */
+/* ink-on-ivory rooms: a soft PAPER GLOW under the ink, so shadow bands and dark furniture
+   crossing a line can never swallow it (audit 8/24: hall lead measured 1.14 over the floor) */
+#hall .wrap :where(h1,h2,p,span,a), #landfall .wrap :where(h1,h2,p,span,a),
+#answer .wrap :where(h1,h2,p,span,a), footer p{
+  text-shadow:0 0 10px rgba(243,236,224,.85),0 1px 2px rgba(243,236,224,.7),0 0 26px rgba(243,236,224,.55)}
+footer{background:linear-gradient(rgba(243,236,224,.88),rgba(243,236,224,.96))}
+footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking footer{} */
+/* the Answer rides the same ivory page — ink, not ivory, or the text vanishes (audit 8/24) */
+#answer .wrap{color:var(--ink)}
+#answer h2{color:#101420}#answer h2 em{color:#8a6b2f}
+#answer p{color:rgba(16,20,32,.82)}#answer .quote{color:#101420}
+#answer .caption{color:rgba(16,20,32,.78)}
+#answer .kicker{color:rgba(99,76,30,.95)}
+#answer .cite{color:rgba(99,76,30,.98)}
+#answer .chip{color:#6b5423;border-color:rgba(107,84,35,.55)}
 /* ⛔ Both marks shipped as mode-L greyscale with NO alpha channel at all, so as <img> they
    painted their own dark background — the gold rectangle Joseph photographed. They are
    rebuilt as real RGBA (alpha taken from luminance) and now sit on the paper as ink. */
@@ -72,17 +97,38 @@ a{color:var(--gold)}
 #hall .plaque.gild{border-color:rgba(138,107,47,.8);background:rgba(243,236,224,.88)}
 #hall .plaque.gild .pl-name{color:#8a6b2f}
 #hall .plaque.gild .pl-quote{color:rgba(16,20,32,.95);text-shadow:none}
-/* a sealed slot: wrapped paper, tied — it makes no claim except "this slot is spoken for" */
-#hall .plaque.sealed{background:repeating-linear-gradient(-38deg,rgba(230,221,204,.85),rgba(230,221,204,.85) 9px,rgba(219,208,188,.85) 9px,rgba(219,208,188,.85) 18px);position:relative;overflow:hidden}
-#hall .plaque.sealed::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,transparent 47%,rgba(138,107,47,.45) 47%,rgba(138,107,47,.45) 53%,transparent 53%),
-             linear-gradient(0deg,transparent 44%,rgba(138,107,47,.45) 44%,rgba(138,107,47,.45) 56%,transparent 56%);
-  background-size:100% 100%, 100% 100%;pointer-events:none;opacity:.5}
-#hall .plaque.sealed .pl-quote{color:rgba(16,20,32,.62)}
+/* a sealed slot: a real PARCEL — kraft paper under the morning light, tied with twine,
+   waxed at the knot. Rebuilt 8/24 ("I think the section could look much better"):
+   the old flat stripes read as placeholder rectangles, not objects on a shelf. */
+#hall .plaque.sealed{position:relative;overflow:visible;border-radius:3px;
+  background:
+    radial-gradient(130% 95% at 28% 0%, rgba(255,250,238,.55), transparent 60%),
+    repeating-linear-gradient(-38deg, rgba(0,0,0,.025) 0 2px, transparent 2px 5px),
+    linear-gradient(165deg,#e8dcc2,#dbcba8 55%,#cdbb95);
+  border:1px solid rgba(120,95,50,.30);
+  box-shadow:0 14px 28px -12px rgba(60,45,20,.45), 0 2px 6px rgba(60,45,20,.22),
+    inset 0 1px 0 rgba(255,252,244,.7), inset 0 -9px 14px -8px rgba(96,74,38,.30)}
+#hall .plaque.sealed:nth-child(odd){transform:rotate(-.35deg)}
+#hall .plaque.sealed:nth-child(even){transform:rotate(.3deg)}
+#hall .plaque.sealed::before{content:"";position:absolute;inset:0;pointer-events:none;border-radius:3px;
+  background:
+    linear-gradient(90deg,transparent calc(74% - 4px),rgba(122,94,40,.50) calc(74% - 4px),
+      rgba(155,124,62,.62) 74%,rgba(96,72,30,.50) calc(74% + 4px),transparent calc(74% + 4px)),
+    linear-gradient(0deg,transparent calc(50% - 3px),rgba(122,94,40,.45) calc(50% - 3px),
+      rgba(155,124,62,.56) 50%,rgba(96,72,30,.45) calc(50% + 3px),transparent calc(50% + 3px))}
+#hall .plaque.sealed::after{content:"";position:absolute;left:74%;top:50%;
+  width:32px;height:32px;margin:-16px 0 0 -16px;border-radius:50%;pointer-events:none;
+  background:radial-gradient(circle at 35% 30%, #b5904e, #8a6b2f 55%, #6b5423 82%);
+  box-shadow:0 3px 7px rgba(60,45,20,.5), inset 0 2px 3px rgba(255,240,200,.5),
+    inset 0 -3px 5px rgba(50,35,10,.55), inset 0 0 0 3px rgba(120,92,44,.35)}
+#hall .plaque.sealed .pl-name{color:rgba(74,56,22,.96)}
+#hall .plaque.sealed .pl-quote{color:rgba(16,20,32,.72)}
 #hall .doors{margin-top:1.1rem;font:400 .92rem/2 "JetBrains Mono",monospace;letter-spacing:.04em}
 #hall .doors a{color:rgba(122,94,40,.95);text-decoration:none;border-bottom:1px solid rgba(138,107,47,.35)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
- border-top:1px solid rgba(201,165,92,.16);font-size:.98rem;color:rgba(243,236,224,.72)}
+ border-top:1px solid rgba(138,107,47,.30);font-size:.98rem;color:rgba(16,20,32,.78)}
+ /* the page ends in the morning room — the footer is ink on that ivory, not ghost-ivory
+    on ivory (measured 1.01:1 before the 8/24 audit caught it) */
 /* ── the 1873 chamber: engraved stone, gilding = verification ── */
 .tablet{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
 .tablet-half{flex:1 1 18rem;min-width:0;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
@@ -194,9 +240,12 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   <div class="still" style="background-image:url(assets/plate-deep.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">II · The Deep</p>
-    <h2>Older than<em>the paper.</em></h2>
-    <p>Before the registry there was the rite, and before the rite there was the water. This chamber
-    holds the oldest layer of the record — the part the modern file has no column for.</p>
+    <h2>Start at<em>the beginning.</em></h2>
+    <!-- reworded 8/24, his direction: "it should say instead starting at the beginning because
+         proper pattern recognition makes everything easier or something like that" -->
+    <p>Get the first pattern right and every pattern after it gets easier to see. Before the
+    registry there was the rite, and before the rite there was the water — the oldest layer of
+    the record, the part the modern file has no column for.</p>
     <!-- copy gate: Kemet/Deep teaching copy awaits Joseph's own voice memo (Film Bible copy law).
          Held as a comment, NOT as visible page text — a production note is not display copy. -->
   </div></div>
@@ -231,11 +280,18 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   <div class="still" style="background-image:url(assets/plate-breach.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">IV · The Standing</p>
+    <h2>Who is<em>your maker?</em></h2>
     <p class="quote" style="max-width:36ch">Let us make man in our image, after our likeness: and
       let them have dominion&hellip;</p>
-    <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
-    <p>We are light beings living in a physical reality with the ability to project our own light.
+    <!-- his 8/24 dictation, normalized — the bridge he asked for: "fuse in there to bridge those
+         two together is who is your maker" -->
+    <p>If your maker is the state, you are always a subject &mdash; always the beneficiary, under
+      the rule of whoever created you. But if you know your Creator, you know your dominion and
+      you know your rights &mdash; and true freedom and sovereignty come through knowing. You are
+      a creation of God, not of the state.
       <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Genesis" target="_blank" rel="noopener">genesis 1:26 &middot; kjv &mdash; read it</a></p>
+    <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
+    <p>We are light beings living in a physical reality with the ability to project our own light.</p>
     <p>Many English translated words like &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic
       translation having a very different definition &amp; meaning. One makes you feel guilty the
       other makes you feel free. &ldquo;A cutting of a cord.&rdquo;
@@ -247,9 +303,10 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   </div></div>
 </section>
 
-<!-- V · THE JAR — the buried record surfaces -->
+<!-- V · THE JAR — the buried record surfaces. Plate: the uncovering at the cliff base
+     (gemini-3-pro-image t3, blind panel 24.3/30, 8/24). -->
 <section id="jar" style="height:335vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-deep.jpg)"></div>
+  <div class="still" style="background-image:url(assets/plate-naghammadi.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">V · The Jar</p>
     <p class="quote" style="max-width:34ch">The most important question is not what it contains&hellip;
@@ -279,6 +336,27 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       <img class="sig" src="assets/MARK-signature-rgba.png" alt="Signed, Joseph Fain McDaniel">
       <img class="mark" src="assets/MARK-thumbprint-rgba.png" alt="His thumbprint, pressed">
     </div>
+  </div></div>
+</section>
+
+<!-- VII · THE ANSWER — the hook, answered plainly. Inserted 8/24, his direction: "we're kind of
+     doing this thing here where we expect them to have the right answer… we need to provide the
+     answer to the questions that we're bringing forth and saying it plainly." Every display line
+     is HIS VERBATIM teaching from the Named by Water / PIRA(SEA) posts (skool harvest 8/17).
+     Act 5 = the procedural ivory page (the answer is written on the same paper he signed). -->
+<section id="answer" style="height:260vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">VII · The Answer</p>
+    <h2>The answer,<em>plainly.</em></h2>
+    <p class="quote" style="max-width:38ch">Your birth was treated as a commercial event. Your
+      future labor became collateral. Your ALL CAPS NAME became a bond.</p>
+    <p>The state didn&rsquo;t record your birth. They registered it. Most people are cargo because
+      no one told them there was a ship to captain.</p>
+    <p class="caption">And the record older than theirs? <em>You were formed, named, and known
+      before the system ever registered you.</em>
+      <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Jeremiah" target="_blank" rel="noopener">jeremiah 1:5 &middot; kjv &mdash; read it</a></p>
+    <p class="cite">Named by Water &middot; his own teaching, in his own words</p>
   </div></div>
 </section>
 
@@ -408,7 +486,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="kicker">The Ministry</p>
     <p class="quote" style="max-width:30ch">My body is a temple of the Holy Spirit.</p>
     <p class="quote" style="max-width:30ch">My body is a place of worship and reverence.</p>
-    <p class="quote" style="max-width:30ch;color:var(--gold);text-shadow:0 0 24px rgba(201,165,92,.35)">My body is tax exempt.</p>
+    <p class="quote" style="max-width:30ch;color:var(--gold);text-shadow:0 1px 3px rgba(4,6,10,.92),0 0 14px rgba(4,6,10,.8),0 0 24px rgba(201,165,92,.35)">My body is tax exempt.</p>
     <p class="cite">Title 8 Ministries™</p>
   </div></div>
 </section>
@@ -521,7 +599,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <section id="hall" style="height:300vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-morninghall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:60rem">
-    <p class="kicker">VII · The Hall</p>
+    <p class="kicker">VIII · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
 
@@ -645,7 +723,7 @@ const CHAM = {};
 /* The rooms you meet first are paid for up front. The last four are not reached until ~78%
    of the scroll, so they load in the background after the film is already running — the
    visitor never waits on a picture they are four minutes from seeing. */
-const EAGER = ["landfall","babylon","rome","church","sixteensixtysix","labanca"];
+const EAGER = ["naghammadi","landfall","babylon","rome","church","sixteensixtysix","labanca"];
 const LATER = ["ministry","wall","study","statutes","morninghall"];
 await Promise.all(EAGER.map(async k=>{
   CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
@@ -654,7 +732,8 @@ for (const k of LATER) CHAM[k] = [texHall, depHall];        /* stand-in until th
 setTimeout(()=>{ LATER.forEach(async k=>{
   CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
 }); }, 1800);
-const GRADE = {10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],
+const GRADE = {3:["naghammadi",-1],   /* act 3 reads tCham directly; grade unused */
+               10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],
                14:["labanca",4],15:["landfall",5],16:["ministry",6],17:["wall",7],
                18:["study",8],19:["statutes",9],20:["morninghall",10]};
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
@@ -877,25 +956,29 @@ vec3 actDeep(vec2 uv, float p){
   return col;
 }
 
-/* ═ ACT 3 · THE JAR — approach, then the tilt up ═ */
+/* ═ ACT 3 · THE JAR — the UNCOVERING (rebuilt 8/24, his call: "make a new image for this…
+   representing the uncovering of the lost Nag Hammadi scrolls"). Desert dawn at the cliff
+   base, the jar half-unearthed in the pit; approach across the sand, then push in to the
+   cracked mouth. Samples the CHAM pair (bound to the naghammadi plate for act 3).
+   ⛔ the old 5Hz "jar trembles" shake stays dead — nothing on this site shakes. */
 vec3 actJar(vec2 uv, float p){
   vec2 cuv = cover(uv);
   float appr = smoothstep(0.,.42,p);
-  float tilt = smoothstep(.45,1.,p);
-  float trem = smoothstep(.3,.42,p)*(1.-tilt);
-  vec2 c = mix(vec2(.5,.42), vec2(.655,.60), appr);                /* toward the jar at the column */
-  cuv = zoomAt(cuv, c, 1.22+.5*appr+.15*tilt);
-  cuv.y = clamp(cuv.y + tilt*.34, .001,.999);                      /* the RISE begins inside the DRIFT —
-                                                                      looking UP into the dark water (GL v grows upward) */
-  cuv += trem*vec2(sin(uTime*31.)*.0016, cos(uTime*27.)*.0013);    /* the jar trembles */
-  float d = texture2D(dDeep,cuv).r;
-  cuv += (d-.5)*vec2(uMouse.x*.024, uMouse.y*.014);
-  vec3 col = texture2D(tDeep,cuv).rgb;
-  col *= 1. + caustic(cuv*vec2(2.6,1.8), uTime)*smoothstep(.55,.15,cuv.y)*.10;
-  col *= 1.-tilt*.25;                                              /* the water above is darker, holier */
-  col += vec3(.9,.8,.6)*tilt*.04;
-  col *= .95;
-  vec2 o=uv-.5; col *= 1.-dot(o,o)*(.6-.25*tilt);
+  float push = smoothstep(.45,1.,p);
+  vec2 c = mix(vec2(.5,.46), vec2(.50,.39), appr);                 /* toward the jar mouth (GL v) */
+  cuv = zoomAt(cuv, c, 1.05+.30*appr+.55*push);
+  float d = texture2D(dCham,cuv).r;
+  cuv += (d-.5)*vec2(uMouse.x*.026, uMouse.y*.014);
+  vec3 col = texture2D(tCham,cuv).rgb;
+  float dawn = smoothstep(.95,.05,cuv.x);                          /* the light rakes from the left */
+  /* the arc law holds: the dark does not break at the jar. The plate is a bright sand scene —
+     the act takes it DOWN to first-light-before-sunrise and lets the dawn pick out the jar. */
+  col *= .62 + .20*appr;
+  col += vec3(1.,.84,.52)*dawn*(.08+.10*appr)*(1.-push*.5);
+  col = mix(col, col*vec3(.90,.94,1.05), (1.-dawn)*.20);           /* night holds the far shadows */
+  col *= 1.-push*.22;                                              /* pushing in: the pit's shadow */
+  col += vec3(1.,.86,.55)*push*.05*smoothstep(.25,.0,distance(cuv,vec2(.50,.39)));  /* the mouth glows */
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*(.52+.20*push);
   return col;
 }
 
@@ -1137,17 +1220,20 @@ vec3 actPaper(vec2 uv, float p){
   if(uGrade==5 || uGrade==10){
     /* Landfall runs ink-on-ivory — the scrim must LIFT the paper under the centred copy,
        not darken it. Same idea, opposite direction. */
-    float band = smoothstep(.98,.30,distance(uv,vec2(.5,.5)));
-    col = mix(col, col*1.06+vec3(.045,.043,.038), band*.85);
+    float band = smoothstep(1.05,.25,distance(uv,vec2(.5,.5)));
+    col = mix(col, col*1.09+vec3(.06,.057,.050), band*.95);
   } else {
     /* ⛔ The scrim used to be a fixed curve tuned to the plates that existed when it was
        written, and the next five plates broke it — the Language Wall's limestone dropped the
        citation type to 2.95:1. It now aims at an ABSOLUTE target luminance instead: darken
        the copy side until what is behind the type is dark enough, whatever the plate is.
        Self-correcting for every plate added after this one. */
-    float target = 0.019;   /* the Language Wall's limestone is the brightest plate on the site */
-    float k = clamp(1.0 - target/max(lumHere, 0.0005), 0.0, 0.90);
-    col *= 1.0 - smoothstep(.86,.10,uv.x)*k;
+    float target = 0.014;   /* tightened 8/24 — his eyes said the chambers still blended */
+    float k = clamp(1.0 - target/max(lumHere, 0.0005), 0.0, 0.93);
+    /* ⛔ the old band faded from x=.10 — full strength only at the far-left EDGE, so the
+       right half of the copy column was barely scrimmed (measured: church quote 2.1:1).
+       The plateau now holds through the whole column and releases past it. */
+    col *= 1.0 - smoothstep(.95,.58,uv.x)*k;
   }
   vec2 o=uv-.5; col *= 1.-dot(o,o)*.52;                 /* softened: .66 was crushing the corners */
   return col;
@@ -1191,6 +1277,24 @@ void main(){
       float up   = smoothstep(.5,1.,b);
       col = col*down + colB*up;
     }
+  }
+  /* UNIVERSAL COPY-SIDE SCRIM (8/24 — "some of the words are still blending into the
+     background"). The chamber rooms had an adaptive scrim; the water acts, the 1873 corridor
+     and the new procedural acts had NONE — the jar's bright caustic floor sat straight behind
+     the small caps. Same per-pixel absolute-target limiter as actPaper, applied to every dark
+     act that carries a left copy column. Ivory acts (5) and the seal keep their own treatment. */
+  int shown = uBlend>0.5 ? uActB : uActA;
+  /* ⛔ 30/31 were in this set for one build and the scrim ate their own light show — the
+     moving point and the vesica ARE the content and their voids are already ink-dark.
+     Waters/deep measured ≥6:1 with the halo alone. Only the jar's bright caustic floor
+     and the 1873 corridor actually needed shader help. */
+  bool leftCopy = (shown==1||shown==2||shown==3||shown==7);   /* waters + deep + jar + 1873 —
+     the per-pixel limiter dims only bright patches under the copy column, so the Pilgrim's
+     dark silhouette and each plate's subject survive on the right */
+  if(leftCopy){
+    float lumHere = dot(col, vec3(.299,.587,.114));
+    float k = clamp(1.0 - 0.014/max(lumHere, 0.0005), 0.0, 0.93);
+    col *= 1.0 - smoothstep(.95,.58,uv.x)*k;
   }
   col += vec3(1.,.98,.92)*uFlash;                                  /* the film's single flash */
   gl_FragColor = vec4(col,1.0);
@@ -1273,6 +1377,7 @@ composer.addPass(grainPost);
 /* The act table is DERIVED from the real section geometry — the hand-kept table had to be
    "remapped" by hand after every new movement, and a hand-kept table drifts. */
 const ACT_OF = {seal:0, waters:1, deep:2, creation:30, standing:31, jar:3, breach:4, landfall:15,
+                answer:5,   /* the procedural ivory page — actLand found its section again 8/24 */
                 babylon:10, rome:11, church:12, cestui:13, labanca:14,
                 ministry:16, chamber1873:7, wall:17, study:18, statutes:19, hall:20};
 /* ⛔ ids 30/31 are PROCEDURAL acts (creation, standing) — they must never enter the
@@ -1345,7 +1450,7 @@ function setActs(p){
   if(i<ACTS.length-1 && (A.e-p)<bw){ B=ACTS[i+1]; blend=1-(A.e-p)/bw; }
   /* bind at the blend midpoint: before .5 only A is on screen, after .5 only B */
   const shown = (blend>0.5 ? B : A);
-  if(shown.id>=10 && shown.id<30){
+  if((shown.id>=10 && shown.id<30) || shown.id===3){
     const [key,g] = GRADE[shown.id];
     F.uniforms.tCham.value = CHAM[key][0];
     F.uniforms.dCham.value = CHAM[key][1];
@@ -1371,7 +1476,7 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   sealT = ACTS[0] ? Math.min(1, Math.max(0, p/(ACTS[0].e*0.82))) : 1;   /* shots must see the same seal the scroll does */
   F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=sealT; F.uniforms.uFlash.value=0;
   const A = ACTS.find(a=>p>=a.s&&p<a.e)||ACTS[ACTS.length-1];
-  if(A.id>=10 && A.id<30){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
+  if((A.id>=10 && A.id<30) || A.id===3){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
                 F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g; }
   const local=(p-A.s)/(A.e-A.s);
   const rise = A.id===3? Math.max(0,Math.min(1,(local-.42)/.58)) : A.id>3?1:0;
@@ -1385,9 +1490,9 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
                    -2.6+rr*(4.2+((i*5)%13)*.32), -.35*(1-e)+tz*e);
     const sc=1+rr*1.3; m.scale.set(sc,sc,sc);
     m.rotation.set(Math.sin(tSec*.4+d.ph)*.4+.2, d.a+tSec*.22, Math.sin(tSec*.5+d.ph)*.3);});
-  silt.material.opacity=(A.id>=1&&A.id<=3)? .5:0;
-  motes.material.opacity=A.id===6? .35 : (A.id>=10&&A.id<30? .30 : (A.id>=1&&A.id<=3? .15:0));
-  motes.material.color.setHex(A.id===6? 0xd8bd92 : (A.id>=10&&A.id<30? 0xcbb894 : 0xa8cdd6));
+  silt.material.opacity=(A.id>=1&&A.id<=2)? .5:0;   /* jar is the desert now */
+  motes.material.opacity=A.id===6? .35 : (A.id>=10&&A.id<30? .30 : (A.id===3? .26 : (A.id>=1&&A.id<=2? .15:0)));
+  motes.material.color.setHex((A.id===6||A.id===3)? 0xd8bd92 : (A.id>=10&&A.id<30? 0xcbb894 : 0xa8cdd6));
   F.uniforms.uJitter.value.set(0,0);   /* shots stay deterministic */
   bubbles.material.opacity=A.id===4? .6:0;
   grain.uniforms.t.value=tSec; grainPost.uniforms.t.value=tSec; grain.uniforms.vig.value=A.id===5?.12:.5;
@@ -1417,7 +1522,7 @@ renderer.setAnimationLoop(t=>{
   F.uniforms.uFlash.value = flash*flash*.85;
 
   /* silt lives in the water acts */
-  const inWater = (A.id>=1&&A.id<=3) ? 1 : 0;
+  const inWater = (A.id>=1&&A.id<=2) ? 1 : 0;       /* jar is the desert now */
   silt.material.opacity += ((inWater? .5:0)-silt.material.opacity)*(1-Math.exp(-2*dt));
   silt.rotation.y = T*.014; silt.position.y = ((cur*8)%2)-1;
   /* bubbles rise with the breach */
@@ -1466,10 +1571,10 @@ renderer.setAnimationLoop(t=>{
   /* near motes: dust in the candle heat (hall + ministry approach), faint silt twin in water */
   const inHall = A.id===6 ? 1 : 0;
   const inCham = (A.id>=10 && A.id<30) ? 1 : 0;    /* the Paper Chains rooms take dust too */
-  const moteTarget = inHall? .35 : (inCham? .30 : (A.id>=1&&A.id<=3? .15:0));
+  const moteTarget = inHall? .35 : (inCham? .30 : (A.id===3? .26 : (A.id>=1&&A.id<=2? .15:0)));
   motes.material.opacity += (moteTarget - motes.material.opacity)*(1-Math.exp(-2*dt));
   motes.rotation.y = -T*.008; motes.position.y = Math.sin(T*.05)*.3 + (inCham? local*.9 : 0);
-  motes.material.color.setHex(inHall? 0xd8bd92 : (inCham? 0xcbb894 : 0xa8cdd6));
+  motes.material.color.setHex((inHall||A.id===3)? 0xd8bd92 : (inCham? 0xcbb894 : 0xa8cdd6));
 
   composer.render();
 });
