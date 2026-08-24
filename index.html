@@ -21,6 +21,25 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
   :where(.kicker,.cite){text-shadow:0 1px 3px rgba(4,6,10,.95),0 0 10px rgba(4,6,10,.88),0 0 20px rgba(4,6,10,.6)}
 /* the new movements' chips ride open light — a quiet ink pill keeps the gold legible */
 #creation .chip,#standing .chip{background:rgba(4,6,10,.55);border-radius:999px}
+/* QUIET GLASS (8/24 — his eyes: the darkening scrims went too far; the pre-8/24 chambers
+   were right). The shader scrim is back at its original grade and the universal per-pixel
+   scrim is gone; readability now rides a scoped glass panel behind the copy column of each
+   dark room, so the plate keeps its light and the type keeps its ground. */
+#waters .wrap,#deep .wrap,#jar .wrap,#babylon .wrap,#rome .wrap,#church .wrap,
+#cestui .wrap,#labanca .wrap,#ministry .wrap,#study .wrap,#statutes .wrap{
+  background:linear-gradient(180deg,rgba(6,9,16,.55),rgba(6,9,16,.15));
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  padding:1.6rem 1.8rem;border-radius:6px;
+  box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
+/* the Language Wall breathes (8/24 — content slammed left): wider field, three tiles
+   across on wide screens, the intro quote on its own quiet glass, more vertical rhythm */
+@media (min-width:1280px){#wall .tiles{grid-template-columns:repeat(3,1fr)}}
+#wall .quote{background:linear-gradient(180deg,rgba(6,9,16,.55),rgba(6,9,16,.15));
+  -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+  padding:1.4rem 1.6rem;border-radius:6px;
+  box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
+#wall .plaques{margin-top:2.4rem}
+#wall .caption{margin-top:2.2rem}
 body{margin:0;background:var(--ink);color:var(--ivory);
  font:400 clamp(16px,1.15vw,19px)/1.75 "EB Garamond",Georgia,serif;-webkit-font-smoothing:antialiased}
 #gl{position:fixed;inset:0;z-index:0;display:block}
@@ -223,7 +242,10 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- I · THE WATERS — descent -->
-<section id="waters" style="height:495vh;align-items:flex-start">
+<!-- PACING LAW 8/24: hero motion beats are immutable — the page grew, so the swim was
+     diluted (495vh at 3200vh total = 15.5%; at ~5800vh it read at 8.5%). Restored to full
+     length: the Pilgrim's swim is the register for every motion beat on this site. -->
+<section id="waters" style="height:750vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-waters.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">I · The Waters</p>
@@ -232,11 +254,13 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p>The certificate was registered, not recorded. That single word is the hinge, and almost
     nobody is ever shown it. Each document addresses a different layer: existence, identity,
     and jurisdictional standing.</p>
+    <!-- connective hand-off (the flow law, 8/24) — ⚠️ data-pending-confirm: his blessing -->
+    <p class="cite" data-pending-confirm>The story starts far earlier than your birth. Go down.</p>
   </div></div>
 </section>
 
 <!-- II · THE DEEP — the sunken record -->
-<section id="deep" style="height:460vh;align-items:flex-start">
+<section id="deep" style="height:400vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-deep.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">II · The Deep</p>
@@ -269,6 +293,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
     <p>Physical reality starts first as a projection of light. This is the first pattern of creation
       we should recognize. This is the building block of all reality.</p>
+    <!-- connective hand-off (the flow law, 8/24) — ⚠️ data-pending-confirm: his blessing -->
+    <p class="cite" data-pending-confirm>The first pattern carries the first grant.</p>
   </div></div>
 </section>
 
@@ -276,7 +302,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
      status and standing as the through-line — "the creditor and trustee standpoint rather than
      the beneficiary position." The Shabak paragraph is HIS VERBATIM prose from his own
      correspondence (dictation-harvest-2026-08-23.md §2). Act 31, procedural (the vesica). -->
-<section id="standing" style="height:300vh;align-items:flex-start">
+<section id="standing" style="height:420vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-breach.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">IV · The Standing</p>
@@ -290,22 +316,26 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       you know your rights &mdash; and true freedom and sovereignty come through knowing. You are
       a creation of God, not of the state.
       <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Genesis" target="_blank" rel="noopener">genesis 1:26 &middot; kjv &mdash; read it</a></p>
-    <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
-    <p>We are light beings living in a physical reality with the ability to project our own light.</p>
-    <p>Many English translated words like &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic
-      translation having a very different definition &amp; meaning. One makes you feel guilty the
-      other makes you feel free. &ldquo;A cutting of a cord.&rdquo;
-      <a class="chip" href="https://www.blueletterbible.org/lexicon/h7662/kjv/wlc/0-1/" target="_blank" rel="noopener">&#353;&#601;baq in the lexicon &mdash; check him</a></p>
+    <!-- his verbatim prose (post, 8/23) + his breath-of-life dictation (8/24, harvest §7): -->
+    <p>We are light beings living in a physical reality with the ability to project our own light.
+      Without the life that has been breathed into us, we are only a creature. The light of the
+      Most High is what gives us life &mdash; <em>the kingdom of God is within you</em> &mdash;
+      and it can only ever be contained and recycled, never destroyed.
+      <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Luke" target="_blank" rel="noopener">luke 17:21 &middot; kjv &mdash; read it</a></p>
+    <p>This is our most powerful generator. This is our creative force. This is our sovereign
+      force. This is where sovereignty truly comes from.</p>
     <!-- wording delegated by Joseph 8/23 ("use me as inspiration but worded however you think
          would be best") — grounded in his dictation; "never told" echoes the Waters beat. -->
     <p class="cite">This is about status and standing &mdash; standing as creditor and trustee,
       not as the beneficiary who was never told.</p>
+    <!-- connective hand-off (the flow law, 8/24) — ⚠️ data-pending-confirm: his blessing -->
+    <p class="cite" data-pending-confirm>What we knew was edited. What was edited was buried.</p>
   </div></div>
 </section>
 
 <!-- V · THE JAR — the buried record surfaces. Plate: the uncovering at the cliff base
      (gemini-3-pro-image t3, blind panel 24.3/30, 8/24). -->
-<section id="jar" style="height:335vh;align-items:flex-start">
+<section id="jar" style="height:380vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-naghammadi.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">V · The Jar</p>
@@ -315,12 +345,20 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       which books were acceptable — and ordered that all others be destroyed. The books were not lost
       by accident. The monks sealed them in a jar and placed them in the ground.
       <a class="chip" href="https://www.newadvent.org/fathers/2806039.htm" target="_blank" rel="noopener">festal letter 39, 367 — read it</a></p>
+    <!-- his verbatim (Lance thread, harvest §2) — MOVED here from the Standing 8/24, his note:
+         it belongs with the buried, edited message, not with the maker question. -->
+    <p>And what survived was edited in translation. Many English translated words like
+      &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic translation having a very different
+      definition &amp; meaning. One makes you feel guilty the other makes you feel free.
+      &ldquo;A cutting of a cord.&rdquo;
+      <a class="chip" href="https://www.blueletterbible.org/lexicon/h7662/kjv/wlc/0-1/" target="_blank" rel="noopener">&#353;&#601;baq in the lexicon &mdash; check him</a></p>
     <p class="cite">A quiet act of preservation in the face of an official destruction order</p>
   </div></div>
 </section>
 
-<!-- IV · THE BREACH — rise. The rise is quiet: no copy. -->
-<section id="breach" style="height:355vh">
+<!-- IV · THE BREACH — rise. The rise is quiet: no copy.
+     PACING LAW 8/24: hero motion beat restored to length — the rise breathes again. -->
+<section id="breach" style="height:500vh">
   <div class="still" style="background-image:url(assets/plate-breach.jpg)"></div>
 </section>
 
@@ -344,13 +382,16 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
      answer to the questions that we're bringing forth and saying it plainly." Every display line
      is HIS VERBATIM teaching from the Named by Water / PIRA(SEA) posts (skool harvest 8/17).
      Act 5 = the procedural ivory page (the answer is written on the same paper he signed). -->
-<section id="answer" style="height:260vh;align-items:flex-start">
+<section id="answer" style="height:300vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">VII · The Answer</p>
     <h2>The answer,<em>plainly.</em></h2>
     <p class="quote" style="max-width:38ch">Your birth was treated as a commercial event. Your
       future labor became collateral. Your ALL CAPS NAME became a bond.</p>
+    <!-- his 8/24 dictation (harvest §7): the NAME's proper name in US jurisprudence -->
+    <p>In United States jurisprudence it even has a name: the sole proprietor &mdash; a benefit
+      provided and owned by the Social Security trust, created after your birth.</p>
     <p>The state didn&rsquo;t record your birth. They registered it. Most people are cargo because
       no one told them there was a ship to captain.</p>
     <p class="caption">And the record older than theirs? <em>You were formed, named, and known
@@ -474,6 +515,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       <span class="waypoint"><b>1972</b> the interest does not have to be in his pocket
         <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep409/usrep409057/usrep409057.pdf" target="_blank" rel="noopener">ward v. village of monroeville, 409 u.s. 57</a></span>
     </div>
+    <!-- connective hand-off (the flow law, 8/24) — ⚠️ data-pending-confirm: his blessing -->
+    <p class="cite" data-pending-confirm>Everything the bench holds attaches to one asset &mdash; a body. Yours.</p>
   </div></div>
 </section>
 
@@ -531,7 +574,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
      (affidavit v10 ¶20B a–h, ¶20I). bin/hall-gates string-matches these against the v10 file. -->
 <section id="wall" style="height:220vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-wall.jpg)"></div>
-  <div class="hold"><div class="wrap reveal" style="max-width:66rem">
+  <div class="hold"><div class="wrap reveal" style="max-width:72rem">
     <p class="kicker">The Language Wall · eight definitions of one word</p>
     <p class="quote" style="max-width:40ch">I contend that a word bearing seven meanings is capable of being
     applied to the wrong one; that where my rights are at stake I am entitled to know
@@ -852,6 +895,13 @@ float caustic(vec2 p, float t){
   return c;
 }
 
+/* distance from a point to a line segment — the platonic solid's wireframe */
+float segd(vec2 p, vec2 a, vec2 b){
+  vec2 pa=p-a, ba=b-a;
+  float h=clamp(dot(pa,ba)/dot(ba,ba),0.,1.);
+  return length(pa-ba*h);
+}
+
 /* ═ ACT 0 · THE SEAL — his marks, lit as relief. No geometry. ═ */
 float waxEdge(vec2 d){ /* irregular hand-poured edge — harmonics + noise so no two lobes match */
   float an = atan(d.y,d.x);
@@ -870,6 +920,9 @@ float sealHeight(vec2 q, out float inWax){
   return body*.5 + rim*.35 - print*.38;              /* print pressed IN */
 }
 vec3 actSeal(vec2 uv, float p){
+  /* the camera approaches the document — a slow push-in so the scroll always moves the
+     frame (movement law; the pressed seal's second half used to hold dead still) */
+  uv = (uv-.5)/(1.+.07*p)+.5;
   vec2 asp = vec2(uRes.x/uRes.y, 1.0);
   vec2 q = (uv-.5)*asp;
   /* paper field — ink-dark, large quiet grain; must never read as woven fabric */
@@ -1011,15 +1064,18 @@ vec3 actCreation(vec2 uv, float p){
   return col;
 }
 
-/* ═ ACT 31 · THE STANDING — the vesica, then the pattern: two circles of light draw themselves,
-   the light comes through the opening, and the pattern completes into the SEED OF LIFE — six
-   circles around the one, exact geometry, gold on the dark. His post is the brief: "the particles
-   organize by a very distinct and specific pattern… out of the seed of life comes the flower." ═ */
+/* ═ ACT 31 · THE STANDING — the pattern COMPLETES (his post is the whole brief): the vesica
+   draws itself, light through the opening, the SEED OF LIFE blooms — then the FLOWER OF LIFE
+   (two more rings, 19 circles) and out of the flower, PHYSICAL MATTER: a platonic solid
+   turning in gold wire. "Out of the seed of life comes the flower of life. From the flower
+   of life you get the 5 Platonic solids or physical matter." Extended 8/24, his review. ═ */
 vec3 actStanding(vec2 uv, float p){
   vec2 asp = vec2(uRes.x/uRes.y,1.);
-  float draw = smoothstep(0.,.38,p);                               /* the second circle is drawn */
-  float open = smoothstep(.38,.62,p);                              /* the vesica fills with light */
-  float seed = smoothstep(.62,.95,p);                              /* the seed of life blooms */
+  float draw   = smoothstep(0.,.20,p);                             /* the second circle is drawn */
+  float open   = smoothstep(.20,.38,p);                            /* the vesica fills with light */
+  float seed   = smoothstep(.38,.58,p);                            /* the seed of life blooms */
+  float flower = smoothstep(.56,.78,p);                            /* two more rings — nineteen circles */
+  float solid  = smoothstep(.78,.97,p);                            /* the pattern becomes matter */
   float R = .19;
   vec2 ctr = vec2(.5,.46);
   vec2 c1 = ctr - vec2(R*.5*draw,0.), c2 = ctr + vec2(R*.5*draw,0.);
@@ -1028,20 +1084,59 @@ vec3 actStanding(vec2 uv, float p){
   float ring1 = exp(-abs(d1-R)*95.);
   float ring2 = exp(-abs(d2-R)*95.)*draw;
   vec3 gold = vec3(.85,.66,.30);
-  col += gold*(ring1+ring2)*(.35+.22*open)*(1.-.35*seed);
+  col += gold*(ring1+ring2)*(.35+.22*open)*(1.-.35*seed)*(1.-.30*solid);
   float inV = smoothstep(R,R-.015,d1)*smoothstep(R,R-.015,d2);     /* inside both circles */
   float pulse = 1.+.05*sin(uTime*.8);
-  col += vec3(1.,.90,.66)*inV*open*.48*pulse*(1.-.4*seed);         /* light through the opening */
+  col += vec3(1.,.90,.66)*inV*open*.48*pulse*(1.-.4*seed)*(1.-.5*solid);  /* light through the opening */
   /* the seed of life: the two circles resolve to ONE center ring and six around it, each
      drawn in sequence — the pattern completing itself */
   float ctrRing = exp(-abs(distance(uv*asp,ctr*asp)-R)*95.);
-  col += gold*ctrRing*seed*.5;
+  col += gold*ctrRing*seed*.5*(1.-.30*solid);
   for(int i=0;i<6;i++){
     float a = 6.2831853*float(i)/6.;
     float on = smoothstep(float(i)/7., float(i)/7.+.18, seed);     /* one by one */
     vec2 cc = ctr + vec2(cos(a),sin(a))*R/asp;
-    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.40;
+    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.40*(1.-.30*solid);
     col += vec3(1.,.90,.66)*exp(-distance(uv*asp,cc*asp)*24.)*on*.05;  /* a petal of glow at each center */
+  }
+  /* the FLOWER OF LIFE — two more rings, nineteen circles total: six at 2R on the seed's
+     own axes, six at (√3)R on the half-angles, each drawn in sequence */
+  for(int i=0;i<12;i++){
+    float inner = step(float(i), 5.5);
+    float a  = mix(6.2831853*(float(i)-6.)/6. + .5235988, 6.2831853*float(i)/6., inner);
+    float rr = mix(1.7320508*R, 2.*R, inner);
+    float on = smoothstep(float(i)/13., float(i)/13.+.16, flower);
+    vec2 cc = ctr + vec2(cos(a),sin(a))*rr/asp;
+    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.34*(1.-.35*solid);
+  }
+  /* THE PLATONIC SOLID — the finale: a hexahedron in gold wire, born out of the flower,
+     turning slowly. Twelve edges = twelve segment-distance evals; nothing else is drawn. */
+  if(solid>0.001){
+    float rt = uTime*.22 + solid*1.6;
+    float cy=cos(rt), sy=sin(rt);
+    float rx = .62 + .10*sin(uTime*.13);
+    float cx=cos(rx), sx=sin(rx);
+    float S = R*1.15*(.35+.65*solid);
+    vec2 P = uv*asp - ctr*asp;
+    for(int i=0;i<12;i++){
+      int ax = i/4; int k = i-ax*4;
+      float u = float(k-(k/2)*2)*2.-1.;
+      float v = float(k/2)*2.-1.;
+      vec3 e0,e1;
+      if(ax==0){ e0=vec3(-1.,u,v); e1=vec3(1.,u,v); }
+      else if(ax==1){ e0=vec3(u,-1.,v); e1=vec3(u,1.,v); }
+      else { e0=vec3(u,v,-1.); e1=vec3(u,v,1.); }
+      vec3 q0 = vec3(cy*e0.x+sy*e0.z, e0.y, -sy*e0.x+cy*e0.z);
+      q0 = vec3(q0.x, cx*q0.y-sx*q0.z, sx*q0.y+cx*q0.z);
+      vec3 q1 = vec3(cy*e1.x+sy*e1.z, e1.y, -sy*e1.x+cy*e1.z);
+      q1 = vec3(q1.x, cx*q1.y-sx*q1.z, sx*q1.y+cx*q1.z);
+      vec2 p0 = q0.xy*S*(1.6/(1.6-q0.z*.35));
+      vec2 p1 = q1.xy*S*(1.6/(1.6-q1.z*.35));
+      float ds = segd(P, p0, p1);
+      col += gold*exp(-ds*230.)*solid*.55;
+      col += vec3(1.,.90,.66)*exp(-ds*40.)*solid*.045;             /* the wire's own halo */
+    }
+    col += vec3(1.,.88,.60)*exp(-length(P)*3.0)*solid*.10;         /* matter holds the light */
   }
   col += vec3(1.,.88,.60)*exp(-distance(uv*asp,ctr*asp)*3.5)*(open*.14+seed*.10);
   float ca = caustic(uv*vec2(3.,2.2)+vec2(0.,uTime*.02), uTime);   /* the faintest shimmer of the deep */
@@ -1152,14 +1247,17 @@ vec3 actPaper(vec2 uv, float p){
     col = (col-.5)*1.10+.5;
     col += shaft(tCham, cuv, vec2(.22-.10*p,.86), .26)*vec3(.82,.88,1.0);
     col = mix(col, col*vec3(.70,.74,.82)+vec3(.014,.016,.022), far*.62);
-  } else if(uGrade==2){                                 /* the Church — one candle, gold, hard fall-off */
+  } else if(uGrade==2){                                 /* the Church — one candle, gold, hard fall-off
+       (lifted 8/24 PM with the brightness restore: the room measured lum 5/255 — the candle
+       could not even show the dolly moving; character kept, exposure raised) */
     float fl = 1.+.038*sin(uTime*12.1)+.026*sin(uTime*7.7+2.3)+.014*sin(uTime*19.3);
-    vec2 src = vec2(.76-.08*p, .44+.05*p);
-    col *= fl*vec3(1.07,.98,.86);
-    col += vec3(1.,.74,.38)*smoothstep(.46,.0,distance(cuv,src))*.10*fl;
-    col += shaft(tCham, cuv, src, .30)*vec3(1.,.78,.42)*fl;
-    col = mix(col, col*vec3(.60,.55,.52)+vec3(.012,.009,.007), far*.70);
-    vec2 o2=uv-.5; col *= 1.-dot(o2,o2)*.34;
+    /* the candle WALKS the nave with you — the one light this room has is the motion */
+    vec2 src = vec2(.80-.26*p, .40+.14*p);
+    col *= fl*vec3(1.45,1.28,1.06);
+    col += vec3(1.,.74,.38)*smoothstep(.60,.0,distance(cuv,src))*.26*fl;
+    col += shaft(tCham, cuv, src, .48)*vec3(1.,.78,.42)*fl;
+    col = mix(col, col*vec3(.62,.57,.54)+vec3(.014,.011,.008), far*.45);
+    vec2 o2=uv-.5; col *= 1.-dot(o2,o2)*.20;
   } else if(uGrade==3){                                 /* 1666 — an unheated room, one distant ember */
     vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
     col = mix(col, g*vec3(.86,.92,1.10), .38);
@@ -1228,12 +1326,10 @@ vec3 actPaper(vec2 uv, float p){
        citation type to 2.95:1. It now aims at an ABSOLUTE target luminance instead: darken
        the copy side until what is behind the type is dark enough, whatever the plate is.
        Self-correcting for every plate added after this one. */
-    float target = 0.014;   /* tightened 8/24 — his eyes said the chambers still blended */
-    float k = clamp(1.0 - target/max(lumHere, 0.0005), 0.0, 0.93);
-    /* ⛔ the old band faded from x=.10 — full strength only at the far-left EDGE, so the
-       right half of the copy column was barely scrimmed (measured: church quote 2.1:1).
-       The plateau now holds through the whole column and releases past it. */
-    col *= 1.0 - smoothstep(.95,.58,uv.x)*k;
+    float target = 0.019;   /* restored 8/24 PM — the .014 tightening went too far; his eyes
+       preferred the brighter chambers. Readability now rides the quiet-glass CSS panels. */
+    float k = clamp(1.0 - target/max(lumHere, 0.0005), 0.0, 0.90);
+    col *= 1.0 - smoothstep(.86,.10,uv.x)*k;
   }
   vec2 o=uv-.5; col *= 1.-dot(o,o)*.52;                 /* softened: .66 was crushing the corners */
   return col;
@@ -1278,24 +1374,9 @@ void main(){
       col = col*down + colB*up;
     }
   }
-  /* UNIVERSAL COPY-SIDE SCRIM (8/24 — "some of the words are still blending into the
-     background"). The chamber rooms had an adaptive scrim; the water acts, the 1873 corridor
-     and the new procedural acts had NONE — the jar's bright caustic floor sat straight behind
-     the small caps. Same per-pixel absolute-target limiter as actPaper, applied to every dark
-     act that carries a left copy column. Ivory acts (5) and the seal keep their own treatment. */
-  int shown = uBlend>0.5 ? uActB : uActA;
-  /* ⛔ 30/31 were in this set for one build and the scrim ate their own light show — the
-     moving point and the vesica ARE the content and their voids are already ink-dark.
-     Waters/deep measured ≥6:1 with the halo alone. Only the jar's bright caustic floor
-     and the 1873 corridor actually needed shader help. */
-  bool leftCopy = (shown==1||shown==2||shown==3||shown==7);   /* waters + deep + jar + 1873 —
-     the per-pixel limiter dims only bright patches under the copy column, so the Pilgrim's
-     dark silhouette and each plate's subject survive on the right */
-  if(leftCopy){
-    float lumHere = dot(col, vec3(.299,.587,.114));
-    float k = clamp(1.0 - 0.014/max(lumHere, 0.0005), 0.0, 0.93);
-    col *= 1.0 - smoothstep(.95,.58,uv.x)*k;
-  }
+  /* ⛔ the 8/24 universal copy-side scrim is DELETED (his eyes: the darkening went too far —
+     it dimmed the Pilgrim's own water). Readability for the water acts, the jar and the 1873
+     corridor now rides the quiet-glass CSS panels behind the copy columns + the halos. */
   col += vec3(1.,.98,.92)*uFlash;                                  /* the film's single flash */
   gl_FragColor = vec4(col,1.0);
 }`});
@@ -1397,7 +1478,9 @@ buildActs();
 /* BLEND was a fixed slice of the WHOLE page. At 3200vh that was fine; at 4620vh the short
    movements are proportionally shorter, and the Statutes turn (2.6% of the page) was spending
    ~92% of itself dipping to black. The window now scales with each act's own span. */
-const BLEND_MAX = .024, BLEND_FRAC = .22;
+/* BLEND_FRAC .22→.19 (8/24 pacing law): after re-proportioning, the dip share measured
+   20.8% of total scroll — the law caps transitions at 15–20%. At .19 it sits at 18.4%. */
+const BLEND_MAX = .024, BLEND_FRAC = .19;
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
 const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),
@@ -1428,6 +1511,31 @@ function fitSections(){
 fitSections();
 addEventListener("resize", fitSections);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSections);
+
+/* PACING LAW (8/24): copy holds STILL until ~82% of its own section, then fades over the
+   last ~15% — no reader is ever mid-paragraph while a movement hands off. Flow sections
+   (copy taller than the screen) scroll naturally and are left alone, as are sections whose
+   pin span is zero. The fade rides the wrap so the reveal's per-child entrance still wins. */
+const FADE_START=.82, FADE_SPAN=.15;
+let FADE_SECS=[];
+function buildFadeSecs(){
+  FADE_SECS=[...document.querySelectorAll("main section")]
+    .map(sec=>({sec, w:sec.querySelector(".hold > .wrap")}))
+    .filter(x=>x.w);
+}
+buildFadeSecs();
+addEventListener("resize", buildFadeSecs);
+function fadeCopy(){
+  for (const {sec,w} of FADE_SECS){
+    if (sec.classList.contains("flow")){ if(w.style.opacity) w.style.opacity=""; continue; }
+    const span = sec.offsetHeight - innerHeight;
+    if (span<=0){ if(w.style.opacity) w.style.opacity=""; continue; }
+    const local = (scrollY - sec.offsetTop)/span;
+    if (local<-0.05 || local>1.25){ if(w.style.opacity) w.style.opacity=""; continue; }
+    const o = local>FADE_START ? Math.max(0, 1-(local-FADE_START)/FADE_SPAN) : 1;
+    w.style.opacity = o.toFixed(3);
+  }
+}
 
 const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("on"); }),
   {threshold:.18});
@@ -1509,6 +1617,7 @@ renderer.setAnimationLoop(t=>{
   const sealScroll = ACTS[0] ? Math.min(1, Math.max(0, cur/(ACTS[0].e*0.82))) : 0;
   sealT = Math.max(Math.min(1, sealT + dt*.42), sealScroll);
   const {A, local} = setActs(cur);
+  fadeCopy();                                                      /* hold still, then fade (pacing law) */
   F.uniforms.uTime.value=T; F.uniforms.uSealT.value=sealT;
   F.uniforms.uMouse.value.lerp(mouse,1-Math.exp(-3*dt));
   scrubPlate(mpWaters, A.id===1, local);
