@@ -202,11 +202,54 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   </div></div>
 </section>
 
-<!-- III · THE JAR — the buried record surfaces -->
+<!-- III · THE CREATION — the record's first entry. Inserted 2026-08-23 on Joseph's direction:
+     "if we're really starting at the beginning, we should start with the creation story."
+     COPY: KJV Genesis verbatim, verified word-for-word against bible-api 2026-08-23.
+     Connective lines carry data-pending-confirm until his blessing. The act is procedural
+     (id 30) — the void has no photograph; the .still plate serves the reduced-motion route. -->
+<section id="creation" style="height:320vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-deep.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">III · The Creation</p>
+    <h2>The first<em>pattern.</em></h2>
+    <p class="quote" style="max-width:38ch">And the earth was without form, and void; and darkness
+      was upon the face of the deep. And the Spirit of God moved upon the face of the waters.</p>
+    <p class="caption">Movement, before there was light. Then the word, spoken into the record:
+      <em>And God said, Let there be light: and there was light.</em>
+      <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Genesis" target="_blank" rel="noopener">genesis 1 &middot; kjv &mdash; read it</a></p>
+    <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
+    <p>Physical reality starts first as a projection of light. This is the first pattern of creation
+      we should recognize. This is the building block of all reality.</p>
+  </div></div>
+</section>
+
+<!-- IV · THE STANDING — dominion, and the word that frees. Inserted 2026-08-23, his direction:
+     status and standing as the through-line — "the creditor and trustee standpoint rather than
+     the beneficiary position." The Shabak paragraph is HIS VERBATIM prose from his own
+     correspondence (dictation-harvest-2026-08-23.md §2). Act 31, procedural (the vesica). -->
+<section id="standing" style="height:300vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-breach.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">IV · The Standing</p>
+    <p class="quote" style="max-width:36ch">Let us make man in our image, after our likeness: and
+      let them have dominion&hellip;</p>
+    <!-- his verbatim prose, from his own post (2026-08-23, pasted in-session): -->
+    <p>We are light beings living in a physical reality with the ability to project our own light.
+      <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Genesis" target="_blank" rel="noopener">genesis 1:26 &middot; kjv &mdash; read it</a></p>
+    <p>Many English translated words like &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic
+      translation having a very different definition &amp; meaning. One makes you feel guilty the
+      other makes you feel free. &ldquo;A cutting of a cord.&rdquo;
+      <a class="chip" href="https://www.blueletterbible.org/lexicon/h7662/kjv/wlc/0-1/" target="_blank" rel="noopener">&#353;&#601;baq in the lexicon &mdash; check him</a></p>
+    <p class="cite" data-pending-confirm>This is about status and standing &mdash; the creditor and
+      trustee standpoint, not the beneficiary position.</p>
+  </div></div>
+</section>
+
+<!-- V · THE JAR — the buried record surfaces -->
 <section id="jar" style="height:335vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-deep.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
-    <p class="kicker">III · The Jar</p>
+    <p class="kicker">V · The Jar</p>
     <p class="quote" style="max-width:34ch">The most important question is not what it contains&hellip;
       but why it was buried.</p>
     <p class="caption">Nag Hammadi. In 367 CE the Archbishop of the Egyptian church listed precisely
@@ -226,7 +269,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <section id="landfall" style="height:270vh;align-items:center;justify-content:center;text-align:center">
   <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
-    <p class="kicker">IV · Landfall</p>
+    <p class="kicker">VI · Landfall</p>
     <h2>Named by water.<em>Standing in truth.</em></h2>
     <p class="lead">The stylised journey ends here and the man begins. Everything past this point is
     documented, checkable, and signed.</p>
@@ -476,7 +519,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <section id="hall" style="height:300vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-morninghall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:60rem">
-    <p class="kicker">V · The Hall</p>
+    <p class="kicker">VII · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
 
@@ -854,6 +897,74 @@ vec3 actJar(vec2 uv, float p){
   return col;
 }
 
+/* ═ ACT 30 · THE CREATION — the record's first entry. Fully procedural: the void has no
+   photograph. Three beats driven by scroll: darkness upon the face of the deep → a point of
+   light that MOVES upon the face of the waters (movement before light) → let there be light. ═ */
+vec3 actCreation(vec2 uv, float p){
+  float aw = smoothstep(0.,.28,p);                                 /* the point appears */
+  float mv = smoothstep(.30,.68,p);                                /* it moves upon the waters */
+  float lt = smoothstep(.68,1.,p);                                 /* let there be light */
+  vec2 asp = vec2(uRes.x/uRes.y,1.);
+  vec2 lp = vec2(mix(.32,.64,mv), .60);                            /* the light's place over the water */
+  float horizon = .40;
+  vec3 col = vec3(.004,.006,.010);                                 /* the void — never true black */
+  if(uv.y < horizon){                                              /* the deep below */
+    float depth = (horizon-uv.y)/horizon;
+    vec2 wuv = vec2((uv.x-.5)/(.18+depth*1.1)+.5, depth*2.2 + uTime*.015);
+    float ca = caustic(wuv*vec2(2.6,1.9), uTime);
+    float glint = exp(-abs(uv.x-lp.x)*(7.-4.5*lt));                /* the light's column on the water */
+    vec3 sea = vec3(.018,.042,.058)*(.06+aw*.30+lt*.85)*(1.+ca*.55);
+    sea += vec3(1.,.84,.55)*glint*ca*(.08*aw+.34*mv*(1.-lt)+.30*lt);
+    col += sea*smoothstep(-.02,.10,horizon-uv.y);
+  }
+  float dd = distance(uv*asp, lp*asp);
+  float core = exp(-dd*dd*(900.-770.*lt));                         /* a point → a sun */
+  float halo = exp(-dd*(9.-5.*lt));
+  col += vec3(1.,.93,.78)*(core*(aw*1.1+lt*2.2) + halo*(.05*aw+.13*mv+.55*lt));
+  col = mix(col, vec3(.085,.115,.150)+vec3(.34,.27,.15)*halo, lt*.42);  /* the wash of light */
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*(.58-.30*lt);
+  return col;
+}
+
+/* ═ ACT 31 · THE STANDING — the vesica, then the pattern: two circles of light draw themselves,
+   the light comes through the opening, and the pattern completes into the SEED OF LIFE — six
+   circles around the one, exact geometry, gold on the dark. His post is the brief: "the particles
+   organize by a very distinct and specific pattern… out of the seed of life comes the flower." ═ */
+vec3 actStanding(vec2 uv, float p){
+  vec2 asp = vec2(uRes.x/uRes.y,1.);
+  float draw = smoothstep(0.,.38,p);                               /* the second circle is drawn */
+  float open = smoothstep(.38,.62,p);                              /* the vesica fills with light */
+  float seed = smoothstep(.62,.95,p);                              /* the seed of life blooms */
+  float R = .19;
+  vec2 ctr = vec2(.5,.46);
+  vec2 c1 = ctr - vec2(R*.5*draw,0.), c2 = ctr + vec2(R*.5*draw,0.);
+  float d1 = distance(uv*asp, c1*asp), d2 = distance(uv*asp, c2*asp);
+  vec3 col = vec3(.005,.007,.011);
+  float ring1 = exp(-abs(d1-R)*95.);
+  float ring2 = exp(-abs(d2-R)*95.)*draw;
+  vec3 gold = vec3(.85,.66,.30);
+  col += gold*(ring1+ring2)*(.35+.22*open)*(1.-.35*seed);
+  float inV = smoothstep(R,R-.015,d1)*smoothstep(R,R-.015,d2);     /* inside both circles */
+  float pulse = 1.+.05*sin(uTime*.8);
+  col += vec3(1.,.90,.66)*inV*open*.48*pulse*(1.-.4*seed);         /* light through the opening */
+  /* the seed of life: the two circles resolve to ONE center ring and six around it, each
+     drawn in sequence — the pattern completing itself */
+  float ctrRing = exp(-abs(distance(uv*asp,ctr*asp)-R)*95.);
+  col += gold*ctrRing*seed*.5;
+  for(int i=0;i<6;i++){
+    float a = 6.2831853*float(i)/6.;
+    float on = smoothstep(float(i)/7., float(i)/7.+.18, seed);     /* one by one */
+    vec2 cc = ctr + vec2(cos(a),sin(a))*R/asp;
+    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.40;
+    col += vec3(1.,.90,.66)*exp(-distance(uv*asp,cc*asp)*24.)*on*.05;  /* a petal of glow at each center */
+  }
+  col += vec3(1.,.88,.60)*exp(-distance(uv*asp,ctr*asp)*3.5)*(open*.14+seed*.10);
+  float ca = caustic(uv*vec2(3.,2.2)+vec2(0.,uTime*.02), uTime);   /* the faintest shimmer of the deep */
+  col += vec3(.02,.03,.04)*ca*(1.-open)*.4;
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*(.60-.25*open);
+  return col;
+}
+
 /* ═ ACT 4 · THE BREACH — rise; the one flash ═ */
 vec3 actBreach(vec2 uv, float p){
   vec2 cuv = cover(uv);
@@ -1041,6 +1152,8 @@ vec3 actPaper(vec2 uv, float p){
 }
 
 vec3 act(int id, vec2 uv, float p){
+  if(id==30) return actCreation(uv,p);
+  if(id==31) return actStanding(uv,p);
   if(id>=10) return actPaper(uv,p);
   if(id==0) return actSeal(uv,p);
   if(id==1) return actWaters(uv,p);
@@ -1157,9 +1270,11 @@ composer.addPass(grainPost);
 /* ── the scroll owns the playhead ─────────────────────────────────────────── */
 /* The act table is DERIVED from the real section geometry — the hand-kept table had to be
    "remapped" by hand after every new movement, and a hand-kept table drifts. */
-const ACT_OF = {seal:0, waters:1, deep:2, jar:3, breach:4, landfall:15,
+const ACT_OF = {seal:0, waters:1, deep:2, creation:30, standing:31, jar:3, breach:4, landfall:15,
                 babylon:10, rome:11, church:12, cestui:13, labanca:14,
                 ministry:16, chamber1873:7, wall:17, study:18, statutes:19, hall:20};
+/* ⛔ ids 30/31 are PROCEDURAL acts (creation, standing) — they must never enter the
+   >=10 chamber-plate machinery, hence the id<30 guards below. */
 let ACTS = [];
 function buildActs(){
   const max = Math.max(1, document.body.scrollHeight - innerHeight);
@@ -1228,7 +1343,7 @@ function setActs(p){
   if(i<ACTS.length-1 && (A.e-p)<bw){ B=ACTS[i+1]; blend=1-(A.e-p)/bw; }
   /* bind at the blend midpoint: before .5 only A is on screen, after .5 only B */
   const shown = (blend>0.5 ? B : A);
-  if(shown.id>=10){
+  if(shown.id>=10 && shown.id<30){
     const [key,g] = GRADE[shown.id];
     F.uniforms.tCham.value = CHAM[key][0];
     F.uniforms.dCham.value = CHAM[key][1];
@@ -1254,7 +1369,7 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   sealT = ACTS[0] ? Math.min(1, Math.max(0, p/(ACTS[0].e*0.82))) : 1;   /* shots must see the same seal the scroll does */
   F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=sealT; F.uniforms.uFlash.value=0;
   const A = ACTS.find(a=>p>=a.s&&p<a.e)||ACTS[ACTS.length-1];
-  if(A.id>=10){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
+  if(A.id>=10 && A.id<30){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
                 F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g; }
   const local=(p-A.s)/(A.e-A.s);
   const rise = A.id===3? Math.max(0,Math.min(1,(local-.42)/.58)) : A.id>3?1:0;
@@ -1269,8 +1384,8 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
     const sc=1+rr*1.3; m.scale.set(sc,sc,sc);
     m.rotation.set(Math.sin(tSec*.4+d.ph)*.4+.2, d.a+tSec*.22, Math.sin(tSec*.5+d.ph)*.3);});
   silt.material.opacity=(A.id>=1&&A.id<=3)? .5:0;
-  motes.material.opacity=A.id===6? .35 : (A.id>=10? .30 : (A.id>=1&&A.id<=3? .15:0));
-  motes.material.color.setHex(A.id===6? 0xd8bd92 : (A.id>=10? 0xcbb894 : 0xa8cdd6));
+  motes.material.opacity=A.id===6? .35 : (A.id>=10&&A.id<30? .30 : (A.id>=1&&A.id<=3? .15:0));
+  motes.material.color.setHex(A.id===6? 0xd8bd92 : (A.id>=10&&A.id<30? 0xcbb894 : 0xa8cdd6));
   F.uniforms.uJitter.value.set(0,0);   /* shots stay deterministic */
   bubbles.material.opacity=A.id===4? .6:0;
   grain.uniforms.t.value=tSec; grainPost.uniforms.t.value=tSec; grain.uniforms.vig.value=A.id===5?.12:.5;
@@ -1339,15 +1454,16 @@ renderer.setAnimationLoop(t=>{
   grain.uniforms.t.value=T; grainPost.uniforms.t.value=T;
   grain.uniforms.vig.value = A.id===5? .12 : (A.id===1? .5+.25*local : .5);
 
-  /* camera micro-language: breath (slow) + gate weave (fast, sub-pixel), louder while moving */
-  const vel = Math.min(1, Math.abs(target-cur)*40);
-  const jx = Math.sin(T*.9)*.0004 + Math.sin(T*7.3+1.7)*.00018*(1.+vel);
-  const jy = Math.cos(T*.7+.6)*.0005 + Math.cos(T*8.1)*.00015*(1.+vel);
+  /* camera micro-language: slow breath only. ⛔ The fast 7–8Hz "gate weave" terms are GONE —
+     on high-contrast stone edges they read as an earthquake, and they were velocity-scaled,
+     so the tremor was loudest exactly while the visitor scrolled (Joseph flagged it twice). */
+  const jx = Math.sin(T*.9)*.0004;
+  const jy = Math.cos(T*.7+.6)*.0005;
   F.uniforms.uJitter.value.set(jx, jy);
 
   /* near motes: dust in the candle heat (hall + ministry approach), faint silt twin in water */
   const inHall = A.id===6 ? 1 : 0;
-  const inCham = A.id>=10 ? 1 : 0;                 /* the Paper Chains rooms take dust too */
+  const inCham = (A.id>=10 && A.id<30) ? 1 : 0;    /* the Paper Chains rooms take dust too */
   const moteTarget = inHall? .35 : (inCham? .30 : (A.id>=1&&A.id<=3? .15:0));
   motes.material.opacity += (moteTarget - motes.material.opacity)*(1-Math.exp(-2*dt));
   motes.rotation.y = -T*.008; motes.position.y = Math.sin(T*.05)*.3 + (inCham? local*.9 : 0);
