@@ -190,7 +190,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 
 /* ── THE COLD OPEN. His own code-rain recipe, lifted from another lane's film
       (video/matrix/coderain.py): the same glyph rain motion, the same greens
-      (0,224,108 with a 200,255,214 leading character), the same (1-t)^1.7 tail fade,
+      (palette re-briefed to earth tones 8/24, his order — bronze 201,150,70 with a lit-parchment lead), the same (1-t)^1.7 tail fade,
       the same 7-22 glyph tails and 4-14 frame churn. Drawn, never generated — dense small
       glyphs are the exact thing generated video renders as mush.
       It does not replace the seal. It RESOLVES into it: the machine's code becomes the
@@ -200,9 +200,9 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 #rain.gone{opacity:0;pointer-events:none}
 #rainskip{position:fixed;right:2.2rem;bottom:2rem;z-index:61;padding:.75rem 1.5rem;
  border-radius:9999px;font:400 .74rem/1 "JetBrains Mono",monospace;letter-spacing:.24em;
- text-transform:uppercase;color:rgba(0,224,108,.85);background:none;
- border:1px solid rgba(0,224,108,.45);cursor:pointer;transition:opacity .5s}
-#rainskip:hover{color:#c8ffd6;border-color:rgba(0,224,108,.9)}
+ text-transform:uppercase;color:rgba(201,165,92,.85);background:none;
+ border:1px solid rgba(201,165,92,.45);cursor:pointer;transition:opacity .5s}
+#rainskip:hover{color:#f0e0b8;border-color:rgba(201,165,92,.9)}
 #rainskip.gone{opacity:0;pointer-events:none}
 @media (prefers-reduced-motion:reduce){#rain,#rainskip{display:none}}
 </style></head><body>
@@ -1589,8 +1589,8 @@ window.__ready = true;
    that... so we don't do any copyright infringement." The katakana set is gone. What falls now
    is the actual writing of the record this site is about — cuneiform first, because Babylon is
    where his own history starts, then the Semitic scripts that carried the paper west.
-   The MOTION recipe is still his own (video/matrix/coderain.py, another lane): rgb(0,224,108)
-   tail, rgb(200,255,214) leading character, (1-t)^1.7 fade, 7-22 tails, 4-14 churn.
+   The MOTION recipe is still his own (video/matrix/coderain.py, another lane); the palette
+   is EARTH TONES by his 8/24 order (bronze tail, lit-parchment lead), (1-t)^1.7 fade, 7-22 tails, 4-14 churn.
    Plain 2D canvas on purpose: it paints on the first frame, before the module graph. */
 (function(){
   if (matchMedia("(prefers-reduced-motion: reduce)").matches ||
@@ -1635,14 +1635,16 @@ window.__ready = true;
     if (GLYPHS.length < 24) GLYPHS = "אבגדהוזחטיכלמנסעפצקרשת0123456789".split("");
   }
 
-  const HEAD="rgb(200,255,214)", R=0,G=224,B=108;
-  /* his words, in his order: the question first, then the answer the site is built on */
+  /* EARTH TONES, his order 8/24: "not the code green hue but more of a earth tones so its
+     ancient technology looking" — aged bronze glyphs, a lit-parchment leading character.
+     The coderain MOTION recipe is unchanged; only the palette is his new call. */
+  const R=201,G=150,B=70;
+  /* one beat only, his order 8/24: the cold open asks the question and nothing else */
   const BEATS = [
-    {t0:1600, lock:1000, hold:1300, text:"WHO IS YOUR MAKER?"},
-    {t0:4200, lock: 950, hold:1200, text:"YOU ARE NOT CARGO"}
+    {t0:1600, lock:1000, hold:2100, text:"WHO IS YOUR MAKER?"}
   ];
   const LONGEST = Math.max(...BEATS.map(b=>b.text.length));
-  const END = BEATS[1].t0 + BEATS[1].lock + BEATS[1].hold;
+  const END = BEATS[0].t0 + BEATS[0].lock + BEATS[0].hold;
 
   let W=0,H=0,CELL=0,COLS=0,ROWS=0,streams=[];
   let rnd = 1337; const rand = ()=> (rnd = (rnd*1103515245 + 12345) & 0x7fffffff) / 0x7fffffff;
@@ -1696,11 +1698,7 @@ window.__ready = true;
       if (inLock < 1) return {a: Math.max(0,inLock), text:b.text};
       const held = t - (b.t0 + b.lock);
       if (held < b.hold) return {a:1, text:b.text};
-      if (b === BEATS[0] && t < BEATS[1].t0){
-        const out = (t - (b.t0+b.lock+b.hold)) / Math.max(1, BEATS[1].t0-(b.t0+b.lock+b.hold));
-        return {a: Math.max(0, 1-out), text:b.text};      /* the question dissolves back to rain */
-      }
-      if (b === BEATS[1]) return {a:1, text:b.text};
+      return {a:1, text:b.text};                        /* the question holds into the wash */
     }
     return {a:0, text:null};
   }
@@ -1725,7 +1723,7 @@ window.__ready = true;
         const fade = Math.pow(1-tt,1.7)*(1-lock*0.74);
         const ch = s.glyphs[(r + Math.floor(f/s.churn)*(c+1)) % s.glyphs.length];
         ctx.fillStyle = (i===0)
-          ? "rgba(200,255,214,"+(1-lock*0.6).toFixed(3)+")"
+          ? "rgba(240,216,166,"+(1-lock*0.6).toFixed(3)+")"
           : "rgb("+Math.round(R*fade)+","+Math.round(G*fade)+","+Math.round(B*fade)+")";
         ctx.fillText(ch, c*CELL, r*CELL);
       }
@@ -1739,7 +1737,7 @@ window.__ready = true;
         /* letters resolve left to right as the lock closes */
         const settle = Math.min(1, Math.max(0, (lock - k/word.length*0.45) / 0.55));
         if(settle<=0) continue;
-        ctx.fillStyle = "rgba("+Math.round(150+64*settle)+",255,"+Math.round(150+70*settle)+","+settle.toFixed(3)+")";
+        ctx.fillStyle = "rgba("+Math.round(216+34*settle)+","+Math.round(196+34*settle)+","+Math.round(150+50*settle)+","+settle.toFixed(3)+")";
         ctx.fillText(ch, (wordStart+k)*CELL + CELL*0.12, wordRow*CELL + CELL*0.1);
       }
       ctx.font = Math.floor(CELL*0.92)+"px 'Noto Sans Cuneiform','Segoe UI Historic','Noto Sans Symbols2',serif";
