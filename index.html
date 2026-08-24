@@ -58,6 +58,29 @@ a{color:var(--gold)}
   filter:sepia(28%) saturate(140%) brightness(.42)}
 #landfall .mark{height:6.4rem;width:auto;display:block;opacity:.62;transform:rotate(-4deg);
   filter:sepia(34%) saturate(150%) brightness(.5)}
+/* ── the morning room: the one place the site ends in light. Ink text, oak shelf objects. ── */
+#hall .wrap{color:var(--ink)}
+#hall h2{color:#101420}#hall h2 em{color:#8a6b2f}
+#hall .lead{color:rgba(16,20,32,.88);max-width:52ch}
+#hall .kicker{color:rgba(122,94,40,.95)}
+#hall .cite{color:rgba(122,94,40,.9)}
+#hall .caption{color:rgba(16,20,32,.72)}
+#hall .plaque{background:rgba(243,236,224,.66);border:1px solid rgba(138,107,47,.35);backdrop-filter:blur(2px)}
+#hall .plaque .pl-name{color:#7a5e28}
+#hall .plaque .pl-quote{color:rgba(16,20,32,.85)}
+#hall .plaque .chip{color:#7a5e28;border-color:rgba(138,107,47,.5)}
+#hall .plaque.gild{border-color:rgba(138,107,47,.8);background:rgba(243,236,224,.88)}
+#hall .plaque.gild .pl-name{color:#8a6b2f}
+#hall .plaque.gild .pl-quote{color:rgba(16,20,32,.95);text-shadow:none}
+/* a sealed slot: wrapped paper, tied — it makes no claim except "this slot is spoken for" */
+#hall .plaque.sealed{background:repeating-linear-gradient(-38deg,rgba(230,221,204,.85),rgba(230,221,204,.85) 9px,rgba(219,208,188,.85) 9px,rgba(219,208,188,.85) 18px);position:relative;overflow:hidden}
+#hall .plaque.sealed::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 47%,rgba(138,107,47,.45) 47%,rgba(138,107,47,.45) 53%,transparent 53%),
+             linear-gradient(0deg,transparent 44%,rgba(138,107,47,.45) 44%,rgba(138,107,47,.45) 56%,transparent 56%);
+  background-size:100% 100%, 100% 100%;pointer-events:none;opacity:.5}
+#hall .plaque.sealed .pl-quote{color:rgba(16,20,32,.62)}
+#hall .doors{margin-top:1.1rem;font:400 .92rem/2 "JetBrains Mono",monospace;letter-spacing:.04em}
+#hall .doors a{color:rgba(122,94,40,.95);text-decoration:none;border-bottom:1px solid rgba(138,107,47,.35)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  border-top:1px solid rgba(201,165,92,.16);font-size:.98rem;color:rgba(243,236,224,.72)}
 /* ── the 1873 chamber: engraved stone, gilding = verification ── */
@@ -226,14 +249,9 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="kicker">The Paper Chains · I — Babylon</p>
     <p class="quote">Persons as collateral. Debt as a transferable instrument.
       Time as the measure of human worth.</p>
-    <p class="caption">The Code of Hammurabi, c. 1754 BCE — the first surviving written law on debt,
-      interest rates, banking deposits and receipts, contract formation, and the transfer of persons
-      as collateral for debt. Article 117 allowed a man to pledge his wife, son, or daughter against
-      what he owed for a fixed term of three years.
+    <p class="caption">The Code of Hammurabi, c. 1754 BCE — the first surviving written law on debt.
+      Article 117 allowed a man to pledge his wife, son, or daughter against what he owed.
       <a class="chip" href="https://avalon.law.yale.edu/ancient/hamframe.asp" target="_blank" rel="noopener">the code — read it</a></p>
-    <p>Babylonian temples functioned as the first banks. A merchant could deposit grain or silver,
-      receive a sealed clay tablet as evidence of the deposit, and another person could redeem that
-      tablet at another temple. These were the first negotiable instruments.</p>
     <p class="cite">When that civilization fell, the paper did not disappear. It moved.</p>
   </div></div>
 </section>
@@ -246,19 +264,17 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="quote" style="max-width:32ch">The mask was always legally distinct from the breath behind the mask.</p>
     <div class="plaques tiles">
       <div class="plaque"><span class="pl-name">Persona</span>
-        <span class="pl-quote">Literally a mask, from the Etruscan <em>phersu</em>. In Roman law the persona became the legal identity worn by a human being in the eyes of the law. A single human could wear multiple personas. A persona could exist without any living human behind it at all.</span></div>
+        <span class="pl-quote">Literally a mask. A persona could exist without any living human behind it at all.</span></div>
       <div class="plaque"><span class="pl-name">Res</span>
-        <span class="pl-quote">A thing — an item of property capable of being owned, possessed, transferred, or destroyed.</span></div>
+        <span class="pl-quote">A thing — capable of being owned, possessed, transferred, or destroyed.</span></div>
       <div class="plaque"><span class="pl-name">Status</span>
-        <span class="pl-quote">Your legal standing, which determined what rights and obligations attached to you. The modern concept of standing in American courts descends directly from Roman status.</span></div>
+        <span class="pl-quote">Standing in American courts descends directly from Roman status.</span></div>
       <div class="plaque"><span class="pl-name">Caput</span>
-        <span class="pl-quote">Literally the head, but legally the sum of one&rsquo;s status. To suffer <em>capitis deminutio</em> was to lose legal capacity — to be reduced in head.</span></div>
+        <span class="pl-quote">Literally the head — to be reduced in head was to lose legal capacity.</span></div>
     </div>
-    <p class="caption" style="margin-top:1.2rem">Roman civil law was compiled under Justinian in 533 CE as the Corpus Juris Civilis.
-      <a class="chip" href="https://sourcebooks.fordham.edu/basis/535institutes.asp" target="_blank" rel="noopener">the institutes — read them</a></p>
+    <p class="caption" style="margin-top:1.2rem"><a class="chip" style="margin-left:0" href="https://sourcebooks.fordham.edu/basis/535institutes.asp" target="_blank" rel="noopener">justinian&rsquo;s institutes, 533 — read them</a></p>
     <p class="quote" style="max-width:40ch;margin-top:1.4rem">When a modern American court treats your name in capital letters as
-      something distinct from you, it is operating on a concept Rome inherited from Babylon and
-      codified for the next two thousand years.</p>
+      something distinct from you, it is operating on a concept Rome inherited from Babylon.</p>
   </div></div>
 </section>
 
@@ -271,29 +287,26 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       <div class="tablet-half"><p>&ldquo;Porro subesse Romano Pontifici omni humanae creaturae declaramus,
         dicimus, definimus, et pronunciamus omnino esse de necessitate salutis.&rdquo;</p></div>
       <div class="tablet-crack" aria-hidden="true"></div>
-      <div class="tablet-half"><p>&ldquo;We declare, we proclaim, we define that it is absolutely necessary
-        for salvation that every human creature be subject to the Roman Pontiff.&rdquo;</p></div>
+      <div class="tablet-half"><p>&ldquo;&hellip;absolutely necessary for salvation that every human creature
+        be subject to the Roman Pontiff.&rdquo;</p></div>
     </div>
-    <p class="caption">Boniface VIII, <em>Unam Sanctam</em>, 18 November 1302. <b>Subesse</b> — to be under, to be
-      subject to; a subject is by definition not sovereign. <b>Creatura</b> — a thing created, brought into
-      existence by another. The modern legal phrase &ldquo;creature of statute&rdquo; carries exactly this meaning forward.
+    <p class="caption">Boniface VIII, <em>Unam Sanctam</em>, 1302. A subject is by definition not sovereign;
+      a creature is by definition subordinate to its creator.
       <a class="chip" href="https://sourcebooks.fordham.edu/source/b8-unam.asp" target="_blank" rel="noopener">unam sanctam — read it</a></p>
     <div class="plaques tiles">
       <div class="plaque"><span class="pl-name">Dum Diversas · 1452</span>
-        <span class="pl-quote">Authorized the King of Portugal to &ldquo;invade, search out, capture, vanquish, and subdue&rdquo; and to &ldquo;reduce their persons into perpetual slavery.&rdquo; This is not theology. This is an operational order with legal effect.</span>
+        <span class="pl-quote">&ldquo;reduce their persons into perpetual slavery.&rdquo;</span>
         <a class="chip" href="https://www.doctrineofdiscovery.org/dum-diversas/" target="_blank" rel="noopener">read the bull</a></div>
       <div class="plaque"><span class="pl-name">Romanus Pontifex · 1455</span>
-        <span class="pl-quote">Extended these rights specifically to lands and peoples seized along the African coast and beyond.</span>
+        <span class="pl-quote">The rights, extended along the African coast and beyond.</span>
         <a class="chip" href="https://www.doctrineofdiscovery.org/romanus-pontifex/" target="_blank" rel="noopener">read the bull</a></div>
       <div class="plaque"><span class="pl-name">Inter Caetera · 1493</span>
-        <span class="pl-quote">Alexander VI literally drew a line down the Atlantic. Continents he had never seen, populated by peoples he had never met, conveyed by a stroke of the pen.</span>
+        <span class="pl-quote">A line drawn down the Atlantic, conveyed by a stroke of the pen.</span>
         <a class="chip" href="https://www.doctrineofdiscovery.org/inter-caetera/" target="_blank" rel="noopener">read the bull</a></div>
     </div>
     <p class="quote" style="max-width:44ch;margin-top:1.4rem">The religious foundation has been withdrawn at its
       source. The American cases resting on it have never been overruled.</p>
-    <p class="caption">On 30 March 2023 the Vatican stated that the doctrine of discovery &ldquo;is not part of the
-      teaching of the Catholic Church,&rdquo; naming Dum Diversas, Romanus Pontifex and Inter Caetera directly.
-      <a class="chip" href="https://press.vatican.va/content/salastampa/en/bollettino/pubblico/2023/03/30/230330b.html" target="_blank" rel="noopener">the 2023 statement</a>
+    <p class="caption"><a class="chip" style="margin-left:0" href="https://press.vatican.va/content/salastampa/en/bollettino/pubblico/2023/03/30/230330b.html" target="_blank" rel="noopener">the 2023 vatican statement</a>
       <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep021/usrep021543/usrep021543.pdf" target="_blank" rel="noopener">johnson v. m&rsquo;intosh, 21 u.s. 543</a></p>
   </div></div>
 </section>
@@ -305,10 +318,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="kicker">The Paper Chains · V — Cestui Que Vie</p>
     <p class="quote">A living human being and the legal estate associated with that human being are
       separable entities.</p>
-    <p class="caption">1666 — the year of the Great Fire, in the lingering devastation of a plague that had
-      killed roughly a quarter of the English population. Parliament passed an Act for those absent beyond
-      the seas: after seven years of unexplained absence a person could be declared legally dead and his
-      estate administered by trustees. <em>Cestui que vie</em> is Anglo-Norman French — literally, the one whose life.
+    <p class="caption">1666: after seven years of unexplained absence a person could be declared legally
+      dead and his estate administered by trustees. <em>Cestui que vie</em> — the one whose life.
       <a class="chip" href="https://www.legislation.gov.uk/aep/Cha2/18-19/11/contents" target="_blank" rel="noopener">the act of 1666 — read it</a></p>
     <p class="cite">The statute sleeps but is not dead.</p>
   </div></div>
@@ -320,29 +331,23 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   <div class="hold"><div class="wrap reveal" style="max-width:64rem">
     <p class="kicker">The Paper Chains · VI — La Banca</p>
     <p class="quote" style="max-width:44ch">The judge on the bench and the banker behind the counter are
-      operating variations of the same ancient function — the holding and adjudication of paper that
-      represents value.</p>
+      operating variations of the same ancient function.</p>
     <div class="plaques tiles">
       <div class="plaque"><span class="pl-name">Banca</span>
-        <span class="pl-quote">Italian for bench. The wooden table where moneychangers conducted business in the marketplace.</span></div>
+        <span class="pl-quote">Italian for bench — the moneychanger&rsquo;s table.</span></div>
       <div class="plaque"><span class="pl-name">Banca Rotta</span>
-        <span class="pl-quote">Broken bench. The literal breaking of a merchant&rsquo;s bench in the marketplace when he could not pay his debts.</span></div>
+        <span class="pl-quote">Broken bench: bankrupt.</span></div>
       <div class="plaque"><span class="pl-name">Banc</span>
-        <span class="pl-quote">The raised platform in a courtroom where the judge sits. Same etymological root.</span></div>
+        <span class="pl-quote">Where the judge sits. Same root.</span></div>
       <div class="plaque"><span class="pl-name">En Banc</span>
-        <span class="pl-quote">Literally &ldquo;on the bench.&rdquo; When all judges of a court sit together to hear a case.</span></div>
+        <span class="pl-quote">&ldquo;On the bench.&rdquo;</span></div>
     </div>
     <div class="thread">
-      <span class="waypoint"><b>1927</b> a judge with &ldquo;a direct, personal, substantial pecuniary interest in
-        reaching a conclusion against him in his case&rdquo; denies the defendant due process
+      <span class="waypoint"><b>1927</b> &ldquo;a direct, personal, substantial pecuniary interest&rdquo;
         <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep273/usrep273510/usrep273510.pdf" target="_blank" rel="noopener">tumey v. ohio, 273 u.s. 510</a></span>
-      <span class="waypoint"><b>1972</b> the interest does not have to be in his pocket. It only has to be in
-        the institution he is responsible for
+      <span class="waypoint"><b>1972</b> the interest does not have to be in his pocket
         <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep409/usrep409057/usrep409057.pdf" target="_blank" rel="noopener">ward v. village of monroeville, 409 u.s. 57</a></span>
     </div>
-    <p class="caption" style="margin-top:1.2rem">They are not a general theory that every court is a bank and
-      every case is a bond. They are something much better than a theory: they are two cases you can cite,
-      that have never been overruled, and that a judge has to answer.</p>
   </div></div>
 </section>
 
@@ -457,15 +462,30 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   </div></div>
 </section>
 
-<!-- VI · THE HALL — epilogue of the slice; the Door's one invitation -->
-<section id="hall" style="height:240vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-hall.jpg)"></div>
-  <div class="hold"><div class="wrap reveal">
+<!-- VI · THE HALL — the morning room. THE ARC LAW (Joseph, 8/23): the dark stays but it
+     must break; after "you don't argue. You simply declare," the visitor comes up out of the
+     water and the site lets them feel it. His motion brief, verbatim: "Like they're walking
+     on dryland at finally out of the waters." Relief, not fireworks.
+     THE SHELF: the Hall's final room holds the records as OBJECTS — one touch, one line, one
+     door; the shelf comes before the ask; sealed slots for everything not yet published (his
+     words: "leaving a spot for when we publish"). The slots are driven by the SHELF manifest
+     in the module script: publishing = flip one line, the slot unseals. -->
+<section id="hall" style="height:300vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-morninghall.jpg)"></div>
+  <div class="hold"><div class="wrap reveal" style="max-width:60rem">
     <p class="kicker">V · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
-    <a class="cta" href="https://info.josephfainmcdaniel.com/widget/bookings/consultation-w-joe"
-       target="_blank" rel="noopener">Bring me your matter</a>
+
+    <div id="shelf" class="plaques tiles" aria-label="the records"></div>
+    <p class="caption" style="margin-top:1.1rem">&ldquo;Never let someone else do all of your reading for you.&rdquo;</p>
+
+    <!-- THE ASK IN THE LIGHT (verdict 4, his call): community first, quiet row beneath.
+         data-pending-confirm: the bridge line below is from his 8/23 dictated brief. -->
+    <p class="lead" style="margin-top:2.2rem">These are my records. The room where you build yours is through here.</p>
+    <a class="cta" href="https://www.skool.com/title-8-academy-1862" target="_blank" rel="noopener">Join the Title 8 community</a>
+    <p class="doors"><a href="https://info.josephfainmcdaniel.com/widget/bookings/consultation-w-joe" target="_blank" rel="noopener">Bring me your matter — consultation</a> ·
+       <a href="https://title8.org" target="_blank" rel="noopener">Title 8 Academy</a></p>
     <p class="cite">Be found faithful. — J.F.M.</p>
   </div></div>
 </section>
@@ -479,6 +499,41 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   © 2026 Joseph Fain McDaniel. All rights reserved. · Vertical slice — not the live site.</p>
 </footer>
 
+<script>
+/* ══ THE SHELF MANIFEST — the one file publishing touches (Joseph's 8/23 verdict).
+   Publishing a record = set unsealed:true and fill href (and clip for the audiobook).
+   Nothing else changes. Rules: one touch, one line, one door · free things nearest the
+   hand · a sealed slot makes no claim except "this slot is spoken for."
+   ⛔ The audiobook stays SEALED and SILENT until Joseph's ear approves the Master
+   Edition — embedding even ten seconds is publishing. `clip` stays null until then. */
+const SHELF = [
+  { id:"audiobook", label:"The Audiobook", door:"Listen",
+    line:"The record that speaks — the whole history, read in my own voice.",
+    unsealed:false, href:null, clip:null },
+  { id:"book", label:"The Book", door:"Read",
+    line:"One of the thirteen finally gets a name on it.",
+    unsealed:false, href:null },
+  { id:"affidavit", label:"The Affidavit", door:"Read",
+    line:"The instrument itself — the seal you met at the front door lives here.",
+    unsealed:false, href:null },
+  { id:"tools", label:"The Instruments", door:"Use",
+    line:"Brass against parchment — the tools I built so you can check me.",
+    unsealed:false, href:null },
+];
+addEventListener("DOMContentLoaded", () => {
+  const host = document.getElementById("shelf");
+  if (!host) return;
+  for (const r of SHELF) {
+    const el = document.createElement(r.unsealed ? "a" : "div");
+    el.className = "plaque" + (r.unsealed ? "" : " sealed");
+    if (r.unsealed && r.href) { el.href = r.href; el.target = "_blank"; el.rel = "noopener"; el.style.textDecoration = "none"; }
+    el.innerHTML = `<span class="pl-name">${r.label}</span>
+      <span class="pl-quote">${r.unsealed ? r.line : "Sealed. This slot is spoken for."}</span>` +
+      (r.unsealed ? `<span class="chip" style="margin:.4rem 0 0;display:inline-block">${r.door}</span>` : "");
+    host.appendChild(el);
+  }
+});
+</script>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.170.0/build/three.module.js",
  "three/addons/":"https://unpkg.com/three@0.170.0/examples/jsm/",
@@ -543,7 +598,7 @@ const CHAM = {};
    of the scroll, so they load in the background after the film is already running — the
    visitor never waits on a picture they are four minutes from seeing. */
 const EAGER = ["landfall","babylon","rome","church","sixteensixtysix","labanca"];
-const LATER = ["ministry","wall","study","statutes"];
+const LATER = ["ministry","wall","study","statutes","morninghall"];
 await Promise.all(EAGER.map(async k=>{
   CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
 }));
@@ -553,7 +608,7 @@ setTimeout(()=>{ LATER.forEach(async k=>{
 }); }, 1800);
 const GRADE = {10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],
                14:["labanca",4],15:["landfall",5],16:["ministry",6],17:["wall",7],
-               18:["study",8],19:["statutes",9]};
+               18:["study",8],19:["statutes",9],20:["morninghall",10]};
 texPaper.wrapS=texPaper.wrapT=THREE.RepeatWrapping;
 
 /* ── motion plates — scrubbed by scroll, never autoplay ────────────────────
@@ -944,6 +999,12 @@ vec3 actPaper(vec2 uv, float p){
     col = mix(col, col*vec3(.92,1.06,.96), .28);        /* the green shade tints the room */
     col += vec3(1.,.82,.48)*smoothstep(.30,.0,distance(cuv,src))*.10*fl;
     col = mix(col, col*vec3(.52,.56,.52)+vec3(.008,.010,.008), far*.78);
+  } else if(uGrade==10){                                /* THE MORNING — the dark breaks (the arc law) */
+    col *= vec3(1.03,1.01,.985);
+    /* the sun climbs as you walk in: the warm band travels up the room with the scroll */
+    vec2 sun = vec2(.14+.20*p, .34-.10*p);
+    col += vec3(1.,.96,.86)*smoothstep(.95,.0,distance(cuv,sun))*.08;
+    col = mix(col, col*1.05+vec3(.030,.028,.022), far*.35);   /* distance opens, never murks */
   } else {                                              /* the Turn — a closed door, one cold blade */
     vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
     col = mix(col, g*vec3(.88,.93,1.08), .40);
@@ -957,7 +1018,7 @@ vec3 actPaper(vec2 uv, float p){
      ADAPTIVE — its strength follows the plate's own luminance, so the dark rooms are barely
      touched and only the bright ones are pulled down under the copy column. */
   float lumHere = dot(col, vec3(.299,.587,.114));
-  if(uGrade==5){
+  if(uGrade==5 || uGrade==10){
     /* Landfall runs ink-on-ivory — the scrim must LIFT the paper under the centred copy,
        not darken it. Same idea, opposite direction. */
     float band = smoothstep(.98,.30,distance(uv,vec2(.5,.5)));
@@ -1095,7 +1156,7 @@ composer.addPass(grainPost);
    "remapped" by hand after every new movement, and a hand-kept table drifts. */
 const ACT_OF = {seal:0, waters:1, deep:2, jar:3, breach:4, landfall:15,
                 babylon:10, rome:11, church:12, cestui:13, labanca:14,
-                ministry:16, chamber1873:7, wall:17, study:18, statutes:19, hall:6};
+                ministry:16, chamber1873:7, wall:17, study:18, statutes:19, hall:20};
 let ACTS = [];
 function buildActs(){
   const max = Math.max(1, document.body.scrollHeight - innerHeight);
