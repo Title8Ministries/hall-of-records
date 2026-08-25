@@ -25,7 +25,10 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
    were right). The shader scrim is back at its original grade and the universal per-pixel
    scrim is gone; readability now rides a scoped glass panel behind the copy column of each
    dark room, so the plate keeps its light and the type keeps its ground. */
-#waters .wrap,#deep .wrap,#jar .wrap,#standing .wrap,#harbor .wrap,#christening .wrap,#cargo .wrap,
+/* ⛔ #waters is NOT in this list — his call 8/24 eve: the panel was blocking the Pilgrim's
+   swim ("takes away from the elegant view"). The deep water is its own ground there
+   (measured 17:1 with halos alone); the swim stays unobstructed. */
+#deep .wrap,#jar .wrap,#standing .wrap,#harbor .wrap,#christening .wrap,#cargo .wrap,
 #babylon .wrap,#rome .wrap,#church .wrap,
 #cestui .wrap,#labanca .wrap,#ministry .wrap,#study .wrap,#statutes .wrap{
   background:linear-gradient(180deg,rgba(6,9,16,.55),rgba(6,9,16,.28));
@@ -996,13 +999,17 @@ const CHAM = {};
    visitor never waits on a picture they are four minutes from seeing. */
 const EAGER = ["naghammadi","landfall","babylon","rome","church","sixteensixtysix","labanca"];
 const LATER = ["harbor","christening","warehouse","ministry","wall","study","statutes","morninghall","nineteen33"];
-await Promise.all(EAGER.map(async k=>{
+/* ⛔ 8/24 EVE — the EAGER batch used to be AWAITED here, so seven plate+depth decodes and
+   texture uploads landed on the main thread DURING the cold open, and every one was a
+   visible hitch in the glyph rain (his note: "the opening matrix letter part glitches").
+   Nothing blocks the boot now: every chamber gets the stand-in and the real plates stream
+   in behind the open — the first chamber is minutes of scroll away. */
+for (const k of [...EAGER, ...LATER]) CHAM[k] = [texHall, depHall];
+const loadCham = async k => {
   CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
-}));
-for (const k of LATER) CHAM[k] = [texHall, depHall];        /* stand-in until the real one lands */
-setTimeout(()=>{ LATER.forEach(async k=>{
-  CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
-}); }, 1800);
+};
+setTimeout(()=>{ EAGER.forEach(loadCham); }, 1200);
+setTimeout(()=>{ LATER.forEach(loadCham); }, 4200);
 const GRADE = {3:["naghammadi",-1],   /* act 3 reads tCham directly; grade unused */
                21:["harbor",-1],22:["christening",-1],23:["warehouse",-1],  /* the wing: own acts, grade unused */
                24:["nineteen33",11],   /* the 1933 chamber */
@@ -1031,11 +1038,19 @@ function motionPlate(src, uniformName){
   return mp;
 }
 let mpWaters=null, mpBreach=null;
-if(VIDEO_OK) setTimeout(()=>{                 /* lazy: after the opening settles */
+/* 8/24 eve: the two mp4s used to start decoding at +2.5s — DURING the cold open, another
+   source of hitches in the rain. They now wait for the rain to finish (the rain dispatches
+   hall:rainDone), with a timed fallback in case the rain was skipped or absent. */
+const startMotion = ()=>{
+  if(!VIDEO_OK || mpWaters) return;
   mpWaters = motionPlate("assets/motion-waters.mp4","tWaters");
   mpBreach = motionPlate("assets/motion-breach.mp4","tBreach");
   window.__mp = motionPlates;                 /* verification handle */
-}, 2500);
+};
+if(VIDEO_OK){
+  addEventListener("hall:rainDone", ()=>setTimeout(startMotion, 500), {once:true});
+  setTimeout(startMotion, 11000);
+}
 function scrubPlate(mp, active, local){
   if(!mp || !mp.ready || !active) return;
   const d = mp.v.duration || 8;
@@ -2083,6 +2098,36 @@ window.__ready = true;
       if (ok.length >= 8) for (let k=0;k<sc.w;k++) GLYPHS = GLYPHS.concat(ok);
     }
     if (GLYPHS.length < 24) GLYPHS = "אבגדהוזחטיכלמנסעפצקרשת0123456789".split("");
+    /* cap the unique set so the sprite atlas stays small — 192 glyphs is plenty of babel */
+    const uniq = [...new Set(GLYPHS)];
+    if (uniq.length > 192){
+      const keep = new Set(uniq.filter((_,i)=> i % Math.ceil(uniq.length/192) === 0).slice(0,192));
+      GLYPHS = GLYPHS.filter(ch=>keep.has(ch));
+    }
+  }
+
+  /* ── THE SPRITE ATLAS (8/24 eve — "the matrix part glitches"). ~1,100 fillText calls of
+     70px supplementary-plane glyphs per frame was the cost; rare-glyph shaping + cache
+     churn made every frame expensive and every load-hitch visible. Each glyph is now
+     rasterised ONCE per palette (bronze tail, parchment lead) and stamped with drawImage —
+     the per-frame cost collapses and the fall stays liquid. ── */
+  let atlasB=null, atlasP=null, AIDX=new Map(), ACOLS=24, CW=0, CH=0;
+  function buildAtlas(){
+    AIDX.clear();
+    const uniq=[...new Set(GLYPHS)];
+    const rows=Math.ceil(uniq.length/ACOLS);
+    /* atlas cells carry overflow room — wide cuneiform spilled past its cell under
+       fillText and must keep doing so under drawImage */
+    CW=Math.ceil(CELL*1.5); CH=Math.ceil(CELL*1.3);
+    const font=Math.floor(CELL*0.92)+"px 'Noto Sans Cuneiform','Segoe UI Historic','Noto Sans Symbols2',serif";
+    const make=(color)=>{ const a=document.createElement("canvas");
+      a.width=ACOLS*CW; a.height=rows*CH;
+      const x=a.getContext("2d"); x.font=font; x.textBaseline="top"; x.fillStyle=color;
+      uniq.forEach((ch,i)=>x.fillText(ch,(i%ACOLS)*CW,Math.floor(i/ACOLS)*CH));
+      return a; };
+    atlasB=make("rgb(201,150,70)");        /* aged bronze — the tail */
+    atlasP=make("rgb(240,216,166)");       /* lit parchment — the lead */
+    uniq.forEach((ch,i)=>AIDX.set(ch,i));
   }
 
   /* EARTH TONES, his order 8/24: "not the code green hue but more of a earth tones so its
@@ -2119,16 +2164,20 @@ window.__ready = true;
       glyphs:Array.from({length:ROWS+30},()=>GLYPHS[Math.floor(rand()*GLYPHS.length)])
     });
   }
-  buildGlyphs(); layout();
-  addEventListener("resize", ()=>{ buildGlyphs(); layout(); });
+  buildGlyphs(); layout(); buildAtlas();
+  addEventListener("resize", ()=>{ buildGlyphs(); layout(); buildAtlas(); });
 
-  const T0 = performance.now();
   const MAXWAIT = END + 2200;
   let done = false, f = 0;
+  /* the rain keeps its own CLAMPED clock: a main-thread hitch (shader compile, texture
+     upload) now slows the fall for one beat instead of teleporting every stream — the
+     jump-cut was most of what read as "glitching" */
+  let lastNow = performance.now(), rainT = 0;
 
   function finish(){
     if(done) return; done = true;
     cv.classList.add("gone"); skip.classList.add("gone");
+    dispatchEvent(new Event("hall:rainDone"));   /* the film starts its heavy fetches now */
     setTimeout(()=>{ cv.remove(); skip.remove(); }, 1300);
   }
   skip.addEventListener("click", finish);
@@ -2155,7 +2204,9 @@ window.__ready = true;
 
   (function draw(){
     if(done) return;
-    const t = performance.now()-T0;
+    const now = performance.now();
+    rainT += Math.min(50, now - lastNow); lastNow = now;
+    const t = rainT;
     f++;
     ctx.fillStyle = "#000"; ctx.fillRect(0,0,W,H);
     const st = beatState(t);
@@ -2163,6 +2214,7 @@ window.__ready = true;
     const word = st.text, lock = st.a;
     const wordStart = word ? Math.max(0, Math.floor((COLS - word.length)/2)) : 0;
 
+    const leadA = 1-lock*0.6;
     for(let c=0;c<COLS;c++){
       const s = streams[c], total = ROWS + s.length;
       const pos = (((t/1000)*s.speed*0.42 + s.phase)%1)*total;
@@ -2172,12 +2224,13 @@ window.__ready = true;
         const tt = i/s.length;
         const fade = Math.pow(1-tt,1.7)*(1-lock*0.74);
         const ch = s.glyphs[(r + Math.floor(f/s.churn)*(c+1)) % s.glyphs.length];
-        ctx.fillStyle = (i===0)
-          ? "rgba(240,216,166,"+(1-lock*0.6).toFixed(3)+")"
-          : "rgb("+Math.round(R*fade)+","+Math.round(G*fade)+","+Math.round(B*fade)+")";
-        ctx.fillText(ch, c*CELL, r*CELL);
+        const gi = AIDX.get(ch); if(gi===undefined) continue;
+        ctx.globalAlpha = (i===0) ? leadA : fade;
+        ctx.drawImage(i===0?atlasP:atlasB, (gi%ACOLS)*CW, Math.floor(gi/ACOLS)*CH,
+                      CW, CH, c*CELL, r*CELL, CW, CH);
       }
     }
+    ctx.globalAlpha = 1;
     /* the line assembles out of the field, in latin, so it can actually be read */
     if(word && lock>0.02){
       ctx.font = Math.floor(CELL*0.78)+"px 'JetBrains Mono',ui-monospace,monospace";
