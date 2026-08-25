@@ -1040,9 +1040,14 @@ const LATER = ["harbor","christening","warehouse","ministry","wall","study","sta
    visible hitch in the glyph rain (his note: "the opening matrix letter part glitches").
    Nothing blocks the boot now: every chamber gets the stand-in and the real plates stream
    in behind the open — the first chamber is minutes of scroll away. */
-for (const k of [...EAGER, ...LATER]) CHAM[k] = [texHall, depHall];
+for (const k of [...EAGER, ...LATER]) CHAM[k] = [texHall, depHall, 1672/941];
+/* PORTRAIT-NATIVE PLATES (8/24 night, his credits): rooms whose composition cannot live
+   in a phone's 26% center-crop get a true 9:16 plate, loaded when the device is portrait */
+const PORTRAIT_PLATES = new Set(["christening","harbor"]);
 const loadCham = async k => {
-  CHAM[k] = [await load(`assets/plate-${k}.jpg`), await load(`assets/depth-${k}.jpg`, false)];
+  const m = (innerWidth<innerHeight && PORTRAIT_PLATES.has(k)) ? "-m" : "";
+  CHAM[k] = [await load(`assets/plate-${k}${m}.jpg`), await load(`assets/depth-${k}${m}.jpg`, false),
+             m ? 941/1672 : 1672/941];
 };
 setTimeout(()=>{ EAGER.forEach(loadCham); }, 1200);
 setTimeout(()=>{ LATER.forEach(loadCham); }, 4200);
@@ -1145,6 +1150,14 @@ float noise(vec2 p){ vec2 i=floor(p),f=fract(p); f=f*f*(3.-2.*f);
   return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y); }
 float fbm(vec2 p){ float v=0.,a=.5; for(int i=0;i<4;i++){ v+=a*noise(p); p*=2.03; a*=.5; } return v; }
 
+/* orientation-aware aspect: keeps drawn geometry (seal, vesica, seed, flower, solid)
+   CIRCULAR on portrait phones — the old vec2(w/h,1) stretched every circle into an oval
+   and rendered the wax seal wider than the screen (8/24 night, the mobile 3D pass) */
+vec2 aspFit(){ float a=uRes.x/uRes.y; return (a>=1.)? vec2(a,1.) : vec2(1.,1./a); }
+/* portrait framing: a phone shows ~26% of a plate's width — shift the crop window toward
+   the act's SUBJECT so the pour / the window pool / the coins stay in frame */
+float pfoc(float f){ return (uRes.x<uRes.y && uPlateAspect>1.)? (f-.5)*(1.-(uRes.x/uRes.y)/uPlateAspect) : 0.; }
+
 /* cover-fit: viewport uv -> plate uv */
 vec2 cover(vec2 uv){
   float sAsp = uRes.x/uRes.y;
@@ -1205,7 +1218,7 @@ vec3 actSeal(vec2 uv, float p){
   /* the camera approaches the document — a slow push-in so the scroll always moves the
      frame (movement law; the pressed seal's second half used to hold dead still) */
   uv = (uv-.5)/(1.+.07*p)+.5;
-  vec2 asp = vec2(uRes.x/uRes.y, 1.0);
+  vec2 asp = aspFit();
   vec2 q = (uv-.5)*asp;
   /* paper field — ink-dark, large quiet grain; must never read as woven fabric */
   float pap = texture2D(tPaper, uv*vec2(1.35,1.35)*asp).r;
@@ -1258,6 +1271,7 @@ vec3 actSeal(vec2 uv, float p){
 /* ═ ACT 1 · THE WATERS — descend ═ */
 vec3 actWaters(vec2 uv, float p){
   vec2 cuv = cover(uv);
+  cuv.x += pfoc(.62);                                              /* the Pilgrim (x=.61) stays in frame on phones */
   cuv = zoomAt(cuv, vec2(.5,.42), 1.04+.05*p);
   cuv.y = clamp(cuv.y + .085*p - .012, .001,.999);                 /* we sink: surface recedes upward */
   float d = texture2D(dWaters,cuv).r;
@@ -1328,7 +1342,8 @@ vec3 actHarbor(vec2 uv, float p){
   vec2 cuv = cover(uv);
   float appr = smoothstep(0.,.55,p);
   float sunup = smoothstep(.45,1.,p);
-  cuv = zoomAt(cuv, mix(vec2(.5,.50), vec2(.46,.44), appr), 1.03+.22*appr);
+  vec2 cT = (uPlateAspect<1.)? vec2(.50,.46) : vec2(.46,.44);   /* portrait plate centers the hull */
+  cuv = zoomAt(cuv, mix(vec2(.5,.50), cT, appr), 1.03+.22*appr);
   float d0 = texture2D(dCham,cuv).r;
   float march = (p-.5)*2.0;
   vec2 amt = vec2(.048,.020)*march + vec2(uMouse.x*.028, uMouse.y*.014);
@@ -1348,9 +1363,11 @@ vec3 actHarbor(vec2 uv, float p){
 /* ═ ACT 22 · THE CHRISTENING — the poured water catching sun IS the light source. ═ */
 vec3 actChristening(vec2 uv, float p){
   vec2 cuv = cover(uv);
+  cuv.x += pfoc(.92);                                              /* the pour (x≈.88) stays in frame on phones */
   float appr = smoothstep(0.,.60,p);
   float bless = smoothstep(.40,.90,p);
-  cuv = zoomAt(cuv, mix(vec2(.5,.50), vec2(.74,.40), appr), 1.02+.26*appr);
+  vec2 cT = (uPlateAspect<1.)? vec2(.50,.44) : vec2(.74,.40);   /* portrait plate centers the pour */
+  cuv = zoomAt(cuv, mix(vec2(.5,.50), cT, appr), 1.02+.26*appr);
   float d0 = texture2D(dCham,cuv).r;
   float march = (p-.5)*2.0;
   vec2 amt = vec2(.044,.018)*march + vec2(uMouse.x*.026, uMouse.y*.013);
@@ -1375,6 +1392,7 @@ vec3 actChristening(vec2 uv, float p){
    destination (it echoes the jar). ═ */
 vec3 actCargo(vec2 uv, float p){
   vec2 cuv = cover(uv);
+  cuv.x += pfoc(.62);                                              /* the lit crate stays in frame on phones */
   float appr = smoothstep(0.,.50,p);
   float push = smoothstep(.50,1.,p);
   vec2 c = mix(vec2(.5,.50), vec2(.63,.50), appr);                     /* toward the lit crate */
@@ -1402,7 +1420,7 @@ vec3 actCreation(vec2 uv, float p){
   float aw = smoothstep(0.,.28,p);                                 /* the point appears */
   float mv = smoothstep(.30,.68,p);                                /* it moves upon the waters */
   float lt = smoothstep(.68,1.,p);                                 /* let there be light */
-  vec2 asp = vec2(uRes.x/uRes.y,1.);
+  vec2 asp = aspFit();
   vec2 lp = vec2(mix(.32,.64,mv), .60);                            /* the light's place over the water */
   float horizon = .40;
   vec3 col = vec3(.004,.006,.010);                                 /* the void — never true black */
@@ -1430,14 +1448,14 @@ vec3 actCreation(vec2 uv, float p){
    turning in gold wire. "Out of the seed of life comes the flower of life. From the flower
    of life you get the 5 Platonic solids or physical matter." Extended 8/24, his review. ═ */
 vec3 actStanding(vec2 uv, float p){
-  vec2 asp = vec2(uRes.x/uRes.y,1.);
+  vec2 asp = aspFit();
   float draw   = smoothstep(0.,.20,p);                             /* the second circle is drawn */
   float open   = smoothstep(.20,.38,p);                            /* the vesica fills with light */
   float seed   = smoothstep(.38,.58,p);                            /* the seed of life blooms */
   float flower = smoothstep(.56,.78,p);                            /* two more rings — nineteen circles */
   float solid  = smoothstep(.78,.97,p);                            /* the pattern becomes matter */
-  float R = .19;
-  vec2 ctr = vec2(.60,.46);   /* right of the copy column (8/24 eve: the glow was washing the words) */
+  float R = (uRes.x<uRes.y)? .155 : .19;                           /* the pattern fits a phone */
+  vec2 ctr = (uRes.x<uRes.y)? vec2(.5,.42) : vec2(.60,.46);   /* right of the copy column on wide screens */
   vec2 c1 = ctr - vec2(R*.5*draw,0.), c2 = ctr + vec2(R*.5*draw,0.);
   float d1 = distance(uv*asp, c1*asp), d2 = distance(uv*asp, c2*asp);
   vec3 col = vec3(.005,.007,.011);
@@ -1467,7 +1485,7 @@ vec3 actStanding(vec2 uv, float p){
     float rr = mix(1.7320508*R, 2.*R, inner);
     float on = smoothstep(float(i)/13., float(i)/13.+.16, flower);
     vec2 cc = ctr + vec2(cos(a),sin(a))*rr/asp;
-    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.34*(1.-.35*solid);
+    col += gold*exp(-abs(distance(uv*asp,cc*asp)-R)*95.)*on*.34*(1.-((uRes.x<uRes.y)?.62:.35)*solid);
   }
   /* THE PLATONIC SOLID — the finale: a hexahedron in gold wire, born out of the flower,
      turning slowly. Twelve edges = twelve segment-distance evals; nothing else is drawn. */
@@ -1493,7 +1511,8 @@ vec3 actStanding(vec2 uv, float p){
       vec2 p0 = q0.xy*S*(1.6/(1.6-q0.z*.35));
       vec2 p1 = q1.xy*S*(1.6/(1.6-q1.z*.35));
       float ds = segd(P, p0, p1);
-      col += gold*exp(-ds*230.)*solid*.55;
+      float wire = (uRes.x<uRes.y)? 150. : 230.;                   /* thicker wire at phone size */
+      col += gold*exp(-ds*wire)*solid*((uRes.x<uRes.y)?.72:.55);
       col += vec3(1.,.90,.66)*exp(-ds*40.)*solid*.045;             /* the wire's own halo */
     }
     col += vec3(1.,.88,.60)*exp(-length(P)*3.0)*solid*.10;         /* matter holds the light */
@@ -1591,6 +1610,7 @@ vec3 actHall(vec2 uv, float p){
    window's cold daylight pool at .78,.65 measured). The judicial relight stays cold. ═ */
 vec3 actChamber(vec2 uv, float p){
   vec2 cuv = cover(uv);
+  cuv.x += pfoc(.70);                                              /* the window pool stays in frame on phones */
   cuv = zoomAt(cuv, vec2(.5,.48), 1.04+.10*p);                     /* drift forward, walking pace */
   float d = texture2D(dCorr,cuv).r;
   cuv += (d-.5)*vec2(uMouse.x*.022, uMouse.y*.012);
@@ -1611,6 +1631,7 @@ vec3 actChamber(vec2 uv, float p){
    measured 5/255 apart. */
 vec3 actPaper(vec2 uv, float p){
   vec2 cuv = cover(uv);
+  if(uGrade==11) cuv.x += pfoc(.32);                               /* 1933: the scale and coins stay in frame */
   /* the operator breathes — the camera is never locked, exactly as in the water acts */
   float sway = sin(uTime*.21)*.0040 + sin(uTime*.083+1.3)*.0026;
   cuv = zoomAt(cuv, vec2(.5+sway*.7,.48), 1.00+.155*p);
@@ -1891,8 +1912,14 @@ buildActs();
    movements are proportionally shorter, and the Statutes turn (2.6% of the page) was spending
    ~92% of itself dipping to black. The window now scales with each act's own span. */
 /* BLEND_FRAC .22→.19 (8/24 pacing law): after re-proportioning, the dip share measured
-   20.8% of total scroll — the law caps transitions at 15–20%. At .19 it sits at 18.4%. */
-const BLEND_MAX = .024, BLEND_FRAC = .19;
+   20.8% of total scroll — the law caps transitions at 15–20%. At .19 it sits at 18.4%.
+   PORTRAIT (8/24 night, the mobile 3D pass): on a phone the pinned copy covers the act
+   until the fade and the dip starts at 81% — the light shows never owned the screen.
+   Portrait tightens the dip so each act gets a true solo window after the copy leaves. */
+const BLEND_MAX = .024;
+let BLEND_FRAC = .19;
+function paceForOrientation(){ BLEND_FRAC = (innerWidth<innerHeight) ? .11 : .19; }
+paceForOrientation(); addEventListener("resize", paceForOrientation);
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
 const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),
@@ -1940,7 +1967,12 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSection
 /* .88/.12 (was .82/.15) — his 8/24 eve review: "the text disappears too quickly."
    Copy now holds to 88% of its section and is gone only at the very seam. Flow sections
    are included — since the sticky-bottom pin they hold like everything else. */
-const FADE_START=.88, FADE_SPAN=.09;   /* fully gone by 97% — no half-faded slivers at the seam */
+let FADE_START=.88, FADE_SPAN=.09;   /* fully gone by 97% — no half-faded slivers at the seam */
+function fadeForOrientation(){
+  /* phones: the copy releases the screen a beat earlier so the film gets its solo window */
+  if(innerWidth<innerHeight){ FADE_START=.78; FADE_SPAN=.08; } else { FADE_START=.88; FADE_SPAN=.09; }
+}
+fadeForOrientation(); addEventListener("resize", fadeForOrientation);
 let FADE_SECS=[];
 function buildFadeSecs(){
   FADE_SECS=[...document.querySelectorAll("main section")]
@@ -1995,6 +2027,9 @@ function setActs(p){
     F.uniforms.tCham.value = CHAM[key][0];
     F.uniforms.dCham.value = CHAM[key][1];
     F.uniforms.uGrade.value = g;
+    F.uniforms.uPlateAspect.value = CHAM[key][2] || 1672/941;
+  } else {
+    F.uniforms.uPlateAspect.value = 1672/941;
   }
   F.uniforms.uActA.value=A.id; F.uniforms.uActB.value=B.id;
   F.uniforms.uPA.value=THREE.MathUtils.clamp(local,0,1);
@@ -2017,7 +2052,9 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   F.uniforms.uTime.value=tSec; F.uniforms.uSealT.value=sealT; F.uniforms.uFlash.value=0;
   const A = ACTS.find(a=>p>=a.s&&p<a.e)||ACTS[ACTS.length-1];
   if((A.id>=10 && A.id<30) || A.id===3){ const [k,g]=GRADE[A.id]; F.uniforms.tCham.value=CHAM[k][0];
-                F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g; }
+                F.uniforms.dCham.value=CHAM[k][1]; F.uniforms.uGrade.value=g;
+                F.uniforms.uPlateAspect.value=CHAM[k][2]||1672/941; }
+  else { F.uniforms.uPlateAspect.value = 1672/941; }
   const local=(p-A.s)/(A.e-A.s);
   const rise = A.id===3? Math.max(0,Math.min(1,(local-.42)/.58)) : A.id>3?1:0;
   codexLight.intensity=rise*22;
