@@ -44,6 +44,16 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
   box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
 #wall .plaques{margin-top:2.4rem}
 #wall .caption{margin-top:2.2rem}
+/* ministry's citation chips sit on their own lines inside the glass — the long 508 chip
+   was overflowing the panel's right edge at wide viewports (his 8/24 night note) */
+#ministry .caption .chip{display:table;margin:.5rem 0 0}
+/* the Second Chair close rides its own paper panel — ink was sinking into the shelf's
+   dark wood at wide viewports, and the verse chip overlapped the line (8/24 night) */
+#hall .chairclose{margin-top:2.6rem;max-width:46rem;background:rgba(243,236,224,.78);
+  border:1px solid rgba(138,107,47,.30);border-radius:6px;padding:1.5rem 1.7rem;
+  -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+#hall .chairclose .chip{display:table;margin:.5rem 0 0}
+#hall .chairclose p{color:rgba(16,20,32,.88)}   /* bare p falls back to base ivory — ink it */
 /* the 1873 + 1933 authority chains ride quiet glass; wide viewports put their small
    type over bright marble (grok eye-pass 8/24 eve) */
 #chamber1873 .thread,#gold1933 .thread{background:linear-gradient(180deg,rgba(6,9,16,.45),rgba(6,9,16,.12));
@@ -681,7 +691,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="cite">Title 8 Ministries™</p>
     <!-- 8/24 citation enrichment: the claim rode bare — the mandatory-exception statute and
          the oldest church-autonomy case now sit beside it (both pre-verified, live-checked) -->
-    <p class="caption"><a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section508&amp;num=0&amp;edition=prelim" style="margin-left:0" target="_blank" rel="noopener">26 u.s.c. &sect; 508(c)(1)(A) &middot; churches &mdash; the mandatory exception</a>
+    <p class="caption"><a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section508&amp;num=0&amp;edition=prelim" style="margin-left:0" target="_blank" rel="noopener">26 u.s.c. &sect; 508(c)(1)(A) &mdash; the mandatory exception</a>
       <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep080/usrep080679/usrep080679.pdf" target="_blank" rel="noopener">watson v. jones, 80 u.s. 679</a></p>
   </div></div>
 </section>
@@ -826,7 +836,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- V·f · THE STATUTES TURN — from system to remedy, his teaching voice -->
-<section id="statutes" style="height:170vh;align-items:flex-start">
+<section id="statutes" style="height:140vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-statutes.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Turn</p>
@@ -866,11 +876,13 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
          the ask becomes a commission to build a house, not join a club. His post's own
          close (harvest §5) + KJV Matt 7:24 VERBATIM (bible-api-verified 8/24). The empty
          second chair IN THE PLATE is held for his call — copy beat ships first. -->
-    <p style="margin-top:2.6rem">The house built upon a solid rock</p>
+    <div class="chairclose">
+    <p style="margin-top:0">The house built upon a solid rock</p>
     <p class="caption"><em>Therefore whosoever heareth these sayings of mine, and doeth them,
       I will liken him unto a wise man, which built his house upon a rock:</em>
       <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Matthew" target="_blank" rel="noopener">matthew 7:24 &middot; kjv &mdash; read it</a></p>
     <p>This is the foundation of which I build my family church.</p>
+    </div>
     <!-- connective — ⚠️ data-pending-confirm: his blessing -->
     <p class="cite" data-pending-confirm>You didn&rsquo;t break the chain to sit alone in the light.</p>
     <p class="cite">Be found faithful. — J.F.M.</p>
@@ -1013,6 +1025,7 @@ setTimeout(()=>{ LATER.forEach(loadCham); }, 4200);
 const GRADE = {3:["naghammadi",-1],   /* act 3 reads tCham directly; grade unused */
                21:["harbor",-1],22:["christening",-1],23:["warehouse",-1],  /* the wing: own acts, grade unused */
                24:["nineteen33",11],   /* the 1933 chamber */
+               25:["landfall",-1],     /* the Answer rides the same parchment, another view */
                10:["babylon",0],11:["rome",1],12:["church",2],13:["sixteensixtysix",3],
                14:["labanca",4],15:["landfall",5],16:["ministry",6],17:["wall",7],
                18:["study",8],19:["statutes",9],20:["morninghall",10]};
@@ -1511,6 +1524,30 @@ vec3 actLand(vec2 uv, float p){
   return col;
 }
 
+/* ═ ACT 25 · THE ANSWER — the same handmade parchment, ANOTHER VIEW (8/24 night, his
+   review: the procedural ivory read as "a plain white background with no image" — the
+   whole ivory stretch now carries the paper photograph, landfall's plate reframed, so
+   the two pages read as one continuous document). Slow drift, travelling daylight,
+   dusk falls at the tail into the harbor. ═ */
+vec3 actAnswer(vec2 uv, float p){
+  vec2 cuv = cover(uv);
+  cuv = zoomAt(cuv, mix(vec2(.62,.62), vec2(.44,.34), smoothstep(0.,1.,p)), 1.24+.08*p);
+  float d = texture2D(dCham,cuv).r;
+  cuv += (d-.5)*vec2(uMouse.x*.016, uMouse.y*.009);
+  vec3 col = texture2D(tCham,cuv).rgb;
+  vec2 sun = vec2(.24+.58*p, .10+.18*p);                            /* daylight travels the sheet */
+  col *= 1.-smoothstep(.30,1.3,distance(uv,sun))*(.06+.16*p);
+  col *= mix(vec3(1.0), vec3(1.012,.998,.978), p);
+  /* DUSK FALLS ON THE PAGE — the seam into the dark harbor stays dark-to-dark */
+  vec2 o=uv-.5;
+  float dusk  = smoothstep(.76,.985,p);
+  float ring  = smoothstep(.06,.62,length(o));
+  float night = clamp(dusk*(.30+.85*ring) + smoothstep(.93,1.,p)*.75, 0., 1.);
+  col = mix(col, vec3(.030,.038,.058)*(0.85+.30*texture2D(tPaper,uv*3.).r), night);
+  col += vec3(1.,.86,.60)*exp(-length(o-vec2(.06,-.14))*3.2)*dusk*(1.-night)*.10;
+  return col;
+}
+
 /* ═ ACT 6 · THE HALL — candlelit epilogue ═ */
 vec3 actHall(vec2 uv, float p){
   vec2 cuv = cover(uv);
@@ -1525,21 +1562,22 @@ vec3 actHall(vec2 uv, float p){
   return col;
 }
 
-/* ═ ACT 7 · THE 1873 CHAMBER — the flagship: the corridor re-lit cold ═ */
+/* ═ ACT 7 · THE 1873 CHAMBER — the courtroom itself now (plate v2, 8/24 night: his call —
+   the corridor "has nothing to do with the text"; the room is an 1870s courtroom, the one
+   window's cold daylight pool at .78,.65 measured). The judicial relight stays cold. ═ */
 vec3 actChamber(vec2 uv, float p){
   vec2 cuv = cover(uv);
   cuv = zoomAt(cuv, vec2(.5,.48), 1.04+.10*p);                     /* drift forward, walking pace */
   float d = texture2D(dCorr,cuv).r;
   cuv += (d-.5)*vec2(uMouse.x*.022, uMouse.y*.012);
   vec3 col = texture2D(tCorr,cuv).rgb;
-  /* the cold key: one white judicial light from high left kills the corridor's warmth */
-  float cold = smoothstep(.15,.75,cuv.y)*smoothstep(.9,.25,cuv.x);
+  /* the cold key: the tall window at the right — the one light this room is allowed */
+  float cold = smoothstep(.25,.85,cuv.y)*smoothstep(.35,.85,cuv.x);
   vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
-  col = mix(col, g*vec3(.82,.90,1.05), .45+.25*cold);              /* marble drained toward monochrome */
-  float fl = 1.+.015*sin(uTime*11.3)+.012*sin(uTime*6.7+2.1);      /* one candle survives, low right */
-  col += vec3(1.,.72,.38)*smoothstep(.5,.0,distance(cuv,vec2(.82,.30)))*.05*fl;
-  col *= .80+.10*p;
-  vec2 o=uv-.5; col *= 1.-dot(o,o)*.72;
+  col = mix(col, g*vec3(.82,.90,1.05), .40+.22*cold);              /* drained toward judicial monochrome */
+  col += vec3(.90,.95,1.05)*smoothstep(.45,.0,distance(cuv,vec2(.78+.05*p,.65)))*.06;  /* the pool breathes as you walk */
+  col *= .84+.12*p;
+  vec2 o=uv-.5; col *= 1.-dot(o,o)*.68;
   return col;
 }
 
@@ -1680,6 +1718,7 @@ vec3 act(int id, vec2 uv, float p){
   if(id==30) return actCreation(uv,p);
   if(id==31) return actStanding(uv,p);
   if(id==21) return actHarbor(uv,p);
+  if(id==25) return actAnswer(uv,p);
   if(id==22) return actChristening(uv,p);
   if(id==23) return actCargo(uv,p);
   if(id>=10) return actPaper(uv,p);
@@ -1710,6 +1749,10 @@ void main(){
       float ring = smoothstep(.035,.0,abs(r-front))* (1.-uBlend);
       col = mix(col, colB, mask);
       col += vec3(.5,.8,.85)*ring*.45;
+    } else if((uActA==15&&uActB==25)||(uActA==25&&uActB==15)){
+      /* landfall -> answer: the SAME sheet of paper, two framings — crossfade directly
+         (8/24 night: dipping two ivory pages through black read as a dark flash) */
+      col = mix(col, colB, smoothstep(0.,1.,uBlend));
     } else {
       /* never ghost two plates through each other — dip through the dark instead */
       float b = smoothstep(0.,1.,uBlend);
@@ -1802,7 +1845,7 @@ composer.addPass(grainPost);
 /* The act table is DERIVED from the real section geometry — the hand-kept table had to be
    "remapped" by hand after every new movement, and a hand-kept table drifts. */
 const ACT_OF = {seal:0, waters:1, deep:2, creation:30, standing:31, jar:3, breach:4, landfall:15,
-                answer:5,   /* the procedural ivory page — actLand found its section again 8/24 */
+                answer:25,  /* the parchment photo, another view (act 25; actLand retired 8/24 night) */
                 harbor:21, christening:22, cargo:23,   /* the Named by Water wing */
                 babylon:10, rome:11, church:12, cestui:13, labanca:14,
                 ministry:16, chamber1873:7, gold1933:24, wall:17, study:18, statutes:19, hall:20};
@@ -1887,7 +1930,16 @@ function fadeCopy(){
     const span = sec.offsetHeight - innerHeight;
     if (span<=0){ if(w.style.opacity) w.style.opacity=""; continue; }
     const local = (scrollY - sec.offsetTop)/span;
-    if (local<-0.05 || local>1.25){ if(w.style.opacity) w.style.opacity=""; continue; }
+    if (local < -0.05){ if(w.style.opacity) w.style.opacity=""; continue; }
+    /* ⛔ 8/24 night, his review: the old reset restored opacity at local>1.25 — but a tall
+       pinned copy block can STILL be partly on screen there, so faded words snapped back
+       ("text disappears and then reappears"). Faded copy now stays faded until the whole
+       section is above the viewport; only then does the inline style clear. */
+    if (local > FADE_START + FADE_SPAN){
+      const gone = (sec.offsetTop + sec.offsetHeight) < scrollY;
+      w.style.opacity = gone ? "" : "0";
+      continue;
+    }
     const o = local>FADE_START ? Math.max(0, 1-(local-FADE_START)/FADE_SPAN) : 1;
     w.style.opacity = o.toFixed(3);
   }
