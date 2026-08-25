@@ -1049,8 +1049,15 @@ const loadCham = async k => {
   CHAM[k] = [await load(`assets/plate-${k}${m}.jpg`), await load(`assets/depth-${k}${m}.jpg`, false),
              m ? 941/1672 : 1672/941];
 };
-setTimeout(()=>{ EAGER.forEach(loadCham); }, 1200);
-setTimeout(()=>{ LATER.forEach(loadCham); }, 4200);
+/* the chambers stream ONE AT A TIME, spread through the rain — the clamped rain clock
+   absorbs each small decode as a soft beat, where a single burst at the handoff was a
+   ~0.8s stall (measured; his "wonky scroll after the code rain") */
+EAGER.forEach((k,i)=>setTimeout(()=>loadCham(k), 2200 + i*700));
+let laterStarted=false;
+const startLater = ()=>{ if(laterStarted) return; laterStarted=true;
+  LATER.forEach((k,i)=>setTimeout(()=>loadCham(k), 1500 + i*600)); };
+addEventListener("hall:rainDone", startLater, {once:true});
+setTimeout(startLater, 14000);   /* fallback if the rain was skipped or absent */
 const GRADE = {3:["naghammadi",-1],   /* act 3 reads tCham directly; grade unused */
                21:["harbor",-1],22:["christening",-1],23:["warehouse",-1],  /* the wing: own acts, grade unused */
                24:["nineteen33",11],   /* the 1933 chamber */
@@ -1069,16 +1076,29 @@ const motionPlates = [];
 function motionPlate(src, uniformName){
   const v = document.createElement("video");
   v.src = src; v.muted = true; v.playsInline = true; v.preload = "auto";
+  v.setAttribute("muted","");   /* iOS needs the attribute, not just the property */
   const mp = {v, tex:null, uniformName, ready:false};
-  v.addEventListener("canplaythrough", ()=>{
+  const arm = ()=>{
+    if(mp.ready) return;
     const tex = new THREE.VideoTexture(v);
     tex.colorSpace = THREE.SRGBColorSpace; tex.minFilter = THREE.LinearFilter;
     mp.tex = tex; mp.ready = true;
     F.uniforms[uniformName].value = tex;      /* binds early, usually during the seal */
-  }, {once:true});
+  };
+  /* ⛔ iOS Safari does not load video data without a gesture — canplaythrough never fired
+     and THE SWIM NEVER APPEARED ON PHONES (his 8/24 recording). loadeddata counts as
+     ready too, and the first touch primes decode with a play->pause nudge. */
+  v.addEventListener("canplaythrough", arm, {once:true});
+  v.addEventListener("loadeddata", arm, {once:true});
+  v.load();
   motionPlates.push(mp);
   return mp;
 }
+const primeVideos = ()=>{ motionPlates.forEach(mp=>{
+  const pr = mp.v.play(); if(pr && pr.then) pr.then(()=>mp.v.pause()).catch(()=>{});
+}); };
+addEventListener("touchend", primeVideos, {passive:true});
+addEventListener("pointerdown", primeVideos, {passive:true});
 let mpWaters=null, mpBreach=null;
 /* 8/24 eve: the two mp4s used to start decoding at +2.5s — DURING the cold open, another
    source of hitches in the rain. They now wait for the rain to finish (the rain dispatches
@@ -1220,6 +1240,7 @@ vec3 actSeal(vec2 uv, float p){
   uv = (uv-.5)/(1.+.07*p)+.5;
   vec2 asp = aspFit();
   vec2 q = (uv-.5)*asp;
+  bool port = uRes.x<uRes.y;
   /* paper field — ink-dark, large quiet grain; must never read as woven fabric */
   float pap = texture2D(tPaper, uv*vec2(1.35,1.35)*asp).r;
   vec3 col = vec3(.048,.055,.075) * (0.94 + .16*pap);
@@ -1227,7 +1248,7 @@ vec3 actSeal(vec2 uv, float p){
   col *= .88 + .22*max(0., dot(normalize(vec3(dFdx(pap),dFdy(pap),.55)), L));
   col *= 1. + .10*smoothstep(.9,.0,length(q-vec2(-.2,.3)));        /* one soft key from upper-left */
   /* signature — gold ink, drawn on */
-  vec2 sQ = (q - vec2(0.0,.235)) / vec2(.62,.62) ;
+  vec2 sQ = (q - (port? vec2(0.0,.62) : vec2(0.0,.235))) / vec2(.62,.62) ;
   vec2 sUv = sQ*vec2(1.0, 1529./556.)*vec2(1.,1.)+.5;
   sUv.y = 1.-((1.-sUv.y-.5)*(556./1529.)*2.75+.5);
   if(sUv.x>0.&&sUv.x<1.&&sUv.y>0.&&sUv.y<1.){
@@ -1238,7 +1259,8 @@ vec3 actSeal(vec2 uv, float p){
     col = mix(col, goldInk, a*draw*.92);
   }
   /* the wax — pressed low-center */
-  vec2 w = (q - vec2(0.0,-.16));
+  vec2 w = (q - (port? vec2(0.0,-.62) : vec2(0.0,-.16)));
+  if(port) w /= .80;                       /* the wax yields the page on phones — smaller, lower */
   float press = smoothstep(.32,.62,uSealT);                        /* it arrives */
   float inWax; float h = sealHeight(w/max(press,.001), inWax)*press;
   if(inWax>0.001&&press>0.02){
@@ -1417,6 +1439,7 @@ vec3 actCargo(vec2 uv, float p){
    photograph. Three beats driven by scroll: darkness upon the face of the deep → a point of
    light that MOVES upon the face of the waters (movement before light) → let there be light. ═ */
 vec3 actCreation(vec2 uv, float p){
+  if(uRes.x<uRes.y) p = clamp((p-.42)/.47, 0., 1.);   /* phones: the show plays after the text and COMPLETES before the dip */
   float aw = smoothstep(0.,.28,p);                                 /* the point appears */
   float mv = smoothstep(.30,.68,p);                                /* it moves upon the waters */
   float lt = smoothstep(.68,1.,p);                                 /* let there be light */
@@ -1448,6 +1471,7 @@ vec3 actCreation(vec2 uv, float p){
    turning in gold wire. "Out of the seed of life comes the flower of life. From the flower
    of life you get the 5 Platonic solids or physical matter." Extended 8/24, his review. ═ */
 vec3 actStanding(vec2 uv, float p){
+  if(uRes.x<uRes.y) p = clamp((p-.42)/.47, 0., 1.);   /* phones: the pattern plays after the text and COMPLETES before the dip */
   vec2 asp = aspFit();
   float draw   = smoothstep(0.,.20,p);                             /* the second circle is drawn */
   float open   = smoothstep(.20,.38,p);                            /* the vesica fills with light */
@@ -1938,7 +1962,20 @@ addEventListener("resize",()=>{ buildActs(); camera.aspect=innerWidth/innerHeigh
 /* ⛔ A section whose copy is taller than the viewport must not pin, or its text prints on
    top of the next section's. Measured, not guessed, and re-measured on resize — the point at
    which a section stops fitting depends entirely on the window. */
+/* PORTRAIT PACING (his 8/24 recording: "very long for that first part then it speeds up
+   fast after") — phones trim the long water beats and give the fast history rooms air.
+   Desktop keeps the landscape proportions untouched. */
+const PORTRAIT_H = {waters:540, deep:330, breach:400, babylon:250, rome:330, cestui:260,
+                    ministry:250, study:210, statutes:180, wall:260, chamber1873:300};
+const LANDSCAPE_H = {};
 function fitSections(){
+  const portrait = innerWidth < innerHeight;
+  for (const sec of document.querySelectorAll("main section")){
+    if (PORTRAIT_H[sec.id]){
+      if (!(sec.id in LANDSCAPE_H)) LANDSCAPE_H[sec.id] = sec.style.height;
+      sec.style.height = portrait ? PORTRAIT_H[sec.id]+"vh" : LANDSCAPE_H[sec.id];
+    }
+  }
   for (const sec of document.querySelectorAll("main section")){
     const wrap = sec.querySelector(".wrap");
     if (!wrap) continue;
