@@ -1337,7 +1337,11 @@ vec3 actJar(vec2 uv, float p){
   float appr = smoothstep(0.,.42,p);
   float push = smoothstep(.45,1.,p);
   vec2 c = mix(vec2(.5,.46), vec2(.50,.39), appr);                 /* toward the jar mouth (GL v) */
-  cuv = zoomAt(cuv, c, 1.05+.30*appr+.55*push);
+  /* portrait already crops a landscape plate to its center ~26% — the desktop push-in on top
+     of that magnified past plate resolution (smeared blotches on phones). Ease it there. */
+  float zA = (uRes.x<uRes.y)? .10 : .30;
+  float zP = (uRes.x<uRes.y)? .18 : .55;
+  cuv = zoomAt(cuv, c, 1.05+zA*appr+zP*push);
   float d = texture2D(dCham,cuv).r;
   cuv += (d-.5)*vec2(uMouse.x*.026, uMouse.y*.014);
   vec3 col = texture2D(tCham,cuv).rgb;
