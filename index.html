@@ -25,10 +25,10 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
    were right). The shader scrim is back at its original grade and the universal per-pixel
    scrim is gone; readability now rides a scoped glass panel behind the copy column of each
    dark room, so the plate keeps its light and the type keeps its ground. */
-#waters .wrap,#deep .wrap,#jar .wrap,#harbor .wrap,#christening .wrap,#cargo .wrap,
+#waters .wrap,#deep .wrap,#jar .wrap,#standing .wrap,#harbor .wrap,#christening .wrap,#cargo .wrap,
 #babylon .wrap,#rome .wrap,#church .wrap,
 #cestui .wrap,#labanca .wrap,#ministry .wrap,#study .wrap,#statutes .wrap{
-  background:linear-gradient(180deg,rgba(6,9,16,.55),rgba(6,9,16,.15));
+  background:linear-gradient(180deg,rgba(6,9,16,.55),rgba(6,9,16,.28));
   -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
   padding:1.6rem 1.8rem;border-radius:6px;
   box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
@@ -41,8 +41,9 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
   box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
 #wall .plaques{margin-top:2.4rem}
 #wall .caption{margin-top:2.2rem}
-/* the 1933 chamber's authority chain rides quiet glass — the cold bar crosses wp4 */
-#gold1933 .thread{background:linear-gradient(180deg,rgba(6,9,16,.45),rgba(6,9,16,.12));
+/* the 1873 + 1933 authority chains ride quiet glass; wide viewports put their small
+   type over bright marble (grok eye-pass 8/24 eve) */
+#chamber1873 .thread,#gold1933 .thread{background:linear-gradient(180deg,rgba(6,9,16,.45),rgba(6,9,16,.12));
   -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);
   padding:.9rem 1.1rem;border-radius:6px}
 /* ── FL-1 · THE MIRROR — the reader's own name in the two registers (ivory room) ── */
@@ -76,12 +77,19 @@ body{margin:0;background:var(--ink);color:var(--ivory);
  font:400 clamp(16px,1.15vw,19px)/1.75 "EB Garamond",Georgia,serif;-webkit-font-smoothing:antialiased}
 #gl{position:fixed;inset:0;z-index:0;display:block}
 #rail{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--gold),#e8cf9a);z-index:40;width:0}
+#railtrack{position:fixed;left:0;top:0;height:2px;width:100%;background:rgba(201,165,92,.14);z-index:39}
 main{position:relative;z-index:1}
 section{display:flex;align-items:center;padding:0 clamp(1.4rem,6vw,7rem);position:relative}
 .wrap{max-width:60rem;width:100%;min-width:0}
 .hold{position:sticky;top:0;height:100vh;display:flex;align-items:center;min-width:0}
-/* set at runtime on any section whose copy is taller than the screen — see fitSections() */
-section.flow > .hold{position:static;height:auto;align-items:flex-start;padding:16vh 0 18vh}
+/* set at runtime on any section whose copy is taller than the screen — see fitSections().
+   ⛔ REBUILT 8/24 EVE on Joseph's review: flow copy used to be position:static, so it
+   scrolled AWAY early and left a huge empty tail ("the text disappears too quickly…then
+   just a big white section"). It now stays sticky with a NEGATIVE top (set per-section by
+   fitSections): the copy scrolls up just far enough to show its last line, then HOLDS for
+   the rest of the section. */
+section.flow > .hold{position:sticky;top:var(--flowtop,0px);height:auto;
+  align-items:flex-start;padding:9vh 0 10vh}
 .kicker{font:400 .9rem/1.8 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;
  color:rgba(219,192,137,.92);margin:0 0 1.4rem}
 h1,h2{font:300 clamp(2rem,5.4vw,4.4rem)/1.02 "Cormorant Garamond",serif;letter-spacing:-.015em;margin:0 0 .2rem}
@@ -97,8 +105,8 @@ p.lead{font-size:clamp(1.15rem,1.7vw,1.5rem);color:rgba(243,236,224,.94);max-wid
  font:400 .86rem/1 "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;
  color:var(--ink);background:linear-gradient(180deg,#e6c98d,#c9a55c);text-decoration:none}
 a{color:var(--gold)}
-.reveal>*{opacity:0;transform:translateY(26px);filter:blur(9px);
- transition:opacity .9s cubic-bezier(.22,.61,.36,1),transform .9s cubic-bezier(.22,.61,.36,1),filter .9s}
+.reveal>*{opacity:0;transform:translateY(14px);filter:blur(4px);
+ transition:opacity 1.2s cubic-bezier(.22,.61,.36,1),transform 1.2s cubic-bezier(.22,.61,.36,1),filter 1.2s}
 .reveal.on>*{opacity:1;transform:none;filter:none}
 .reveal.on>*:nth-child(2){transition-delay:.10s}.reveal.on>*:nth-child(3){transition-delay:.20s}
 .reveal.on>*:nth-child(4){transition-delay:.30s}.reveal.on>*:nth-child(5){transition-delay:.40s}
@@ -182,7 +190,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     on ivory (measured 1.01:1 before the 8/24 audit caught it) */
 /* ── the 1873 chamber: engraved stone, gilding = verification ── */
 .tablet{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin:.6rem 0 0;max-width:56rem}
-.tablet-half{flex:1 1 18rem;min-width:0;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035));
+.tablet-half{flex:1 1 18rem;min-width:0;background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035)),linear-gradient(rgba(8,11,19,.55),rgba(8,11,19,.55));
  border:1px solid rgba(214,207,196,.14);padding:1.5rem 1.7rem}
 .tablet-half p{font:300 clamp(1.15rem,2vw,1.7rem)/1.35 "Cormorant Garamond",serif;
  letter-spacing:.04em;color:#d9d2c4;margin:0;max-width:none;
@@ -190,7 +198,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 .tablet-crack{width:3px;background:linear-gradient(180deg,transparent,rgba(12,17,29,.9) 12%,rgba(12,17,29,.9) 88%,transparent);
  transform:rotate(1.6deg);margin:0 -1px;box-shadow:0 0 14px 2px rgba(0,0,0,.6)}
 .plaques{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(13rem,100%),1fr));gap:.7rem;margin-top:1.6rem;max-width:56rem}
-.plaque{text-align:left;background:rgba(8,11,19,.72);backdrop-filter:blur(3px);
+.plaque{text-align:left;background:rgba(8,11,19,.82);backdrop-filter:blur(3px);
   border:1px solid rgba(125,133,155,.28);
  padding:.9rem 1rem;cursor:pointer;transition:border-color .9s,background .9s;font:inherit;color:inherit}
 .plaque .pl-name{display:block;font:400 .88rem/1.7 "JetBrains Mono",monospace;letter-spacing:.16em;
@@ -258,7 +266,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 @media (prefers-reduced-motion:reduce){#rain,#rainskip{display:none}}
 </style></head><body>
 <canvas id="rain"></canvas><button id="rainskip">Skip</button>
-<div id="rail"></div><canvas id="gl"></canvas>
+<div id="railtrack"></div><div id="rail"></div><canvas id="gl"></canvas>
 <div id="hint">Scroll</div><button id="skip" title="Skip the seal">Skip</button>
 <main>
 
@@ -443,7 +451,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
         spellcheck="false" aria-label="Type your name. Nothing is stored or sent.">
       <div id="mirrorOut" hidden>
         <div class="m-row m-vessel"><span class="m-name" id="mVessel"></span><span class="m-tag">the record</span></div>
-        <div class="m-row m-man"><span class="m-name" id="mMan"></span><span class="m-tag">the man</span></div>
+        <div class="m-row m-man"><span class="m-name" id="mMan"></span><span class="m-tag">the living man or woman</span></div>
         <p class="caption" data-pending-confirm style="margin-top:1rem">One of these was created
           after your birth. Only one of them is alive.</p>
       </div>
@@ -660,7 +668,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <!-- V·b · THE MINISTRY BEAT — three lines, the third gilds in.
      ⚠️ data-pending-confirm: exact canonical wording awaits Joseph (lives on his socials);
      placed per the 8/17 decision: the ministry turn before the Door/CTA. -->
-<section id="ministry" style="height:140vh;align-items:flex-start">
+<section id="ministry" style="height:220vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-ministry.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Ministry</p>
@@ -767,9 +775,12 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   <div class="still" style="background-image:url(assets/plate-wall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:72rem">
     <p class="kicker">The Language Wall · eight definitions of one word</p>
-    <p class="quote" style="max-width:40ch">I contend that a word bearing seven meanings is capable of being
-    applied to the wrong one; that where my rights are at stake I am entitled to know
-    which is meant; and that I am entitled to ask.</p>
+    <!-- 8/24 eve, his review: "say it more simply and plainly." The affidavit's ¶20I
+         sentence (which this replaced) reads as sworn prose; the display now says the same
+         thing plainly. ⚠️ data-pending-confirm — the plain wording is his to bless. -->
+    <p class="quote" style="max-width:40ch" data-pending-confirm>One word. Eight enacted
+    meanings. When your rights are on the line, you are entitled to know which one is
+    meant &mdash; and you are entitled to ask.</p>
     <div class="plaques tiles">
       <div class="plaque"><span class="pl-name">1 U.S.C. § 1</span>
         <span class="pl-quote">"the words 'person' and 'whoever' include corporations, companies, associations, firms, partnerships, societies, and joint stock companies, as well as individuals."</span>
@@ -812,7 +823,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 </section>
 
 <!-- V·f · THE STATUTES TURN — from system to remedy, his teaching voice -->
-<section id="statutes" style="height:120vh;align-items:flex-start">
+<section id="statutes" style="height:170vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-statutes.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Turn</p>
@@ -1374,7 +1385,7 @@ vec3 actStanding(vec2 uv, float p){
   float flower = smoothstep(.56,.78,p);                            /* two more rings — nineteen circles */
   float solid  = smoothstep(.78,.97,p);                            /* the pattern becomes matter */
   float R = .19;
-  vec2 ctr = vec2(.5,.46);
+  vec2 ctr = vec2(.60,.46);   /* right of the copy column (8/24 eve: the glow was washing the words) */
   vec2 c1 = ctr - vec2(R*.5*draw,0.), c2 = ctr + vec2(R*.5*draw,0.);
   float d1 = distance(uv*asp, c1*asp), d2 = distance(uv*asp, c2*asp);
   vec3 col = vec3(.005,.007,.011);
@@ -1472,6 +1483,16 @@ vec3 actLand(vec2 uv, float p){
   col *= 1.-smoothstep(.28,1.25,distance(uv,sun))*(.07+.20*p);
   col *= mix(vec3(1.0,1.0,1.0), vec3(1.012,.998,.978), p);          /* the ivory warms toward the hall */
   col *= 1.-.035*p;                                                  /* and settles a touch */
+  /* DUSK FALLS ON THE PAGE (8/24 eve, his review: white cut straight to black — jarring).
+     Over the act's last quarter the daylight leaves the paper: the edges go first, the
+     centre holds a lamp of ivory, then night takes the sheet — so the seam into the dark
+     harbor is dark-to-dark, the way the Pool site walks its palettes across. */
+  vec2 o=uv-.5;
+  float dusk  = smoothstep(.76,.985,p);
+  float ring  = smoothstep(.06,.62,length(o));
+  float night = clamp(dusk*(.30+.85*ring) + smoothstep(.93,1.,p)*.75, 0., 1.);
+  col = mix(col, vec3(.030,.038,.058)*(0.85+.30*pap), night);
+  col += vec3(1.,.86,.60)*exp(-length(o-vec2(.06,-.14))*3.2)*dusk*(1.-night)*.10;  /* the last of the light, warm */
   return col;
 }
 
@@ -1599,13 +1620,14 @@ vec3 actPaper(vec2 uv, float p){
     vec2 sun = vec2(.14+.20*p, .34-.10*p);
     col += vec3(1.,.96,.86)*smoothstep(.95,.0,distance(cuv,sun))*.08;
     col = mix(col, col*1.05+vec3(.030,.028,.022), far*.35);   /* distance opens, never murks */
-  } else if(uGrade==11){                                /* 1933 — the shuttered bank: one cold bar creeps */
+  } else if(uGrade==11){                                /* 1933 — the bank at dawn: the cold bar finds the coins
+       (plate v2, the scale-and-coins take; light measured at .22,.43) */
     vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
-    col = mix(col, g*vec3(.90,.95,1.06), .32);
-    col += shaft(tCham, cuv, vec2(.26+.16*p,.20), .36)*vec3(.95,.97,1.0);
-    col += vec3(1.,.88,.58)*smoothstep(.22,.0,distance(cuv,vec2(.55,.34)))*.05;   /* the clasp */
-    col = mix(col, col*vec3(.66,.70,.80)+vec3(.010,.012,.017), far*.58);
-    col *= .92;
+    col = mix(col, g*vec3(.90,.95,1.06), .28);
+    col += shaft(tCham, cuv, vec2(.16+.14*p,.46), .36)*vec3(.96,.97,1.0);
+    col += vec3(1.,.86,.52)*smoothstep(.20,.0,distance(cuv,vec2(.22,.43)))*.07;   /* the gold takes the light */
+    col = mix(col, col*vec3(.66,.70,.80)+vec3(.010,.012,.017), far*.55);
+    col *= .94;
   } else {                                              /* the Turn — a closed door, one cold blade */
     vec3 g = vec3(dot(col,vec3(.299,.587,.114)));
     col = mix(col, g*vec3(.88,.93,1.08), .40);
@@ -1812,7 +1834,16 @@ function fitSections(){
     const wrap = sec.querySelector(".wrap");
     if (!wrap) continue;
     sec.classList.remove("flow");
-    if (wrap.scrollHeight > innerHeight * 0.86) sec.classList.add("flow");
+    const hold = sec.querySelector(".hold");
+    if (hold) hold.style.removeProperty("--flowtop");
+    if (wrap.scrollHeight > innerHeight * 0.86){
+      sec.classList.add("flow");
+      /* sticky with a negative top: the copy scrolls until its last line is on screen
+         (with an 8vh breath), then PINS for the rest of the section — it never leaves
+         the reader before the section does */
+      const over = (hold ? hold.scrollHeight : wrap.scrollHeight) - innerHeight;
+      if (hold) hold.style.setProperty("--flowtop", (-Math.max(0, over + innerHeight*0.02)) + "px");
+    }
   }
   buildActs();
 }
@@ -1824,7 +1855,10 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSection
    last ~15% — no reader is ever mid-paragraph while a movement hands off. Flow sections
    (copy taller than the screen) scroll naturally and are left alone, as are sections whose
    pin span is zero. The fade rides the wrap so the reveal's per-child entrance still wins. */
-const FADE_START=.82, FADE_SPAN=.15;
+/* .88/.12 (was .82/.15) — his 8/24 eve review: "the text disappears too quickly."
+   Copy now holds to 88% of its section and is gone only at the very seam. Flow sections
+   are included — since the sticky-bottom pin they hold like everything else. */
+const FADE_START=.88, FADE_SPAN=.09;   /* fully gone by 97% — no half-faded slivers at the seam */
 let FADE_SECS=[];
 function buildFadeSecs(){
   FADE_SECS=[...document.querySelectorAll("main section")]
@@ -1835,7 +1869,6 @@ buildFadeSecs();
 addEventListener("resize", buildFadeSecs);
 function fadeCopy(){
   for (const {sec,w} of FADE_SECS){
-    if (sec.classList.contains("flow")){ if(w.style.opacity) w.style.opacity=""; continue; }
     const span = sec.offsetHeight - innerHeight;
     if (span<=0){ if(w.style.opacity) w.style.opacity=""; continue; }
     const local = (scrollY - sec.offsetTop)/span;
@@ -1846,7 +1879,7 @@ function fadeCopy(){
 }
 
 const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting) e.target.classList.add("on"); }),
-  {threshold:.18});
+  {threshold:.08});
 document.querySelectorAll(".reveal").forEach(el=>io.observe(el));
 
 /* INSPECT — a dissent plaque gilds when touched; gold is earned, never ambient */
