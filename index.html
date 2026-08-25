@@ -234,6 +234,30 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  text-transform:uppercase;color:rgba(219,192,137,1);border:1px solid rgba(201,165,92,.45);
  border-radius:9999px;padding:.2rem .75rem;margin-left:.5rem;text-decoration:none;white-space:nowrap}
 .chip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
+/* ⛔ MOBILE (8/24 night): the nowrap chips were the widest unbreakable elements on the
+   page (up to 539px), so phones expanded the layout viewport to 574px and rendered the
+   whole site zoomed out ~32%. On narrow screens a chip wraps as a soft pill instead. */
+@media (max-width:700px){
+  .chip{white-space:normal;line-height:1.55;border-radius:14px;
+    display:inline-block;margin-left:0;margin-top:.35rem;text-wrap:balance}
+  /* small screens put more plate behind every line — the glass holds a firmer tail,
+     the split tablet a deeper backing, and the Answer's ink gets its own paper ground */
+  #deep .wrap,#jar .wrap,#standing .wrap,#creation .wrap,#harbor .wrap,#christening .wrap,
+  #cargo .wrap,#babylon .wrap,#rome .wrap,#church .wrap,
+  #cestui .wrap,#labanca .wrap,#ministry .wrap,#study .wrap,#statutes .wrap{
+    background:linear-gradient(180deg,rgba(6,9,16,.68),rgba(6,9,16,.48));
+    -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
+    padding:1.3rem 1.1rem;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
+  .tablet-half{background:linear-gradient(175deg,rgba(214,207,196,.10),rgba(214,207,196,.035)),
+    linear-gradient(rgba(8,11,19,.85),rgba(8,11,19,.85))}
+  #answer .wrap{background:linear-gradient(180deg,rgba(243,236,224,.72),rgba(243,236,224,.52));
+    -webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);
+    padding:1.3rem 1.1rem;border-radius:6px}
+  #answer p{color:rgba(16,20,32,.92)}
+}
+/* a paper label for ink lines that sit over dark furniture in the ivory rooms */
+.paperlabel{display:inline-block;background:rgba(243,236,224,.82);
+  padding:.45rem .8rem;border-radius:4px;border:1px solid rgba(138,107,47,.25)}
 .tiles{grid-template-columns:repeat(auto-fit,minmax(min(21rem,100%),1fr));gap:.8rem;margin-top:1.3rem}
 .tiles .plaque{padding:.85rem 1rem}
 .tiles .plaque .pl-quote{font:400 .96rem/1.55 "EB Garamond",Georgia,serif;font-style:normal;
@@ -864,7 +888,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="lead">It is not obstruction and it is not a riddle.</p>
 
     <div id="shelf" class="plaques tiles" aria-label="the records"></div>
-    <p class="caption" style="margin-top:1.1rem">&ldquo;Never let someone else do all of your reading for you.&rdquo;</p>
+    <p class="caption paperlabel" style="margin-top:1.1rem">&ldquo;Never let someone else do all of your reading for you.&rdquo;</p>
 
     <!-- THE ASK IN THE LIGHT (verdict 4, his call): community first, quiet row beneath.
          data-pending-confirm: the bridge line below is from his 8/23 dictated brief. -->
