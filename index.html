@@ -1625,7 +1625,7 @@ vec3 actStanding(vec2 uv, float p){
   float flower = smoothstep(.56,.78,p);                            /* two more rings — nineteen circles */
   float solid  = smoothstep(.78,.97,p);                            /* the pattern becomes matter */
   float R = (uRes.x<uRes.y)? .155 : .19;                           /* the pattern fits a phone */
-  vec2 ctr = (uRes.x<uRes.y)? vec2(.5,.42) : vec2(.60,.46);   /* right of the copy column on wide screens */
+  vec2 ctr = (uRes.x<uRes.y)? vec2(.5,.62) : vec2(.60,.46);   /* phones: higher (his 8/25 note — the pattern stays in view while the next panel rises); wide screens: right of the copy column */
   vec2 c1 = ctr - vec2(R*.5*draw,0.), c2 = ctr + vec2(R*.5*draw,0.);
   float d1 = distance(uv*asp, c1*asp), d2 = distance(uv*asp, c2*asp);
   vec3 col = vec3(.005,.007,.011);
@@ -2307,6 +2307,16 @@ function deskDrift(){
    moment must never read as a frozen page), hides the moment they move or the film ends. */
 const moreEl = document.getElementById("more");
 let lastMoveT = performance.now();
+/* the cue is EAGER exactly where a body of text has finished (his 8/25 note: those beats
+   read as "the end" to a first-timer) — copy faded to 0 in the current section -> the cue
+   returns after ~0.9s; while text is still up it waits the calmer 1.5s. */
+function copyGoneNow(){
+  for(const {sec,w} of FADE_SECS){
+    const top=sec.offsetTop;
+    if(scrollY>=top && scrollY<top+sec.offsetHeight) return w.style.opacity==="0";
+  }
+  return false;
+}
 wireBoard();
 onGeomResize(wireBoard);
 if(board73){
@@ -2395,7 +2405,8 @@ renderer.setAnimationLoop(t=>{
   boardReveal();                                                   /* the 1873 evidence board assembles */
   deskDrift();                                                     /* his desk still breathes */
   if(moreEl){ const idle = performance.now()-lastMoveT;
-    moreEl.classList.toggle("show", idle>1500 && scrollY>90 && target<.985); }
+    const need = copyGoneNow() ? 900 : 1500;
+    moreEl.classList.toggle("show", idle>need && scrollY>90 && target<.985); }
   F.uniforms.uTime.value=T; F.uniforms.uSealT.value=sealT;
   F.uniforms.uMouse.value.lerp(mouse,1-Math.exp(-3*dt));
   scrubPlate(mpWaters, A.id===1, local);
