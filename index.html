@@ -88,7 +88,7 @@ main section:where(:not(#landfall):not(#answer):not(#hall)) .wrap
 #cargo .o-dawn{background:linear-gradient(200deg,#ecdfc6,#d9c391);color:#3a2f18}
 body{margin:0;background:var(--ink);color:var(--ivory);
  font:400 clamp(16px,1.15vw,19px)/1.75 "EB Garamond",Georgia,serif;-webkit-font-smoothing:antialiased}
-#gl{position:fixed;inset:0;z-index:0;display:block}
+#gl{position:fixed;inset:0;z-index:0;display:block;height:100lvh}
 #rail{position:fixed;left:0;top:0;height:2px;background:linear-gradient(90deg,var(--gold),#e8cf9a);z-index:40;width:0}
 #railtrack{position:fixed;left:0;top:0;height:2px;width:100%;background:rgba(201,165,92,.14);z-index:39}
 main{position:relative;z-index:1}
@@ -1133,12 +1133,23 @@ const Lenis = (await import("lenis")).default;
 const cv = document.getElementById("gl");
 const SHOTS = new URLSearchParams(location.search).has("shots");
 const renderer = new THREE.WebGLRenderer({canvas:cv, antialias:true, preserveDrawingBuffer:SHOTS});
+/* ⛔ THE DOWN-UP-DOWN JANK (his 8/25 pm report): every Safari URL-bar toggle fired resize,
+   and even with geometry gated the renderer/composer framebuffers were reallocated EVERY
+   time — a GPU stall exactly at each direction flip. The canvas now covers the LARGE
+   viewport (100lvh) once; bar jitter resizes NOTHING. */
+function glH(){
+  const pr=document.createElement("div");
+  pr.style.cssText="position:fixed;top:0;height:100lvh;width:0;visibility:hidden;pointer-events:none";
+  document.body.appendChild(pr);
+  const h=pr.offsetHeight||innerHeight; pr.remove(); return h;
+}
+let GLH = glH() || innerHeight || 720;
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,2));
-renderer.setSize(innerWidth||1280,innerHeight||720);
+renderer.setSize(innerWidth||1280,GLH);
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.0;
 const scene  = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(36, (innerWidth||1280)/(innerHeight||720), .1, 100);
+const camera = new THREE.PerspectiveCamera(36, (innerWidth||1280)/GLH, .1, 100);
 camera.position.set(0,0,6);
 
 /* ── textures: the plates ARE the world ──────────────────────────────────── */
@@ -1279,7 +1290,7 @@ function scrubPlate(mp, active, local){
 const F = new THREE.ShaderMaterial({
   depthWrite:false, depthTest:false,
   uniforms:{
-    uRes:{value:new THREE.Vector2(innerWidth||1280,innerHeight||720)},
+    uRes:{value:new THREE.Vector2(innerWidth||1280,GLH)},
     uTime:{value:0}, uFlash:{value:0}, uMouse:{value:new THREE.Vector2(0,0)},
     uJitter:{value:new THREE.Vector2(0,0)},
     uActA:{value:0}, uActB:{value:0}, uBlend:{value:0}, uPA:{value:0}, uPB:{value:0},
@@ -2105,23 +2116,32 @@ const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-1
   touchMultiplier: innerWidth<innerHeight ? 2.0 : 1.4});
   /* portrait 2.0 (was 1.4 everywhere) — Courtney's 8/25 note: "you have to use your finger
      too much" — each flick now carries ~40% farther on phones; desktop inertia unchanged. */
-lenis.on("scroll",()=>{ target = scrollY/maxScroll();
-  document.getElementById("rail").style.width=(target*100)+"%";
-  document.getElementById("hint").style.opacity = scrollY>90?0:.85;
-  document.getElementById("skip").style.opacity = target>.06?0:1;
-  lastMoveT = performance.now(); });
+/* the film reads scrollY directly each frame (8/25 pm) — native touch scrolling drives
+   everything even if a Lenis event is missed; lastMoveT only advances on real movement. */
+const railEl=document.getElementById("rail"), hintEl=document.getElementById("hint"),
+      skipEl=document.getElementById("skip");
+let _lastSy=-1;
+function readScroll(){
+  const sy=scrollY;
+  if(sy===_lastSy) return;
+  _lastSy=sy; target=sy/maxScroll(); lastMoveT=performance.now();
+  railEl.style.width=(target*100)+"%";
+  hintEl.style.opacity = sy>90?0:.85;
+  skipEl.style.opacity = target>.06?0:1;
+}
 document.getElementById("skip").onclick = ()=> lenis.scrollTo(innerHeight*2.1,{duration:1.6});
 const mouse = new THREE.Vector2();
 addEventListener("pointermove",e=>{ mouse.set(e.clientX/innerWidth-.5, e.clientY/innerHeight-.5); });
 addEventListener("resize",()=>{
-  /* always: keep the canvas covering the viewport (cheap, no geometry change) */
-  camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight);
-  F.uniforms.uRes.value.set(innerWidth,innerHeight);
-  /* geometry refits: only on a REAL resize, never on URL-bar jitter (see note above) */
+  /* URL-bar jitter: do NOTHING — the 100lvh canvas already covers the larger viewport.
+     Real resizes (width change, rotation, split view) re-measure and rebuild. */
   const wch = innerWidth!==_rzW, big = Math.abs(innerHeight-_rzH)/_rzH > .15;
   if(!(wch||big)) return;
   _rzW=innerWidth; _rzH=innerHeight;
+  GLH = glH() || innerHeight;
+  camera.aspect=innerWidth/GLH; camera.updateProjectionMatrix();
+  renderer.setSize(innerWidth,GLH); composer.setSize(innerWidth,GLH);
+  F.uniforms.uRes.value.set(innerWidth,GLH);
   buildActs();
   for(const f of _rzQ) f();
 });
@@ -2134,7 +2154,7 @@ addEventListener("resize",()=>{
    Desktop keeps the landscape proportions untouched. */
 /* 8/25 trim (Courtney's finger-mileage note): the two longest water beats give back a
    screen or two each; the swim still owns the opening. Everything else held. */
-const PORTRAIT_H = {waters:410, deep:270, breach:320, babylon:250, rome:330, cestui:260,
+const PORTRAIT_H = {waters:410, deep:270, breach:320, jar:320, babylon:250, rome:330, cestui:260,
                     ministry:250, study:210, statutes:180, wall:260, chamber1873:430};
 const LANDSCAPE_H = {};
 function fitSections(){
@@ -2394,6 +2414,7 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
 renderer.setAnimationLoop(t=>{
   const dt = Math.min(.05,(t-prev)/1000)||.016; prev=t;
   lenis.raf(t);
+  readScroll();
   cur += (target-cur)*(1-Math.exp(-4.6*dt));                       /* framerate-independent glide */
   const T=t/1000;
   /* the seal used to press purely on a timer: 195vh of scrolling changed nothing on screen.
