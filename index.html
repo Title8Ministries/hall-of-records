@@ -4,7 +4,7 @@
 <title>The Hall of Records — Joseph Fain McDaniel™</title>
 <meta name="description" content="Strategic consulting, trust and trustee services, education, and published works. One continuous record.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=EB+Garamond:wght@400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500;1,600&family=EB+Garamond:wght@400;500&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 :root{
   --ink:#0c111d; --ivory:#f3ece0; --ivory-dim:#cbc4b8; --gold:#c9a55c; --gold-soft:#dbc089;
@@ -327,7 +327,9 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 /* ── the "keep going" cue (8/25, his ask): a quiet chevron that returns whenever the
    reader pauses mid-film, so a still moment never reads as a frozen page. ── */
 #more{position:fixed;left:50%;bottom:.55rem;transform:translateX(-50%);z-index:30;
-  opacity:0;transition:opacity .8s ease;pointer-events:none}
+  opacity:0;transition:opacity .8s ease;pointer-events:none;
+  background:rgba(6,9,16,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+  border:1px solid rgba(201,165,92,.35);border-radius:999px;padding:.4rem .5rem .3rem}
 #more svg{display:block;width:22px;height:14px;stroke:rgba(217,193,132,.9);stroke-width:2;
   fill:none;filter:drop-shadow(0 1px 6px rgba(4,6,10,.9));
   animation:morebob 1.8s ease-in-out infinite}
@@ -339,12 +341,23 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 @media (max-width:700px){
   body{font-size:17.5px;line-height:1.72}
   h1,h2{font-weight:400;font-size:clamp(2.1rem,8.6vw,2.9rem)}
-  .quote{font-weight:400;font-size:clamp(1.35rem,5.6vw,1.8rem)}
+  .quote{font-weight:500;font-size:clamp(1.35rem,5.6vw,1.8rem)}
   .tablet-half p{font-weight:400;font-size:clamp(1.22rem,5vw,1.5rem)}
   .plaque .pl-quote{font-weight:400;font-size:1.12rem;line-height:1.55}
   .caption{font-size:1.02rem;line-height:1.7}
   .thread .waypoint{font-size:1.08rem;line-height:1.65}
   .bname{font-size:.78rem}
+  /* the 8/25 reading-glasses pass (his stance: a 50-year-old at arm's length) — the mono
+     labels and citation pills were "a real strain": bigger, tighter tracking, more ink. */
+  .plaque .pl-name{font-size:.98rem;letter-spacing:.10em;color:rgba(226,231,242,.94)}
+  .chip{font-size:1.05rem;letter-spacing:.04em;line-height:1.5}
+  .cite{font-size:.95rem;letter-spacing:.10em}
+  .kicker{font-size:.95rem;letter-spacing:.18em}
+  /* the Waters keeps its open view (no glass, his law) — the thin italic gets a deeper
+     halo instead so it stops fighting the water's texture. */
+  #waters .quote,#waters h1{font-weight:600;
+    text-shadow:0 2px 6px rgba(4,6,10,.95),0 0 16px rgba(4,6,10,.9),0 0 34px rgba(4,6,10,.65)}
+  #waters p{text-shadow:0 1px 4px rgba(4,6,10,.95),0 0 12px rgba(4,6,10,.85)}
 }
 #hint{position:fixed;left:50%;bottom:2rem;transform:translateX(-50%);z-index:30;
  font:400 .76rem/1 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;
