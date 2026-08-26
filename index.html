@@ -225,6 +225,10 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 /* the split tablet stacks before it can push the page sideways (measured: it did, below 1024px) */
 @media (max-width:900px){
   .tablet{flex-direction:column}
+  /* ⛔ stacked halves were keeping the DESKTOP flex-basis (18rem), which in a column is a
+     minimum HEIGHT — every quote dragged a huge empty backing below it, walling off the
+     plate (his 8/25 phone screenshots, red-boxed). Height follows the words now. */
+  .tablet-half{flex-basis:auto}
   .tablet-crack{width:auto;height:3px;transform:rotate(-.5deg);margin:-1px 0;
    background:linear-gradient(90deg,transparent,rgba(12,17,29,.9) 12%,rgba(12,17,29,.9) 88%,transparent)}
 }
@@ -317,20 +321,25 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 .board .plaques{grid-template-columns:repeat(2,1fr);gap:.6rem;margin-top:1.2rem}
 @media (max-width:640px){.board .plaques{grid-template-columns:1fr}}
 .bnode img{width:clamp(104px,12vw,160px)}
-.bdesk{margin:1.6rem auto 0;max-width:34rem;overflow:hidden;border:1px solid rgba(201,165,92,.5);
+/* 8/25 pm, his third ask settled it: the WHOLE composite rides, uncut — his original card
+   IS the artwork; the board's live nodes echo it. Push-in strengthened so the breathing
+   reads on a phone. */
+.bdesk{margin:1.6rem auto 0;max-width:28rem;overflow:hidden;border:1px solid rgba(201,165,92,.5);
   border-radius:3px;box-shadow:0 16px 44px rgba(0,0,0,.6)}
 .board > .quote{background:linear-gradient(180deg,rgba(6,9,16,.60),rgba(6,9,16,.32));
   -webkit-backdrop-filter:blur(9px);backdrop-filter:blur(9px);
   padding:1.1rem 1.3rem;border-radius:6px;box-shadow:inset 0 0 0 1px rgba(201,165,92,.10)}
-.bdesk img{width:100%;display:block;transform-origin:50% 38%;will-change:transform;
-  filter:sepia(.08) contrast(1.02)}
+.bdesk img{width:100%;display:block;transform-origin:50% 42%;will-change:transform;
+  filter:sepia(.06) contrast(1.02)}
 /* ── the "keep going" cue (8/25, his ask): a quiet chevron that returns whenever the
    reader pauses mid-film, so a still moment never reads as a frozen page. ── */
 #more{position:fixed;left:50%;bottom:.55rem;transform:translateX(-50%);z-index:30;
   opacity:0;transition:opacity .8s ease;pointer-events:none;
   background:rgba(6,9,16,.62);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
   border:1px solid rgba(201,165,92,.35);border-radius:999px;padding:.4rem .5rem .3rem}
-#more svg{display:block;width:22px;height:14px;stroke:rgba(217,193,132,.9);stroke-width:2;
+#more span{display:block;text-align:center;font:400 .68rem/1.4 "JetBrains Mono",monospace;
+  letter-spacing:.22em;text-transform:uppercase;color:rgba(217,193,132,.95);margin-bottom:.1rem}
+#more svg{display:block;margin:0 auto;width:22px;height:14px;stroke:rgba(217,193,132,.9);stroke-width:2;
   fill:none;filter:drop-shadow(0 1px 6px rgba(4,6,10,.9));
   animation:morebob 1.8s ease-in-out infinite}
 #more.show{opacity:.85}
@@ -398,7 +407,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <canvas id="rain"></canvas><button id="rainskip">Skip</button>
 <div id="railtrack"></div><div id="rail"></div><canvas id="gl"></canvas>
 <div id="hint">Scroll</div><button id="skip" title="Skip the seal">Skip</button>
-<div id="more" aria-hidden="true"><svg viewBox="0 0 26 16"><polyline points="2,2 13,12 24,2"/></svg></div>
+<div id="more" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 26 16"><polyline points="2,2 13,12 24,2"/></svg></div>
 <main>
 
 <!-- 0 · THE SEAL — his name, his print, into the water -->
@@ -860,7 +869,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
           <span class="pl-quote">joined them. Not on appeal. Not years later. Same volume, same morning.</span></button>
       </div>
       <div class="bdesk" data-at=".40">
-        <img src="assets/board-desk.jpg" alt="The student at his desk — the whole argument on one table">
+        <img src="assets/board-desk.jpg" alt="His evidence board — the whole argument on one canvas: the Justices above, the student at his desk below">
       </div>
       <p class="kicker bk" data-at=".44">That argument never ended.</p>
       <div class="b-mrow">
@@ -2125,7 +2134,7 @@ addEventListener("resize",()=>{
    Desktop keeps the landscape proportions untouched. */
 /* 8/25 trim (Courtney's finger-mileage note): the two longest water beats give back a
    screen or two each; the swim still owns the opening. Everything else held. */
-const PORTRAIT_H = {waters:460, deep:300, breach:350, babylon:250, rome:330, cestui:260,
+const PORTRAIT_H = {waters:410, deep:270, breach:320, babylon:250, rome:330, cestui:260,
                     ministry:250, study:210, statutes:180, wall:260, chamber1873:430};
 const LANDSCAPE_H = {};
 function fitSections(){
@@ -2291,7 +2300,7 @@ function deskDrift(){
   const r = deskImg.getBoundingClientRect();
   if(r.bottom < 0 || r.top > innerHeight) return;
   const t = Math.max(0, Math.min(1, 1 - (r.top + r.height/2)/innerHeight));
-  deskImg.style.transform = `scale(${(1.04+.10*t).toFixed(4)}) translateY(${(-10*t).toFixed(1)}px)`;
+  deskImg.style.transform = `scale(${(1.03+.13*t).toFixed(4)}) translateY(${(-16*t).toFixed(1)}px)`;
 }
 
 /* the "keep going" cue: reappears when the reader pauses mid-film (his 8/25 ask — a still
@@ -2386,7 +2395,7 @@ renderer.setAnimationLoop(t=>{
   boardReveal();                                                   /* the 1873 evidence board assembles */
   deskDrift();                                                     /* his desk still breathes */
   if(moreEl){ const idle = performance.now()-lastMoveT;
-    moreEl.classList.toggle("show", idle>2200 && scrollY>90 && target<.985); }
+    moreEl.classList.toggle("show", idle>1500 && scrollY>90 && target<.985); }
   F.uniforms.uTime.value=T; F.uniforms.uSealT.value=sealT;
   F.uniforms.uMouse.value.lerp(mouse,1-Math.exp(-3*dt));
   scrubPlate(mpWaters, A.id===1, local);
