@@ -376,6 +376,21 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  color:rgba(201,165,92,.75);background:none;border:1px solid rgba(201,165,92,.3);cursor:pointer;
  transition:opacity .6s}
 #skip:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.6)}
+/* ── THE PROJECTOR (8/31, his ask): a Play control at the door — the whole record can run
+      itself like a film, then the reader scrolls back up for the citations. Chrome, not
+      display copy — the same register as Scroll/Skip. Left corner mirrors Skip's right. ── */
+#play{position:fixed;left:2.2rem;bottom:2rem;z-index:30;padding:.75rem 1.5rem;border-radius:9999px;
+ font:400 .74rem/1 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;
+ color:rgba(201,165,92,.85);background:rgba(6,9,16,.55);
+ -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ border:1px solid rgba(201,165,92,.45);cursor:pointer;
+ transition:opacity .6s,color .3s,border-color .3s;
+ display:inline-flex;align-items:center;gap:.55em}
+#play:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.8)}
+#play svg{width:.72em;height:.72em;display:block;fill:currentColor}
+#play.hid{opacity:0;pointer-events:none}
+@media (max-width:700px){#play{left:1.1rem;bottom:1.15rem;padding:.7rem 1.15rem}}
+@media (prefers-reduced-motion:reduce){#play{display:none}}
 .still{display:none}
 @media (prefers-reduced-motion:reduce){
   #gl,#skip{display:none}
@@ -407,6 +422,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <canvas id="rain"></canvas><button id="rainskip">Skip</button>
 <div id="railtrack"></div><div id="rail"></div><canvas id="gl"></canvas>
 <div id="hint">Scroll</div><button id="skip" title="Skip the seal">Skip</button>
+<button id="play" title="Play — the record runs itself" aria-label="Play — the record runs itself"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg><span>Play</span></button>
 <div id="more" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 26 16"><polyline points="2,2 13,12 24,2"/></svg></div>
 <main>
 
@@ -2348,6 +2364,55 @@ function copyGoneNow(){
   }
   return false;
 }
+/* ── THE PROJECTOR (8/31, his ask): click Play and the record runs itself — an autopilot
+   scroll so the whole site plays like a movie, then the reader scrolls back up and opens
+   the citations by hand. It inherits the film's own rhythm (section heights ARE the
+   pacing) plus a readable floor where copy is dense (~230wpm) and a cinematic ceiling
+   (never faster than about one screen per second). The reader's own hand always wins:
+   any wheel, touch, or key hands the wheel back instantly, and Play resumes from wherever
+   they stand. Registered AFTER fitSections so plan rebuilds see the refitted heights. */
+const playEl=document.getElementById("play"), playLbl=playEl.querySelector("span"),
+      playIco=playEl.querySelector("path");
+let autoOn=false, autoUsed=false, autoV=0, autoY=0, autoPlan=[];
+function buildAutoPlan(){
+  const vh=innerHeight;
+  autoPlan=[...document.querySelectorAll("main section")].map(sec=>{
+    const words=(sec.innerText||"").trim().split(/\s+/).filter(Boolean).length;
+    const dur=Math.min(48, Math.max(3.2+words/3.8, sec.offsetHeight/(vh*1.05)));
+    return {top:sec.offsetTop, h:sec.offsetHeight, v:sec.offsetHeight/dur};
+  });
+}
+buildAutoPlan(); onGeomResize(buildAutoPlan);
+if(document.fonts && document.fonts.ready) document.fonts.ready.then(buildAutoPlan);
+function setPlayUI(){
+  playLbl.textContent = autoOn? "Pause":"Play";
+  playIco.setAttribute("d", autoOn? "M1 0h2.6v12H1zM6.4 0H9v12H6.4z":"M0 0 L10 6 L0 12 Z");
+}
+function startAuto(){ if(autoOn) return; autoOn=autoUsed=true; autoV=0; autoY=scrollY; setPlayUI(); }
+function stopAuto(){ if(!autoOn) return; autoOn=false; setPlayUI(); }
+playEl.onclick = e=>{ e.stopPropagation(); autoOn? stopAuto():startAuto(); };
+/* the reader's hand always wins — but a tap on the button itself is the toggle, not an interrupt */
+["wheel","touchstart","pointerdown"].forEach(ev=>
+  addEventListener(ev, e=>{ if(!playEl.contains(e.target)) stopAuto(); }, {passive:true}));
+addEventListener("keydown", ()=>stopAuto());
+function autoStep(dt){
+  if(autoOn){
+    const max=maxScroll(), y=scrollY;
+    let vT=innerHeight*.5;
+    for(const s of autoPlan) if(y>=s.top-1 && y<s.top+s.h){ vT=s.v; break; }
+    autoV += (vT-autoV)*(1-Math.exp(-1.4*dt));
+    autoY = Math.min(max, autoY+autoV*dt);
+    lenis.scrollTo(autoY,{immediate:true});
+    lastMoveT=performance.now();          /* the SCROLL cue never nags a running reel */
+    if(autoY>=max-1) stopAuto();
+  }
+  /* visible at the door; once used it stays within reach for resume; gone at the end */
+  playEl.classList.toggle("hid", target>=.985 || !(target<.06 || autoOn || autoUsed));
+}
+/* QA handle (the __shot contract's sibling): rigs read pacing + state, never the module scope */
+window.__auto = { start:startAuto, stop:stopAuto,
+  state:()=>({on:autoOn, used:autoUsed, v:Math.round(autoV), y:Math.round(autoY)}),
+  plan:()=>autoPlan.map(s=>({top:Math.round(s.top), h:Math.round(s.h), secs:+(s.h/s.v).toFixed(1)})) };
 wireBoard();
 onGeomResize(wireBoard);
 if(board73){
@@ -2425,6 +2490,7 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
 renderer.setAnimationLoop(t=>{
   const dt = Math.min(.05,(t-prev)/1000)||.016; prev=t;
   lenis.raf(t);
+  autoStep(dt);                                                    /* the projector drives, then the frame reads */
   readScroll();
   cur += (target-cur)*(1-Math.exp(-4.6*dt));                       /* framerate-independent glide */
   const T=t/1000;
