@@ -388,6 +388,8 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  display:inline-flex;align-items:center;gap:.55em}
 #play:hover{color:var(--gold-soft);border-color:rgba(201,165,92,.8)}
 #play svg{width:.72em;height:.72em;display:block;fill:currentColor}
+#play.running{opacity:.38}   /* chrome recedes while the movie plays; a tap anywhere pauses */
+#play.running:hover{opacity:1}
 #play.hid{opacity:0;pointer-events:none}
 @media (max-width:700px){#play{left:1.1rem;bottom:1.15rem;padding:.7rem 1.15rem}}
 @media (prefers-reduced-motion:reduce){#play{display:none}}
@@ -2387,9 +2389,13 @@ if(document.fonts && document.fonts.ready) document.fonts.ready.then(buildAutoPl
 function setPlayUI(){
   playLbl.textContent = autoOn? "Pause":"Play";
   playIco.setAttribute("d", autoOn? "M1 0h2.6v12H1zM6.4 0H9v12H6.4z":"M0 0 L10 6 L0 12 Z");
+  playEl.classList.toggle("running", autoOn);
 }
 function startAuto(){ if(autoOn) return; autoOn=autoUsed=true; autoV=0; autoY=scrollY; setPlayUI(); }
-function stopAuto(){ if(!autoOn) return; autoOn=false; setPlayUI(); }
+function stopAuto(){ if(!autoOn) return; autoOn=false; setPlayUI();
+  /* hand-back sync: Lenis's next wheel must start from where the reel left the page */
+  try{ lenis.scrollTo(scrollY,{immediate:true}); }catch(_){}
+}
 playEl.onclick = e=>{ e.stopPropagation(); autoOn? stopAuto():startAuto(); };
 /* the reader's hand always wins — but a tap on the button itself is the toggle, not an interrupt */
 ["wheel","touchstart","pointerdown"].forEach(ev=>
@@ -2402,7 +2408,9 @@ function autoStep(dt){
     for(const s of autoPlan) if(y>=s.top-1 && y<s.top+s.h){ vT=s.v; break; }
     autoV += (vT-autoV)*(1-Math.exp(-1.4*dt));
     autoY = Math.min(max, autoY+autoV*dt);
-    lenis.scrollTo(autoY,{immediate:true});
+    /* native scroll, on purpose: the film reads scrollY directly each frame (8/25 law),
+       and Lenis per-frame scrollTo threw in headless — the reel does not depend on it */
+    scrollTo(0, autoY);
     lastMoveT=performance.now();          /* the SCROLL cue never nags a running reel */
     if(autoY>=max-1) stopAuto();
   }
