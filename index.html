@@ -407,6 +407,37 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 @media (max-width:700px){#play{left:1.1rem;bottom:1.15rem;padding:.7rem 1.15rem}
  #snd{left:1.1rem;bottom:calc(1.15rem + 3rem);padding:.7rem 1.15rem}}
 @media (prefers-reduced-motion:reduce){#play,#snd{display:none}}
+/* ── THE LISTEN STOPS (10/06, his ask): episodes of Answer the Record in the rooms they
+   belong to. A Listen chip pauses the reel and the Score; one slim player docks (bottom
+   centre on desktop, top on phones — clear of Play/Sound). Nothing loads before a tap:
+   preload="none" and the stream rides HTTP range requests, so boot weight is untouched. */
+.chip.listen{display:inline-flex;align-items:center;gap:.5em;margin-left:0;cursor:pointer}
+.chip.listen svg{width:.62em;height:.72em;fill:currentColor;flex:none}
+#answer .chip.listen{color:#6b5423}
+#listen{position:fixed;left:50%;bottom:1.6rem;transform:translate(-50%,0);z-index:35;
+ width:min(34rem,calc(100vw - 2rem));padding:.7rem .9rem .55rem;border-radius:14px;
+ background:rgba(6,9,16,.82);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+ border:1px solid rgba(201,165,92,.45);color-scheme:dark;
+ transition:opacity .35s,transform .35s;opacity:1}
+#listen[hidden]{display:block;opacity:0;transform:translate(-50%,1rem);pointer-events:none;visibility:hidden}
+#listen .lrow{display:flex;align-items:center;gap:.6rem}
+#listen .lk{font:400 .66rem/1.3 "JetBrains Mono",monospace;letter-spacing:.2em;text-transform:uppercase;
+ color:rgba(201,165,92,.8);white-space:nowrap}
+#listen select{flex:1;min-width:0;font:500 .95rem/1.3 "EB Garamond",Georgia,serif;color:#f1ebdf;
+ background:transparent;border:0;border-bottom:1px solid rgba(201,165,92,.3);padding:.15rem 0;
+ text-overflow:ellipsis;cursor:pointer}
+#listen select option{background:#0c111d;color:#f1ebdf}
+#listen .lx{flex:none;width:2rem;height:2rem;border-radius:999px;border:1px solid rgba(201,165,92,.45);
+ background:transparent;color:rgba(219,192,137,1);font:400 1.1rem/1 Georgia,serif;cursor:pointer}
+#listen audio{display:block;width:100%;height:2.4rem;margin:.45rem 0 .2rem}
+#listen .ln{font:400 .62rem/1.45 "JetBrains Mono",monospace;letter-spacing:.06em;color:rgba(201,165,92,.6);margin:0}
+body.listening #more,body.listening #hint{display:none}
+@media (max-width:700px){
+ #listen{bottom:auto;top:.7rem;transform:translate(-50%,0)}
+ #listen[hidden]{transform:translate(-50%,-1rem)}
+ #listen .lk{display:none}
+ #listen select{font-size:1rem}
+}
 .still{display:none}
 @media (prefers-reduced-motion:reduce){
   #gl,#skip{display:none}
@@ -440,6 +471,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
 <div id="hint">Scroll</div><button id="skip" title="Skip the seal">Skip</button>
 <button id="play" title="Play — the record runs itself" aria-label="Play — the record runs itself"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg><span>Play</span></button>
 <button id="snd" class="off" title="Sound — chant and strings beneath the record" aria-label="Sound on or off" aria-pressed="false"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 5 h3 l4 -3 v10 l-4 -3 h-3 z M11 4 q2.4 3 0 6"/></svg><span>Sound</span></button>
+<div id="listen" hidden role="region" aria-label="Listen — Answer the Record"><div class="lrow"><span class="lk">Answer the Record</span><select aria-label="Episode"></select><button class="lx" type="button" aria-label="Close the player">&times;</button></div><audio controls preload="none"></audio><p class="ln">Read in the author&rsquo;s own voice, preserved digitally &middot; &copy; 2026 Title 8 Ministries. All rights reserved.</p></div>
 <div id="more" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 26 16"><polyline points="2,2 13,12 24,2"/></svg></div>
 <main>
 
@@ -641,6 +673,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       </div>
     </div>
     <!-- connective hand-off into the wing (the flow law, 8/24) — ⚠️ data-pending-confirm -->
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-01-answers-back.mp3" data-listen="01"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; why this document answers back &middot; 10 min</a></p>
     <p class="cite" data-pending-confirm>So how does a child become cargo? It starts in the harbor.</p>
   </div></div>
 </section>
@@ -688,6 +721,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       who you truly are &mdash; a named, christened vessel operating under ecclesiastical
       jurisdiction, not commercial statute.</p>
     <p class="cite">Named by Water &middot; his own teaching, in his own words</p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-03-man-and-name.mp3" data-listen="03"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the man and the name &middot; 18 min</a></p>
   </div></div>
 </section>
 
@@ -747,6 +781,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
       Article 117 allowed a man to pledge his wife, son, or daughter against what he owed.
       <a class="chip" href="https://avalon.law.yale.edu/ancient/hamframe.asp" target="_blank" rel="noopener">the code — read it</a></p>
     <p class="cite">When that civilization fell, the paper did not disappear. It moved.</p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-11-paper-chains.mp3" data-listen="11"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the paper chains &middot; 38 min</a></p>
   </div></div>
 </section>
 
@@ -864,6 +899,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
          the oldest church-autonomy case now sit beside it (both pre-verified, live-checked) -->
     <p class="caption"><a class="chip" href="https://uscode.house.gov/view.xhtml?req=granuleid:USC-prelim-title26-section508&amp;num=0&amp;edition=prelim" style="margin-left:0" target="_blank" rel="noopener">26 u.s.c. &sect; 508(c)(1)(A) &mdash; the mandatory exception</a>
       <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep080/usrep080679/usrep080679.pdf" target="_blank" rel="noopener">watson v. jones, 80 u.s. 679</a></p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-05-faith.mp3" data-listen="05"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the faith no court may try &middot; 14 min</a></p>
   </div></div>
 </section>
 
@@ -933,6 +969,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
         </div>
       </div>
       <p class="quote" data-at=".70" style="max-width:34ch;margin-top:1.6rem">The dissent never went quiet. We just stopped being told about it.</p>
+      <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-13-justices.mp3" data-listen="13"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the justices&rsquo; own words &middot; 20 min</a></p>
     </div>
   </div></div>
 </section>
@@ -985,6 +1022,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="quote" style="max-width:38ch;margin-top:1.2rem">So the sequence is not an order out
       of nowhere. It is an act of Congress, then an order under it, then the title, then the
       measure.</p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-07b-co-signer-2.mp3" data-listen="07b"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the co-signer nobody asked, part two &middot; 18 min</a></p>
   </div></div>
 </section>
 
@@ -1000,6 +1038,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="quote" style="max-width:40ch" data-pending-confirm>One word. Eight enacted
     meanings. When your rights are on the line, you are entitled to know which one is
     meant &mdash; and you are entitled to ask.</p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-04-eight-persons.mp3" data-listen="04"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; eight persons, three questions &middot; 15 min</a></p>
     <div class="plaques tiles">
       <div class="plaque"><span class="pl-name">1 U.S.C. § 1</span>
         <span class="pl-quote">"the words 'person' and 'whoever' include corporations, companies, associations, firms, partnerships, societies, and joint stock companies, as well as individuals."</span>
@@ -1068,6 +1107,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
     <p class="kicker">VIII · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-06-nobody-acts.mp3" data-listen="06"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; nobody acts for you by assumption &middot; 13 min</a></p>
 
     <div id="shelf" class="plaques tiles" aria-label="the records"></div>
     <p class="caption paperlabel" style="margin-top:1.1rem">&ldquo;Never let someone else do all of your reading for you.&rdquo;</p>
@@ -1109,12 +1149,12 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
    Publishing a record = set unsealed:true and fill href (and clip for the audiobook).
    Nothing else changes. Rules: one touch, one line, one door · free things nearest the
    hand · a sealed slot makes no claim except "this slot is spoken for."
-   ⛔ The audiobook stays SEALED and SILENT until Joseph's ear approves the Master
-   Edition — embedding even ten seconds is publishing. `clip` stays null until then. */
+   ✅ 10/06 Joseph LIFTED the old sealed-audiobook rule ("I don't like this policing rule")
+   and approved the Master Edition. The Audiobook slot opens the Listen player (data-listen). */
 const SHELF = [
   { id:"audiobook", label:"The Audiobook", door:"Listen",
-    line:"The record that speaks — the whole history, read in my own voice.",
-    unsealed:false, href:null, clip:null },
+    line:"The record that speaks — read in my own voice, preserved digitally.",
+    unsealed:true, href:"assets/audio/atr-01-answers-back.mp3", listen:"01" },
   { id:"book", label:"The Book", door:"Read",
     line:"One of the thirteen finally gets a name on it.",
     unsealed:false, href:null },
@@ -1144,13 +1184,74 @@ addEventListener("DOMContentLoaded", () => {
   for (const r of SHELF) {
     const el = document.createElement(r.unsealed ? "a" : "div");
     el.className = "plaque" + (r.unsealed ? "" : " sealed");
-    if (r.unsealed && r.href) { el.href = r.href; el.target = "_blank"; el.rel = "noopener"; el.style.textDecoration = "none"; }
+    if (r.unsealed && r.href) { el.href = r.href; el.style.textDecoration = "none";
+      if (r.listen) el.dataset.listen = r.listen; else { el.target = "_blank"; el.rel = "noopener"; } }
     el.innerHTML = `<span class="pl-name">${r.label}</span>
       <span class="pl-quote">${r.unsealed ? r.line : "Sealed. This slot is spoken for."}</span>` +
       (r.unsealed ? `<span class="chip" style="margin:.4rem 0 0;display:inline-block">${r.door}</span>` : "");
     host.appendChild(el);
   }
 });
+</script>
+<script>
+/* ══ THE LISTEN STOPS (10/06, his ask) — episodes of Answer the Record, played in the room
+   they belong to. Plain script, outside the film module, so it also works on the
+   reduced-motion Still Route. Rules: nothing fetched before a tap (preload="none", src set
+   only on tap, streamed by range request); one voice at a time — an episode pauses the
+   reel (window.__auto) and the Score ducks to silence while it plays (the module reads
+   window.__listen.playing); pressing Play pauses the episode. Chips are plain links to the
+   mp3, so without script they still open the file. */
+(function(){
+  const EPS = [
+    ["01","atr-01-answers-back","Why This Document Answers Back"],
+    ["03","atr-03-man-and-name","The Man and the Name"],
+    ["04","atr-04-eight-persons","Eight Persons, Three Questions"],
+    ["05","atr-05-faith","The Faith No Court May Try"],
+    ["06","atr-06-nobody-acts","Nobody Acts for You by Assumption"],
+    ["07b","atr-07b-co-signer-2","The Co-Signer Nobody Asked (Part Two)"],
+    ["11","atr-11-paper-chains","The Paper Chains"],
+    ["13","atr-13-justices","The Justices’ Own Words"]];
+  const L = { playing:false, cur:null };
+  window.__listen = L;
+  function boot(){
+    const dock=document.getElementById("listen"); if(!dock) return;
+    const sel=dock.querySelector("select"), au=dock.querySelector("audio"), x=dock.querySelector(".lx");
+    window.__listenDock = dock;
+    for(const [id,f,t] of EPS){ const o=document.createElement("option"); o.value=id; o.textContent=id.replace(/^0/,"")+" · "+t; sel.appendChild(o); }
+    const meta=id=>EPS.find(e=>e[0]===id);
+    function load(id){
+      const e=meta(id); if(!e) return false;
+      if(L.cur!==id){ au.src="assets/audio/"+e[1]+".mp3"; L.cur=id; }
+      sel.value=id;
+      if("mediaSession" in navigator && window.MediaMetadata) try{
+        navigator.mediaSession.metadata=new MediaMetadata({title:e[2],artist:"Rev. Joseph Fain McDaniel",
+          album:"Answer the Record",artwork:[{src:"assets/audio/cover-512.jpg",sizes:"512x512",type:"image/jpeg"}]});
+      }catch(_){}
+      return true;
+    }
+    function open(id){
+      if(!load(id)) return;
+      dock.hidden=false; document.body.classList.add("listening");
+      try{ window.__auto && window.__auto.stop(); }catch(_){}
+      const pr=au.play(); if(pr && pr.catch) pr.catch(()=>{});   /* inside the tap: the gesture unlocks it */
+    }
+    L.open=open;
+    L.pause=()=>{ try{ au.pause(); }catch(_){} };
+    L.close=()=>{ L.pause(); dock.hidden=true; document.body.classList.remove("listening"); };
+    L.audio=au;
+    au.addEventListener("play", ()=>{ L.playing=true; try{ window.__auto && window.__auto.stop(); }catch(_){} });
+    au.addEventListener("pause", ()=>{ L.playing=false; });
+    au.addEventListener("ended", ()=>{ L.playing=false; });
+    sel.addEventListener("change", ()=>open(sel.value));
+    x.addEventListener("click", L.close);
+    document.addEventListener("click", ev=>{
+      const a=ev.target.closest && ev.target.closest("a[data-listen]");
+      if(!a) return;
+      ev.preventDefault(); open(a.dataset.listen);
+    });
+  }
+  if(document.readyState==="loading") addEventListener("DOMContentLoaded", boot); else boot();
+})();
 </script>
 <script type="importmap">
 {"imports":{"three":"https://unpkg.com/three@0.170.0/build/three.module.js",
@@ -2407,7 +2508,8 @@ function setPlayUI(){
   playEl.classList.toggle("running", autoOn);
 }
 function startAuto(){ if(autoOn) return; autoOn=autoUsed=true; autoV=0; autoY=scrollY; setPlayUI();
-  scoreStart();   /* the Play tap is the sound gesture — the score enters with the reel */ }
+  scoreStart();   /* the Play tap is the sound gesture — the score enters with the reel */
+  try{ window.__listen && window.__listen.pause && window.__listen.pause(); }catch(_){} }
 function stopAuto(){ if(!autoOn) return; autoOn=false; setPlayUI();
   /* hand-back sync: Lenis's next wheel must start from where the reel left the page */
   try{ lenis.scrollTo(scrollY,{immediate:true}); }catch(_){}
@@ -2415,7 +2517,7 @@ function stopAuto(){ if(!autoOn) return; autoOn=false; setPlayUI();
 playEl.onclick = e=>{ e.stopPropagation(); autoOn? stopAuto():startAuto(); };
 /* the reader's hand always wins — but a tap on the toggles themselves is not an interrupt */
 ["wheel","touchstart","pointerdown"].forEach(ev=>
-  addEventListener(ev, e=>{ if(!playEl.contains(e.target) && !sndEl.contains(e.target)) stopAuto(); }, {passive:true}));
+  addEventListener(ev, e=>{ const ld=window.__listenDock; if(!playEl.contains(e.target) && !sndEl.contains(e.target) && !(ld && ld.contains(e.target))) stopAuto(); }, {passive:true}));
 addEventListener("keydown", ()=>stopAuto());
 function autoStep(dt){
   if(autoOn){
@@ -2485,7 +2587,7 @@ function scoreStep(dt,actId){
   if(!SCORE.ctx||!SCORE.gm) return;
   SCORE.act=actId;
   const k=1-Math.exp(-1.1*dt);
-  SCORE.gm.gain.value += ((SCORE.on? .22:0)-SCORE.gm.gain.value)*k;
+  SCORE.gm.gain.value += ((SCORE.on && !(window.__listen && window.__listen.playing)? .22:0)-SCORE.gm.gain.value)*k;
   const lev=LEVANT_ACTS.has(actId)?1:0;
   SCORE.gl.gain.value += (lev-SCORE.gl.gain.value)*k*.7;
   SCORE.gc.gain.value += ((1-lev)-SCORE.gc.gain.value)*k*.7;
