@@ -1449,10 +1449,15 @@ function scrubPlate(mp, active, local){
   const { RoomEnvironment } = await import("three/addons/environments/RoomEnvironment.js");
   scene.environment = pm.fromScene(new RoomEnvironment(), 0.04).texture;
   scene.environmentIntensity = .5;
-  setTimeout(()=>{ new RGBELoader().load("assets/env.hdr", hdr=>{
+  /* after the cold open, not during it: the RGBE decode + PMREM bake is a ~45ms hitch (intro stutter, 11/18) */
+  let envStarted=false;
+  const loadEnv=()=>{ if(envStarted) return; envStarted=true;
+    new RGBELoader().load("assets/env.hdr", hdr=>{
       scene.environment = pm.fromEquirectangular(hdr).texture;
       scene.environmentIntensity = .5; hdr.dispose();
-    }, undefined, ()=>console.warn("env.hdr unavailable — RoomEnvironment stands")); }, 1200);
+    }, undefined, ()=>console.warn("env.hdr unavailable — RoomEnvironment stands")); };
+  addEventListener("hall:rainDone", ()=>setTimeout(loadEnv, 1200), {once:true});
+  setTimeout(loadEnv, 14000);   /* fallback if the rain was skipped or absent */
 }
 
 /* ── THE FILM PLANE — one full-screen shader; the plates + his marks ─────── */
@@ -2697,6 +2702,30 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   composer.render();
   return cv.toDataURL("image/jpeg",.82);
 };
+/* WARM-UP BEFORE THE FIRST FRAME (intro stutter, 11/18): the first composer.render() used to upload
+   all 14 base textures AND compile every program in ONE frame (~190ms: texSubImage2D 95 + onFirstUse 58),
+   landing at ~1.5s under the glyph rain as a visible hitch. Now: programs compile off-thread, then one
+   texture uploads per frame. The rain waits on __ready, so none of this shows. Timer-raced so a hidden
+   tab (no rAF) can never hang the boot. */
+{
+  const beat = ()=>new Promise(r=>{ let d=false; const g=()=>{ if(!d){ d=true; r(); } };
+    requestAnimationFrame(g); setTimeout(g,60); });
+  try{ if(renderer.compileAsync){
+    await renderer.compileAsync(scene,camera);
+    /* the post chain's own programs, compiled with the render-target state they will really draw under
+       (program cache keys include output colour space, which differs between a target and the screen) */
+    const ws=new THREE.Scene(), g=new THREE.PlaneGeometry(2,2), seen=new Set();
+    composer.passes.forEach(p=>[p.material,p.fsQuad&&p.fsQuad.material,p.compositeMaterial,p.materialHighPassFilter,
+      p.blendMaterial,...(p.separableBlurMaterials||[])].forEach(m=>{
+        if(m&&m.isMaterial&&!seen.has(m)){ seen.add(m); const q=new THREE.Mesh(g,m); q.frustumCulled=false; ws.add(q); } }));
+    renderer.setRenderTarget(composer.readBuffer); const a=renderer.compileAsync(ws,camera); renderer.setRenderTarget(null);
+    const b=renderer.compileAsync(ws,camera);
+    await Promise.all([a,b]);
+  } }catch(e){ try{ renderer.setRenderTarget(null); }catch(_){} }
+  for(const t of [texWaters,texHall,depWaters,depHall,texDeep,depDeep,texBreach,depBreach,
+                  texSig,texThumb,texPaper,texCorr,depCorr,texCodex]){
+    await beat(); try{ renderer.initTexture(t); }catch(e){} }
+}
 renderer.setAnimationLoop(t=>{
   const dt = Math.min(.05,(t-prev)/1000)||.016; prev=t;
   lenis.raf(t);
