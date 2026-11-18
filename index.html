@@ -1177,7 +1177,7 @@ body.listening #more,body.listening #hint{display:none}
 const SHELF = [
   { id:"audiobook", label:"The Audiobook", door:"Listen",
     line:"The record that speaks — read in my own voice, preserved digitally.",
-    unsealed:true, href:"assets/audio/atr-01-answers-back.mp3", listen:"01" },
+    unsealed:true, href:"assets/audio/atr-magnum-opus.mp3", listen:"mo" },
   { id:"book", label:"The Book", door:"Read",
     line:"One of the thirteen finally gets a name on it.",
     unsealed:false, href:null },
@@ -1226,6 +1226,7 @@ addEventListener("DOMContentLoaded", () => {
    mp3, so without script they still open the file. */
 (function(){
   const EPS = [
+    ["mo","atr-magnum-opus","This Is My Magnum Opus"],
     ["01","atr-01-answers-back","Why This Document Answers Back"],
     ["03","atr-03-man-and-name","The Man and the Name"],
     ["04","atr-04-eight-persons","Eight Persons, Three Questions"],
@@ -1240,7 +1241,7 @@ addEventListener("DOMContentLoaded", () => {
     const dock=document.getElementById("listen"); if(!dock) return;
     const sel=dock.querySelector("select"), au=dock.querySelector("audio"), x=dock.querySelector(".lx");
     window.__listenDock = dock;
-    for(const [id,f,t] of EPS){ const o=document.createElement("option"); o.value=id; o.textContent=id.replace(/^0/,"")+" · "+t; sel.appendChild(o); }
+    for(const [id,f,t] of EPS){ const o=document.createElement("option"); o.value=id; o.textContent=(/^\d/.test(id)?id.replace(/^0/,"")+" · ":"")+t; sel.appendChild(o); }
     const meta=id=>EPS.find(e=>e[0]===id);
     function load(id){
       const e=meta(id); if(!e) return false;
