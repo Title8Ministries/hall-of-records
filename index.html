@@ -147,6 +147,50 @@ footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking f
 #answer .kicker{color:rgba(99,76,30,.95)}
 #answer .cite{color:rgba(99,76,30,.98)}
 #answer .chip{color:#6b5423;border-color:rgba(107,84,35,.55)}
+/* ── THE ANSWER · DESKTOP COMPOSITION (11/18, his review: "glitchy and hard to read the way that
+   it scrolls… all that open blank space on the right side"). The same words, now in two
+   columns — the argument on the left, the two receipts (the statute, the scripture) and the
+   reader's own name on the right — so the copy fits ONE screen: no scrolling copy, a short
+   pin, nothing under the bottom bar. Phones and portrait keep the single stacked column. ── */
+#answer{height:300vh}
+@media (min-width:1000px) and (orientation:landscape){
+  #answer{height:210vh}
+  #answer .hold{padding-bottom:9vh}
+  #answer .wrap{max-width:80rem;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
+    column-gap:clamp(2.5rem,5vw,6rem);align-items:start}
+  #answer .wrap>*{margin:0;max-width:none}
+  #answer .kicker{grid-area:1/1;margin-bottom:.9rem}
+  #answer h2{grid-area:2/1;font-size:clamp(2rem,4.1vw,3.6rem)}
+  #answer .quote{grid-area:3/1;margin-top:1rem;font-size:clamp(1.35rem,2.2vw,2.05rem)}
+  #answer .a-seats{grid-area:4/1;margin-top:1.5rem}
+  #answer .a-reg{grid-area:5/1;margin-top:.9rem}
+  #answer #mirror{grid-area:6/1/9/2;margin-top:1.6rem}
+  #answer #mirror>.caption{margin-top:0!important}
+  #answer .a-trust,#answer .a-jer{align-self:center;padding:1.3rem 1.5rem;border-radius:4px;
+    background:linear-gradient(180deg,rgba(255,252,244,.62),rgba(255,252,244,.42));
+    border:1px solid rgba(107,84,35,.32);border-left:3px solid rgba(138,107,47,.8);
+    box-shadow:0 2px 14px rgba(60,45,20,.10)}
+  #answer .a-trust{grid-area:1/2/4/3}
+  #answer .a-jer{grid-area:4/2/6/3}
+  #answer .a-trust .chip,#answer .a-jer .chip{display:block;width:fit-content;margin:.85rem 0 0;
+    white-space:normal;border-radius:14px;line-height:1.55}
+  #answer .a-nbw{grid-area:6/2;margin-top:1.4rem}
+  #answer .a-listen{grid-area:7/2;margin-top:.5rem}
+  #answer .a-listen .chip{margin-left:0}
+  #answer .a-hand{grid-area:8/2;margin-top:.5rem}
+}
+/* short laptop screens: tighter so the whole composition still fits one screen (no flow mode) */
+@media (min-width:1000px) and (orientation:landscape) and (max-height:820px){
+  #answer .hold{padding-bottom:7vh}
+  #answer h2{font-size:clamp(1.8rem,3.5vw,2.9rem)}
+  #answer .quote{margin-top:.6rem;font-size:clamp(1.2rem,1.9vw,1.7rem)}
+  #answer .a-seats{margin-top:.9rem}
+  #answer .a-reg{margin-top:.6rem}
+  #answer #mirror{margin-top:1rem}
+  #answer .a-trust,#answer .a-jer{padding:1rem 1.25rem}
+  #answer .a-nbw{margin-top:1rem}
+  #answer .a-listen,#answer .a-hand{margin-top:.3rem}
+}
 /* ⛔ Both marks shipped as mode-L greyscale with NO alpha channel at all, so as <img> they
    painted their own dark background — the gold rectangle Joseph photographed. They are
    rebuilt as real RGBA (alpha taken from luminance) and now sit on the paper as ink. */
@@ -573,31 +617,6 @@ body.listening #more,body.listening #hint{display:none}
          would be best") — grounded in his dictation; "never told" echoes the Waters beat. -->
     <p class="cite">This is about status and standing &mdash; standing as creditor and trustee,
       not as the beneficiary who was never told.</p>
-    <!-- connective hand-off (the flow law, 8/24) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing -->
-    <p class="cite" data-blessed="2026-11-18">What we knew was edited. What was edited was buried.</p>
-  </div></div>
-</section>
-
-<!-- V · THE JAR — the buried record surfaces. Plate: the uncovering at the cliff base
-     (gemini-3-pro-image t3, blind panel 24.3/30, 8/24). -->
-<section id="jar" style="height:380vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-naghammadi.jpg)"></div>
-  <div class="hold"><div class="wrap reveal">
-    <p class="kicker">V · The Jar</p>
-    <p class="quote" style="max-width:34ch">The most important question is not what it contains&hellip;
-      but why it was buried.</p>
-    <p class="caption">Nag Hammadi. In 367 CE the Archbishop of the Egyptian church listed precisely
-      which books were acceptable — and ordered that all others be destroyed. The books were not lost
-      by accident. The monks sealed them in a jar and placed them in the ground.
-      <a class="chip" href="https://www.newadvent.org/fathers/2806039.htm" target="_blank" rel="noopener">festal letter 39, 367 — read it</a></p>
-    <!-- his verbatim (Lance thread, harvest §2) — MOVED here from the Standing 8/24, his note:
-         it belongs with the buried, edited message, not with the maker question. -->
-    <p>And what survived was edited in translation. Many English translated words like
-      &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic translation having a very different
-      definition &amp; meaning. One makes you feel guilty the other makes you feel free.
-      &ldquo;A cutting of a cord.&rdquo;
-      <a class="chip" href="https://www.blueletterbible.org/lexicon/h7662/kjv/wlc/0-1/" target="_blank" rel="noopener">&#353;&#601;baq in the lexicon &mdash; check him</a></p>
-    <p class="cite">A quiet act of preservation in the face of an official destruction order</p>
   </div></div>
 </section>
 
@@ -611,7 +630,7 @@ body.listening #more,body.listening #hint{display:none}
 <section id="landfall" style="height:270vh;align-items:center;justify-content:center;text-align:center">
   <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
-    <p class="kicker">VI · Landfall</p>
+    <p class="kicker">V · Landfall</p>
     <h2>Named by water.<em>Standing in truth.</em></h2>
     <p class="lead">The stylised journey ends here and the man begins. Everything past this point is
     documented, checkable, and signed.</p>
@@ -622,15 +641,15 @@ body.listening #more,body.listening #hint{display:none}
   </div></div>
 </section>
 
-<!-- VII · THE ANSWER — the hook, answered plainly. Inserted 8/24, his direction: "we're kind of
+<!-- VI · THE ANSWER — the hook, answered plainly. Inserted 8/24, his direction: "we're kind of
      doing this thing here where we expect them to have the right answer… we need to provide the
      answer to the questions that we're bringing forth and saying it plainly." Every display line
      is HIS VERBATIM teaching from the Named by Water / PIRA(SEA) posts (skool harvest 8/17).
      Act 5 = the procedural ivory page (the answer is written on the same paper he signed). -->
-<section id="answer" style="height:300vh;align-items:flex-start">
+<section id="answer" style="align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-landfall.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
-    <p class="kicker">VII · The Answer</p>
+    <p class="kicker">VI · The Answer</p>
     <h2>The answer,<em>plainly.</em></h2>
     <p class="quote" style="max-width:38ch">Your birth was treated as a commercial event. Your
       future labor became collateral. Your ALL CAPS NAME became a bond.</p>
@@ -643,20 +662,20 @@ body.listening #more,body.listening #hint{display:none}
          against Cornell LII + OLRC this session; both other lanes converged on this same
          sentence independently). The sole-proprietor name now rides in the teaching's own
          labeled voice, the two-layer dress the Harbor and Cargo rooms wear. -->
-    <p><span data-blessed="2026-11-18">And the system&rsquo;s own word for itself is
+    <p class="a-trust"><span data-blessed="2026-11-18">And the system&rsquo;s own word for itself is
       <b>trust</b>.</span> &ldquo;There is hereby created on the books of the Treasury of the
       United States a trust fund.&rdquo;
       <a class="chip" href="https://www.govinfo.gov/link/uscode/42/401?type=usc&amp;year=mostrecent&amp;link-type=html" target="_blank" rel="noopener">42 u.s.c. &sect; 401(a) &middot; the law&rsquo;s own word: trust &mdash; read it</a></p>
-    <p data-blessed="2026-11-18">A trust has exactly two seats &mdash; trustee and beneficiary. The
+    <p class="a-seats" data-blessed="2026-11-18">A trust has exactly two seats &mdash; trustee and beneficiary. The
       teaching names what was opened after your birth &mdash; the sole proprietor, an account
       riding in that trust &mdash; and asks the only question that matters: <em>which seat were
       you given, and who told you?</em></p>
-    <p>The state didn&rsquo;t record your birth. They registered it. Most people are cargo because
+    <p class="a-reg">The state didn&rsquo;t record your birth. They registered it. Most people are cargo because
       no one told them there was a ship to captain.</p>
-    <p class="caption">And the record older than theirs? <em>You were formed, named, and known
+    <p class="caption a-jer">And the record older than theirs? <em>You were formed, named, and known
       before the system ever registered you.</em>
       <a class="chip" href="https://en.wikisource.org/wiki/Bible_(King_James)/Jeremiah" target="_blank" rel="noopener">jeremiah 1:5 &middot; kjv &mdash; read it</a></p>
-    <p class="cite">Named by Water &middot; his own teaching, in his own words</p>
+    <p class="cite a-nbw">Named by Water &middot; his own teaching, in his own words</p>
     <!-- FL-1 · THE MIRROR (8/24 fresh-look, convergent — highest priority): the reader
          meets THEIR OWN name. ⛔ The field never leaves the page: nothing is stored,
          nothing is sent, no script reads it but the renderer below. The recognition line
@@ -673,8 +692,8 @@ body.listening #more,body.listening #hint{display:none}
       </div>
     </div>
     <!-- connective hand-off into the wing (the flow law, 8/24) — ✅ blessed 2026-11-18 (Joseph delegated the call) -->
-    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-01-answers-back.mp3" data-listen="01"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; why this document answers back &middot; 10 min</a></p>
-    <p class="cite" data-blessed="2026-11-18">So how does a child become cargo? It starts in the harbor.</p>
+    <p class="caption listenp a-listen"><a class="chip listen" href="assets/audio/atr-01-answers-back.mp3" data-listen="01"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; why this document answers back &middot; 10 min</a></p>
+    <p class="cite a-hand" data-blessed="2026-11-18">So how does a child become cargo? It starts in the harbor.</p>
   </div></div>
 </section>
 
@@ -687,7 +706,7 @@ body.listening #more,body.listening #hint{display:none}
      clause, which is the LAW'S OWN WORDS, pinned in hall-gates and verified against
      law.cornell.edu 8/24. The warehouse-receipt claim ships as HIS TEACHING beside
      the law's definition — never as a statutory fact about birth certificates.
-     Unnumbered kickers: the Roman spine (I–VIII) and the Paper Chains register
+     Unnumbered kickers: the Roman spine (I–VII) and the Paper Chains register
      (P·I–P·VI) are both untouched. Acts 21/22/23, CHAM-bound like naghammadi. -->
 
 <!-- NbW·I · THE HARBOR — the vessel is built -->
@@ -813,11 +832,36 @@ body.listening #more,body.listening #hint{display:none}
   </div></div>
 </section>
 
-<!-- P·III · THE CHURCH — a thousand years of canon law -->
+<!-- P·III · THE JAR — MOVED 2026-11-18 from the Roman spine (V) into the Paper Chains wing, between Rome and the Church (Joseph: "Yes, move it"). Placement only; his words unchanged. The buried record surfaces. Plate: the uncovering at the cliff base
+     (gemini-3-pro-image t3, blind panel 24.3/30, 8/24). -->
+<section id="jar" style="height:380vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-naghammadi.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="kicker">The Paper Chains · III — The Jar</p>
+    <!-- hand-off bridge, MOVED with the Jar from the end of the Standing (11/18); ✅ blessed 2026-11-18 -->
+    <p class="cite" data-blessed="2026-11-18">What we knew was edited. What was edited was buried.</p>
+    <p class="quote" style="max-width:34ch">The most important question is not what it contains&hellip;
+      but why it was buried.</p>
+    <p class="caption">Nag Hammadi. In 367 CE the Archbishop of the Egyptian church listed precisely
+      which books were acceptable — and ordered that all others be destroyed. The books were not lost
+      by accident. The monks sealed them in a jar and placed them in the ground.
+      <a class="chip" href="https://www.newadvent.org/fathers/2806039.htm" target="_blank" rel="noopener">festal letter 39, 367 — read it</a></p>
+    <!-- his verbatim (Lance thread, harvest §2) — MOVED here from the Standing 8/24, his note:
+         it belongs with the buried, edited message, not with the maker question. -->
+    <p>And what survived was edited in translation. Many English translated words like
+      &ldquo;forgive me = Shabak&rdquo; &mdash; the Aramaic translation having a very different
+      definition &amp; meaning. One makes you feel guilty the other makes you feel free.
+      &ldquo;A cutting of a cord.&rdquo;
+      <a class="chip" href="https://www.blueletterbible.org/lexicon/h7662/kjv/wlc/0-1/" target="_blank" rel="noopener">&#353;&#601;baq in the lexicon &mdash; check him</a></p>
+    <p class="cite">A quiet act of preservation in the face of an official destruction order</p>
+  </div></div>
+</section>
+
+<!-- P·IV · THE CHURCH — a thousand years of canon law -->
 <section id="church" style="height:400vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-church.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:64rem">
-    <p class="kicker">The Paper Chains · III — The Church Holds the Paper</p>
+    <p class="kicker">The Paper Chains · IV — The Church Holds the Paper</p>
     <div class="tablet">
       <div class="tablet-half"><p>&ldquo;Porro subesse Romano Pontifici omni humanae creaturae declaramus,
         dicimus, definimus, et pronunciamus omnino esse de necessitate salutis.&rdquo;</p></div>
@@ -1113,7 +1157,7 @@ body.listening #more,body.listening #hint{display:none}
   </div></div>
 </section>
 
-<!-- VI · THE HALL — the morning room. THE ARC LAW (Joseph, 8/23): the dark stays but it
+<!-- VII · THE HALL — the morning room. THE ARC LAW (Joseph, 8/23): the dark stays but it
      must break; after "you don't argue. You simply declare," the visitor comes up out of the
      water and the site lets them feel it. His motion brief, verbatim: "Like they're walking
      on dryland at finally out of the waters." Relief, not fireworks.
@@ -1124,7 +1168,7 @@ body.listening #more,body.listening #hint{display:none}
 <section id="hall" style="height:300vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-morninghall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:60rem">
-    <p class="kicker">VIII · The Hall</p>
+    <p class="kicker">VII · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
     <p class="lead">It is not obstruction and it is not a riddle.</p>
     <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-06-nobody-acts.mp3" data-listen="06"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; nobody acts for you by assumption &middot; 13 min</a></p>
@@ -2685,7 +2729,7 @@ window.__shot = (p, tSec=8, W=1280, H=720, mx=0, my=0)=>{
   const rise = A.id===3? Math.max(0,Math.min(1,(local-.42)/.58)) : A.id>3?1:0;
   codexLight.intensity=rise*22;
   codices.forEach((m,i)=>{ const d=m.userData;
-    m.material.opacity=(A.id===3&&rise>0)||(A.id===4&&local<.3)? .95:0;
+    m.material.opacity=A.id===3&&rise>0? .95:0;
     m.material.emissiveIntensity=.05+.10*rise;
     const rr=rise*d.sp;
     const tx=((i%5)-2)*1.05+(((i*13)%7)/10-.3), tz=-.5-((i*7)%5)*.42, e=rr*rr*(3-2*rr);
@@ -2772,7 +2816,7 @@ renderer.setAnimationLoop(t=>{
   codexLight.intensity = rise*22;
   codices.forEach((m,i)=>{
     const d=m.userData, R=rise;
-    m.material.opacity += (((A.id===3&&R>0)||(A.id===4&&local<.3)? .95:0)-m.material.opacity)*(1-Math.exp(-3*dt));
+    m.material.opacity += ((A.id===3&&R>0? .95:0)-m.material.opacity)*(1-Math.exp(-3*dt));
     m.material.emissiveIntensity = .05+.10*R;
     /* born AT the jar (screen-right, low) and rising into the dark upper colonnade */
     const rr=R*d.sp;
