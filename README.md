@@ -12,5 +12,5 @@ mapping, bloom, grain, vignette.
 
 `?t=<seconds>` seeks to any beat.
 
-Marks are used under Joseph Fain McDaniel's own rights. ™ only; no registration is
-claimed. Nothing here is a legal, historical or doctrinal statement.
+JOSEPH FAIN MCDANIEL®, the signature mark®, and the thumbprint device® are registered
+trademarks. Nothing here is a legal, historical or doctrinal statement.
