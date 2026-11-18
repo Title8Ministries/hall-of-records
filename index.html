@@ -135,6 +135,9 @@ section.flow > .hold{position:sticky;top:var(--flowtop,0px);height:auto;
   align-items:flex-start;padding:9vh 0 10vh}
 .kicker{font:400 .9rem/1.8 "JetBrains Mono",monospace;letter-spacing:.24em;text-transform:uppercase;
  color:rgba(219,192,137,.92);margin:0 0 1.4rem}
+.over{font:400 .8rem/1.6 "JetBrains Mono",monospace;letter-spacing:.3em;text-transform:uppercase;
+ color:rgba(219,192,137,.62);margin:0 0 .55rem;max-width:none}
+:where(.over){text-shadow:0 1px 3px rgba(4,6,10,.95),0 0 10px rgba(4,6,10,.88)}
 h1,h2{font:300 clamp(2rem,5.4vw,4.4rem)/1.02 "Cormorant Garamond",serif;letter-spacing:-.015em;margin:0 0 .2rem}
 h2 em,h1 em{font-style:italic;color:var(--gold);display:block}
 p{max-width:56ch;color:rgba(243,236,224,.86);margin:1.15rem 0 0}
@@ -194,7 +197,7 @@ footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking f
   #answer .quote{grid-area:3/1;margin-top:1rem;font-size:clamp(1.35rem,2.2vw,2.05rem)}
   #answer .a-seats{grid-area:4/1;margin-top:1.5rem}
   #answer .a-reg{grid-area:5/1;margin-top:.9rem}
-  #answer #mirror{grid-area:6/1/9/2;margin-top:1.6rem}
+  #answer #mirror{grid-area:6/1/10/2;margin-top:1.6rem}
   #answer #mirror>.caption{margin-top:0!important}
   #answer .a-trust,#answer .a-jer{align-self:center;padding:1.3rem 1.5rem;border-radius:4px;
     background:linear-gradient(180deg,rgba(255,252,244,.62),rgba(255,252,244,.42));
@@ -208,6 +211,8 @@ footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking f
   #answer .a-listen{grid-area:7/2;margin-top:.5rem}
   #answer .a-listen .chip{margin-left:0}
   #answer .a-hand{grid-area:8/2;margin-top:.5rem}
+  #answer .a-help{grid-area:9/2;margin-top:.2rem}
+  #answer .a-help .chip{margin-left:0}
 }
 /* short laptop screens: tighter so the whole composition still fits one screen (no flow mode) */
 @media (min-width:1000px) and (orientation:landscape) and (max-height:820px){
@@ -436,6 +441,7 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   .chip{font-size:1.05rem;letter-spacing:.04em;line-height:1.5}
   .cite{font-size:.95rem;letter-spacing:.10em}
   .kicker{font-size:.95rem;letter-spacing:.18em}
+  .over{font-size:1rem;letter-spacing:.2em}
   /* the Waters keeps its open view (no glass, his law) — the thin italic gets a deeper
      halo instead so it stops fighting the water's texture. */
   #waters .quote,#waters h1{font-weight:600;
@@ -567,6 +573,7 @@ body.listening #more,body.listening #hint{display:none}
 <section id="waters" style="height:750vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-waters.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
+    <p class="over" data-blessed="2026-11-18">the record</p>
     <p class="kicker">I · The Waters</p>
     <p class="quote">Your birth was treated as a commercial event.</p>
     <p class="cite">Named by Water</p>
@@ -741,6 +748,7 @@ body.listening #more,body.listening #hint{display:none}
     <!-- connective hand-off into the wing (the flow law, 8/24) — ✅ blessed 2026-11-18 (Joseph delegated the call) -->
     <p class="caption listenp a-listen"><a class="chip listen" href="assets/audio/atr-01-answers-back.mp3" data-listen="01"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; why this document answers back &middot; 10 min</a></p>
     <p class="cite a-hand" data-blessed="2026-11-18">So how does a child become cargo? It starts in the harbor.</p>
+    <p class="caption a-help"><a class="chip" href="https://info.josephfainmcdaniel.com/widget/bookings/consultation-w-joe" style="margin-left:0" target="_blank" rel="noopener">How can we help you?</a></p>
   </div></div>
 </section>
 
@@ -760,6 +768,7 @@ body.listening #more,body.listening #hint{display:none}
 <section id="harbor" style="height:340vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-harbor.jpg)"></div>
   <div class="hold"><div class="wrap reveal">
+    <p class="over" data-blessed="2026-11-18">how the paper was made</p>
     <p class="kicker">Named by Water &middot; I &mdash; The Harbor</p>
     <h2>The vessel<em>is built.</em></h2>
     <p class="quote" style="max-width:34ch">Birth Certificate = proof the vessel was built.</p>
@@ -767,6 +776,8 @@ body.listening #more,body.listening #hint{display:none}
       identity within the commercial system.
       <a class="chip" href="https://www.law.cornell.edu/ucc/7/7-201" target="_blank" rel="noopener">ucc &sect; 7-201 &middot; warehouse receipts</a></p>
     <p class="cite">Named by Water &middot; his own teaching, in his own words</p>
+    <!-- fix 9 (11/18): his own line, Miley transcript line 18 — quoted voice, NOT a heading, mapped to no section -->
+    <p class="caption pat-voice">&ldquo;Just like there&rsquo;s a pattern of creation. There&rsquo;s a pattern in this stuff as well.&rdquo;</p>
     <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: named-by-water.md -->
     <p class="cite" data-blessed="2026-11-18">This is your christening record — the document that names your vessel under ecclesiastical jurisdiction.</p>
   </div></div>
@@ -980,29 +991,7 @@ body.listening #more,body.listening #hint{display:none}
     </div>
     <!-- FL-5 · the vessel-is-the-temple seam (upgraded 8/24 once the wing existed; binds
          commerce to ministry in one sentence) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing -->
-    <p class="cite" data-blessed="2026-11-18">The christened vessel was always your body. Which is
-      why the next words are a ministry.</p>
-  </div></div>
-</section>
-
-<!-- V·b · THE MINISTRY BEAT — three lines, the third gilds in.
-     ✅ blessed 2026-11-18 (Joseph delegated the call): the ministry beat keeps the canonical wording from his socials;
-     placed per the 8/17 decision: the ministry turn before the Door/CTA. -->
-<section id="ministry" style="height:220vh;align-items:flex-start">
-  <div class="still" style="background-image:url(assets/plate-ministry.jpg)"></div>
-  <div class="hold"><div class="wrap reveal">
-    <p class="kicker">The Ministry</p>
-    <p class="quote" style="max-width:30ch">My body is a temple of the Holy Spirit.</p>
-    <p class="quote" style="max-width:30ch">My body is a place of worship and reverence.</p>
-    <p class="quote" style="max-width:30ch;color:var(--gold);text-shadow:0 1px 3px rgba(4,6,10,.92),0 0 14px rgba(4,6,10,.8),0 0 24px rgba(201,165,92,.35)">My body is tax exempt.</p>
-    <p class="cite">Title 8 Ministries</p>
-    <!-- 8/24 citation enrichment: the claim rode bare — the mandatory-exception statute and
-         the oldest church-autonomy case now sit beside it (both pre-verified, live-checked) -->
-    <p class="caption"><a class="chip" href="https://www.govinfo.gov/link/uscode/26/508?type=usc&amp;year=mostrecent&amp;link-type=html" style="margin-left:0" target="_blank" rel="noopener">26 u.s.c. &sect; 508(c)(1)(A) &mdash; the mandatory exception</a>
-      <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep080/usrep080679/usrep080679.pdf" target="_blank" rel="noopener">watson v. jones, 80 u.s. 679</a></p>
-    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-05-faith.mp3" data-listen="05"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the faith no court may try &middot; 14 min</a></p>
-    <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: POST v5 (the 1873 post, its opening line) -->
-    <p class="cite" data-blessed="2026-11-18">Can I ask you something?</p>
+    <p class="cite" data-blessed="2026-11-18">The christened vessel was always your body.</p>
   </div></div>
 </section>
 
@@ -1129,7 +1118,7 @@ body.listening #more,body.listening #hint{display:none}
       measure.</p>
     <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-07b-co-signer-2.mp3" data-listen="07b"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the co-signer nobody asked, part two &middot; 18 min</a></p>
     <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: paper-chains.md -->
-    <p class="cite" data-blessed="2026-11-18">They know that the system speaks an ancient language and they have learned the dictionary.</p>
+    <p class="cite" data-blessed="2026-11-18">The words mean what they meant. The system speaks an ancient language and most of the people inside it have forgotten the dictionary.</p>
   </div></div>
 </section>
 
@@ -1138,6 +1127,7 @@ body.listening #more,body.listening #hint{display:none}
 <section id="wall" style="height:220vh;align-items:flex-start">
   <div class="still" style="background-image:url(assets/plate-wall.jpg)"></div>
   <div class="hold"><div class="wrap reveal" style="max-width:72rem">
+    <p class="over" data-blessed="2026-11-18">what it actually says</p>
     <p class="kicker">The Language Wall · eight definitions of one word</p>
     <!-- 8/24 eve, his review: "say it more simply and plainly." The affidavit's ¶20I
          sentence (which this replaced) reads as sworn prose; the display now says the same
@@ -1172,10 +1162,11 @@ body.listening #more,body.listening #hint{display:none}
         <span class="pl-quote">"The term 'person' means a natural person or an organization."</span>
         <a class="chip" href="https://www.govinfo.gov/link/uscode/15/1602?type=usc&amp;year=mostrecent&amp;link-type=html" target="_blank" rel="noopener">read § 1602</a></div>
     </div>
-    <p class="caption" style="margin-top:1.4rem">It is three questions, each answerable
+    <p class="caption" style="margin-top:1.4rem">It is not obstruction and it is not a riddle. It is three questions, each answerable
     in a sentence by any party who has read the statute he is invoking.</p>
+    <p class="caption" data-blessed="2026-11-18">Which definition? Which verb? Which section puts the duty on me?</p>
     <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: dollar-remedy-1-40.md -->
-    <p class="cite" data-blessed="2026-11-18">An appendix listing every authority in this book: what it is, what it says, and where you can go read it yourself.</p>
+    <p class="cite" data-blessed="2026-11-18">This is not hidden knowledge. It sits in every law library in the country.</p>
   </div></div>
 </section>
 
@@ -1186,8 +1177,34 @@ body.listening #more,body.listening #hint{display:none}
     <p class="kicker" style="color:rgba(160,222,190,.95)">The Study · I checked my own book</p>
     <p class="quote">I waited because I wanted to know this stuff in my soul not just in my mind.</p>
     <p>Not what somebody said on YouTube. The published text. Section numbers you can pull yourself.</p>
+    <p>Every quotation on this site was verified word-for-word against the published text. The numbers are there so you can check me.</p>
+    <!-- connective hand-off (fix 1, 11/18): split off La Banca's bridge — his blessing -->
+    <p class="cite" data-blessed="2026-11-18">Which is why the next words are a ministry.</p>
   </div></div>
 </section>
+
+<!-- V·b · THE MINISTRY BEAT — three lines, the third gilds in.
+     ✅ blessed 2026-11-18 (Joseph delegated the call): the ministry beat keeps the canonical wording from his socials;
+     placed per the 8/17 decision: the ministry turn before the Door/CTA. -->
+<section id="ministry" style="height:220vh;align-items:flex-start">
+  <div class="still" style="background-image:url(assets/plate-ministry.jpg)"></div>
+  <div class="hold"><div class="wrap reveal">
+    <p class="over" data-blessed="2026-11-18">what can be done about it</p>
+    <p class="kicker">The Ministry</p>
+    <p class="quote" style="max-width:30ch">My body is a temple of the Holy Spirit.</p>
+    <p class="quote" style="max-width:30ch">My body is a place of worship and reverence.</p>
+    <p class="quote" style="max-width:30ch;color:var(--gold);text-shadow:0 1px 3px rgba(4,6,10,.92),0 0 14px rgba(4,6,10,.8),0 0 24px rgba(201,165,92,.35)">My body is tax exempt.</p>
+    <p class="cite">Title 8 Ministries</p>
+    <!-- 8/24 citation enrichment: the claim rode bare — the mandatory-exception statute and
+         the oldest church-autonomy case now sit beside it (both pre-verified, live-checked) -->
+    <p class="caption"><a class="chip" href="https://www.govinfo.gov/link/uscode/26/508?type=usc&amp;year=mostrecent&amp;link-type=html" style="margin-left:0" target="_blank" rel="noopener">26 u.s.c. &sect; 508(c)(1)(A) &mdash; the mandatory exception</a>
+      <a class="chip" href="https://tile.loc.gov/storage-services/service/ll/usrep/usrep080/usrep080679/usrep080679.pdf" target="_blank" rel="noopener">watson v. jones, 80 u.s. 679</a></p>
+    <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-05-faith.mp3" data-listen="05"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; the faith no court may try &middot; 14 min</a></p>
+    <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: POST v5 (the 1873 post, its opening line) -->
+    <p class="cite" data-blessed="2026-11-18">Can I ask you something?</p>
+  </div></div>
+</section>
+
 
 <!-- V·f · THE STATUTES TURN — from system to remedy, his teaching voice -->
 <section id="statutes" style="height:140vh;align-items:flex-start">
@@ -1195,8 +1212,9 @@ body.listening #more,body.listening #hint{display:none}
   <div class="hold"><div class="wrap reveal">
     <p class="kicker">The Turn</p>
     <p class="quote" style="max-width:30ch">When you know who you are, you don't argue. You simply declare.</p>
+    <p class="lead" style="max-width:44ch" data-blessed="2026-11-18">Show me the operative section that imposes the duty, and the one that reaches me.</p>
     <p class="lead" style="max-width:44ch">You can't file your way into knowing who you are. You have to know it
-    first. Then the filing becomes a declaration — not a plea.</p>
+    first.</p>
     <!-- 8/24 citation enrichment: the execution doctrine of his own recorded packets -->
     <p class="caption"><a class="chip" href="https://www.law.cornell.edu/ucc/1/1-308" style="margin-left:0" target="_blank" rel="noopener">ucc &sect; 1-308 &middot; performance under reservation of rights</a></p>
     <!-- connective hand-off (bridges, 11/17) — ✅ blessed 2026-11-18 (Joseph delegated the call): his blessing · source: affidavit-v13-MASTER.md ¶16 -->
@@ -1217,7 +1235,7 @@ body.listening #more,body.listening #hint{display:none}
   <div class="hold"><div class="wrap reveal" style="max-width:60rem">
     <p class="kicker">VII · The Hall</p>
     <h2>The instrument. The consideration.<em>The capacity.</em></h2>
-    <p class="lead">It is not obstruction and it is not a riddle.</p>
+    <p class="lead" data-blessed="2026-11-18">This is about status and standing &mdash; standing as creditor and trustee, not as the beneficiary who was never told.</p>
     <p class="caption listenp"><a class="chip listen" href="assets/audio/atr-06-nobody-acts.mp3" data-listen="06"><svg viewBox="0 0 10 12" aria-hidden="true"><path d="M0 0 L10 6 L0 12 Z"/></svg>listen &middot; nobody acts for you by assumption &middot; 13 min</a></p>
 
     <div id="shelf" class="plaques tiles" aria-label="the records"></div>
