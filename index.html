@@ -2282,6 +2282,8 @@ onGeomResize(paceForOrientation);
 let target=0, cur=0, sealT=0, flash=0, flashArmed=true;
 const maxScroll = ()=>Math.max(1, document.body.scrollHeight-innerHeight);
 const lenis = new Lenis({duration:1.15, easing:t=>Math.min(1,1.001-Math.pow(2,-10*t)),
+  prevent:()=>false, /* Lenis 1.1.0 calls options.prevent(node) unguarded and its default is `false` —
+     every wheel event threw "prevent is not a function", so eased wheel scroll never ran (11/18 audit). */
   touchMultiplier: innerWidth<innerHeight ? 2.0 : 1.4});
   /* portrait 2.0 (was 1.4 everywhere) — Courtney's 8/25 note: "you have to use your finger
      too much" — each flick now carries ~40% farther on phones; desktop inertia unchanged. */
