@@ -352,6 +352,59 @@ footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
   #evbox img{max-height:calc(100dvh - 12rem)}
 }
 @media (prefers-reduced-motion:reduce){#evbox,#evbox.on{transition:none}}
+/* ── the Flower-of-Life progress glyph (11/18): top-right, quiet; it draws as the record is truly read ── */
+#flower{position:fixed;top:max(.9rem,env(safe-area-inset-top));right:max(.9rem,env(safe-area-inset-right));z-index:30;
+ opacity:0;pointer-events:none;transition:opacity 1.4s ease}
+#flower.on{opacity:.92;pointer-events:auto}
+#flower .fbtn{display:block;width:50px;height:50px;padding:3px;border-radius:50%;cursor:pointer;color:var(--gold);
+ background:rgba(6,9,16,.5);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+ border:1px solid rgba(201,165,92,.26);-webkit-tap-highlight-color:transparent;transition:border-color .3s,background .3s}
+#flower .fbtn:hover,#flower .fbtn:focus-visible,#flower.open .fbtn{border-color:rgba(232,207,154,.7);background:rgba(6,9,16,.72)}
+#flower .fbtn:focus-visible{outline:2px solid var(--gold-soft);outline-offset:3px}
+#flower svg.fl{display:block;width:100%;height:100%;overflow:visible;fill:none;stroke:currentColor;stroke-linecap:round}
+#flower .fp{stroke-width:1.5;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1.3s cubic-bezier(.45,.05,.25,1)}
+#flower .fp.fo{stroke-width:1.15}
+#flower g.seen .fp{stroke-dashoffset:0}
+#flower .fg{stroke-width:1.6;stroke-dasharray:.1 2.3;opacity:0;transition:opacity .9s ease}
+#flower g.ghost .fg{opacity:.5}
+#flower .pt{fill:currentColor;stroke:none;opacity:0;transition:opacity .9s ease}
+#flower g.seen .pt{opacity:1}
+#flower.done .fbtn{color:#e8cf9a;animation:flGlow 3.8s ease-in-out 1 both}
+#flower.done svg.fl{filter:drop-shadow(0 0 2px rgba(232,207,154,.4))}
+@keyframes flGlow{0%{box-shadow:0 0 0 rgba(232,207,154,0)}38%{box-shadow:0 0 14px 3px rgba(232,207,154,.55),0 0 34px 8px rgba(201,165,92,.28)}100%{box-shadow:0 0 6px rgba(232,207,154,.16)}}
+#flower .flsol{position:absolute;top:0;right:calc(100% + .35rem);height:50px;display:flex;flex-direction:row-reverse;align-items:center;gap:.5rem;pointer-events:none}
+#flower .flsol svg{flex:none;width:30px;height:30px;fill:none;stroke:#e8cf9a;stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round;
+ opacity:0;--dx:calc(var(--k)*38px + 52px)}
+#flower .flsol.rise svg{animation:flRise 2.2s cubic-bezier(.2,.7,.2,1) calc(var(--k)*.28s) both}
+#flower .flsol{transition:opacity 2.2s ease}
+#flower .flsol.fade{opacity:0}
+@keyframes flRise{0%{opacity:0;transform:translateX(var(--dx)) scale(.15)}30%{opacity:.95}100%{opacity:.92;transform:none}}
+#flmenu{position:absolute;top:calc(100% + .5rem);right:0;width:min(21.5rem,calc(100vw - 1.8rem));max-height:calc(100vh - 5.5rem);max-height:calc(100dvh - 5.5rem);
+ overflow-y:auto;overscroll-behavior:contain;margin:0;padding:.35rem;list-style:none;border-radius:14px;
+ background:rgba(6,9,16,.9);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(201,165,92,.4);color-scheme:dark;
+ opacity:0;visibility:hidden;transform:translateY(-.4rem);transition:opacity .28s ease,transform .28s ease,visibility 0s linear .28s}
+#flower.open #flmenu{opacity:1;visibility:visible;transform:none;transition:opacity .28s ease,transform .28s ease}
+#flmenu a{display:flex;align-items:baseline;gap:.7rem;padding:.42rem .55rem;border-radius:9px;text-decoration:none;
+ font:500 1rem/1.3 "EB Garamond",Georgia,serif;color:#f1ebdf;-webkit-tap-highlight-color:transparent}
+#flmenu a:hover,#flmenu a:focus-visible{background:rgba(201,165,92,.14);outline:none}
+#flmenu a.seen{color:#fff7e6}
+#flmenu i{flex:none;width:.55rem;height:.55rem;border-radius:50%;border:1px solid rgba(201,165,92,.75);transform:translateY(-.06rem);transition:background .5s}
+#flmenu a.seen i{background:var(--gold);border-color:var(--gold)}
+@media (max-width:700px){
+ #flower{top:max(.5rem,env(safe-area-inset-top));right:max(4px,env(safe-area-inset-right))}
+ #flower .fbtn{width:36px;height:36px;padding:2px}
+ #flower .flsol{height:36px}
+ #flower .flsol svg{width:24px;height:24px;--dx:calc(var(--k)*31px + 44px)}
+ #flower .flsol{gap:.4rem}
+ #flmenu{width:calc(100vw - 1.4rem)}
+ #flmenu a{padding:.62rem .6rem}
+}
+@media (prefers-reduced-motion:reduce){
+ #flower,#flower .fp,#flower .fg,#flower .pt,#flmenu,#flmenu i{transition:none}
+ #flower.done .fbtn{animation:none;box-shadow:0 0 8px rgba(232,207,154,.3)}
+ #flower .flsol{display:none}
+}
+@media print{#flower{display:none}}
 /* ⛔ MOBILE (8/24 night): the nowrap chips were the widest unbreakable elements on the
    page (up to 539px), so phones expanded the layout viewport to 574px and rendered the
    whole site zoomed out ~32%. On narrow screens a chip wraps as a soft pill instead. */
@@ -593,6 +646,7 @@ body.listening #more,body.listening #hint{display:none}
 <button id="snd" class="off" title="Sound — chant and strings beneath the record" aria-label="Sound on or off" aria-pressed="false"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="M2 5 h3 l4 -3 v10 l-4 -3 h-3 z M11 4 q2.4 3 0 6"/></svg><span>Sound</span></button>
 <div id="listen" hidden role="region" aria-label="Listen — Answer the Record"><div class="lrow"><span class="lk">Answer the Record</span><select aria-label="Episode"></select><button class="lx" type="button" aria-label="Close the player">&times;</button></div><audio controls preload="none"></audio><p class="ln">Read in the author&rsquo;s own voice, preserved digitally &middot; &copy; 2026 Title 8 Ministries. All rights reserved.</p></div>
 <div id="more" aria-hidden="true"><span>Scroll</span><svg viewBox="0 0 26 16"><polyline points="2,2 13,12 24,2"/></svg></div>
+<div id="flower" aria-label="Sections seen"><button class="fbtn" type="button" aria-expanded="false" aria-controls="flmenu" aria-label="Sections seen"><svg class="fl" viewBox="-50 -50 100 100" aria-hidden="true"></svg></button><div class="flsol" aria-hidden="true"></div><ul id="flmenu" data-lenis-prevent></ul></div>
 <main>
 
 <!-- 0 · THE SEAL — his name, his print, into the water -->
@@ -2478,6 +2532,109 @@ document.getElementById("skip").onclick = ()=> lenis.scrollTo(innerHeight*2.1,{d
   document.addEventListener("click",e=>{ const b=e.target.closest&&e.target.closest(".ev-th"); if(b){ open(b); return; }
     if(!box.hidden && (e.target===box||e.target===x)) shut(); });
   addEventListener("keydown",e=>{ if(e.key==="Escape") shut(); });
+})();
+/* ── Flower-of-Life progress glyph (11/18). Each story section, in page order, adds its share of the
+      pattern's strokes once its copy has truly been SEEN (IntersectionObserver on the copy, a short
+      cumulative dwell — never scroll fraction). Autoplay counts. A skipped section leaves faint dotted
+      ghosts; going back fills them in. Complete → one slow glow; at the Hall the five solids rise once.
+      Visits live in localStorage behind try/catch — the page is whole without it. No words are added:
+      the list uses the sections' own kickers. ── */
+(()=>{
+  const root=document.getElementById("flower"); if(!root) return;
+  const svg=root.querySelector("svg.fl"), btn=root.querySelector(".fbtn"), menu=document.getElementById("flmenu"), sol=root.querySelector(".flsol");
+  const NS="http://www.w3.org/2000/svg", mk=(n,a)=>{ const e=document.createElementNS(NS,n); for(const k in a) e.setAttribute(k,a[k]); return e; };
+  const reduce=matchMedia("(prefers-reduced-motion:reduce)").matches;
+  const KEY="hall.flower.v1", RISE="hall.flower.rise.v1";
+  /* units: the story's sections in page order; breach has no copy, so it joins landfall as one unit */
+  const IDS=["seal","waters","deep","creation","standing","landfall","answer","harbor","christening","cargo","babylon","rome","jar","church","cestui","labanca","chamber1873","gold1933","wall","study","ministry","statutes","hall"];
+  const units=[];
+  for(const id of IDS){
+    const sec=document.getElementById(id); if(!sec) continue;
+    const wraps=[...sec.querySelectorAll(".wrap")];
+    const kick=sec.querySelector(".kicker");
+    const jump=(id==="landfall"&&document.getElementById("breach"))||sec;
+    units.push({id,sec,jump,wraps:wraps.length?wraps:[sec],
+      label:(kick?kick.textContent:(sec.querySelector("h1,h2")||{textContent:id}).textContent).replace(/\s+/g," ").trim(),
+      seen:false,dwell:0,g:null,a:null});
+  }
+  const N=units.length; if(!N) return;
+  /* geometry: point, 19 circles in pattern order (first circle, vesica, trinity, seed, flower), outer ring */
+  const r=14, pts=[]; const P=(d,deg)=>[+(d*Math.cos(deg*Math.PI/180)).toFixed(3),+(d*Math.sin(deg*Math.PI/180)).toFixed(3)];
+  const items=[{t:"pt",w:.3,c:[0,0],R:1.5},{t:"c",w:1,c:[0,0],R:r}];
+  for(const a of [0,60,120,180,240,300]) items.push({t:"c",w:1,c:P(r,a),R:r});
+  for(let a=0;a<360;a+=30) items.push({t:"c",w:1,c:a%60===0?P(2*r,a):P(Math.sqrt(3)*r,a),R:r});
+  items.push({t:"c",o:1,w:2.5,c:[0,0],R:3*r+2});
+  let W=0; for(const it of items){ it.a=W; W+=it.w; it.b=W; }
+  const arc=(c,R,s,e)=>{ const A=x=>[c[0]+R*Math.cos(2*Math.PI*x),c[1]+R*Math.sin(2*Math.PI*x)].map(v=>+v.toFixed(3)), p=A(s), q=A(e);
+    return `M${p[0]} ${p[1]}A${R} ${R} 0 ${e-s>.5?1:0} 1 ${q[0]} ${q[1]}`; };
+  units.forEach((u,k)=>{
+    const g=mk("g",{}); u.g=g; const u0=k*W/N, u1=(k+1)*W/N; let n=0;
+    for(const it of items){
+      const lo=Math.max(it.a,u0), hi=Math.min(it.b,u1); if(hi-lo<.004) continue;
+      if(it.t==="pt"){ g.appendChild(mk("circle",{class:"pt",cx:0,cy:0,r:1.5})); continue; }
+      const s=(lo-it.a)/(it.b-it.a), e=(hi-it.a)/(it.b-it.a), d=arc(it.c,it.R,s,e);
+      const fp=mk("path",{class:"fp"+(it.o?" fo":""),d,pathLength:1}); fp.style.transitionDelay=(n*.32)+"s";
+      g.append(mk("path",{class:"fg",d}),fp); n++;
+    }
+    svg.appendChild(g);
+  });
+  /* the list — the sections' own kickers, a dot for seen/unseen, a jump link */
+  units.forEach(u=>{
+    const li=document.createElement("li"), a=document.createElement("a");
+    a.href="#"+u.id; a.appendChild(document.createElement("i")); a.appendChild(document.createTextNode(u.label)); u.a=a;
+    a.addEventListener("click",e=>{ e.preventDefault(); shut();
+      const y=u.jump.getBoundingClientRect().top+scrollY;
+      try{ lenis.scrollTo(y,{duration:1.6}); }catch(_){ scrollTo(0,y); } });
+    li.appendChild(a); menu.appendChild(li);
+  });
+  /* the five solids (his 8/24 line: from the flower of life you get the five Platonic solids) */
+  const SOL=[ "M12,3 21,19 3,19Z M12,3 12,14 M3,19 12,14 M21,19 12,14",
+    "M12,2 21,7 21,17 12,22 3,17 3,7Z M12,12 12,22 M12,12 3,7 M12,12 21,7",
+    "M12,2 20,12 12,22 4,12Z M12,2 12,22 M4,12 20,12",
+    "M12,2 22,9.5 18,21 6,21 2,9.5Z M12,8 16.5,11.5 14.8,17 9.2,17 7.5,11.5Z M12,2 12,8 M22,9.5 16.5,11.5 M18,21 14.8,17 M6,21 9.2,17 M2,9.5 7.5,11.5",
+    "M12,2 21,7 21,17 12,22 3,17 3,7Z M12,7 18,17 6,17Z M12,2 12,7 M21,7 18,17 M3,7 6,17 M12,22 12,17" ];
+  SOL.forEach((d,k)=>{ const s=mk("svg",{viewBox:"0 0 24 24"}); s.style.setProperty("--k",k); s.appendChild(mk("path",{d})); sol.appendChild(s); });
+  /* storage — optional */
+  let mem={}; const store={ get(k){ try{ return localStorage.getItem(k); }catch(_){ return mem[k]||null; } },
+    set(k,v){ try{ localStorage.setItem(k,v); }catch(_){ mem[k]=v; } } };
+  let rose=store.get(RISE)==="1", complete=false;
+  const paint=()=>{
+    let last=-1; units.forEach((u,i)=>{ if(u.seen) last=i; });
+    units.forEach((u,i)=>{ u.g.classList.toggle("seen",u.seen); u.g.classList.toggle("ghost",!u.seen&&i<last); u.a.classList.toggle("seen",u.seen); });
+  };
+  const save=()=>store.set(KEY,JSON.stringify(units.filter(u=>u.seen).map(u=>u.id)));
+  try{ const prev=JSON.parse(store.get(KEY)||"[]"); if(Array.isArray(prev)) units.forEach(u=>{ if(prev.includes(u.id)) u.seen=true; }); }catch(_){}
+  /* returning readers see their drawing as they left it — no re-animation */
+  root.classList.add("static"); svg.querySelectorAll(".fp,.fg,.pt").forEach(e=>{ e.style.transition="none"; });
+  paint(); void svg.getBoundingClientRect();
+  svg.querySelectorAll(".fp,.fg,.pt").forEach(e=>{ e.style.transition=""; });
+  complete=units.every(u=>u.seen); if(complete) root.classList.add("done");
+  /* seen detection: copy inside the middle band of the screen, ~0.5s cumulative, ink actually visible */
+  const live=new Set(); let tick=0, hallIn=false;
+  const hall=units[N-1];
+  const mark=u=>{ if(u.seen) return; u.seen=true; paint(); save();
+    if(units.every(x=>x.seen)){ complete=true; root.classList.add("done"); maybeRise(); } };
+  const maybeRise=()=>{ if(rose||!complete||!hallIn||reduce) return; rose=true; store.set(RISE,"1");
+    setTimeout(()=>{ sol.classList.add("rise"); setTimeout(()=>sol.classList.add("fade"),6200);
+      setTimeout(()=>sol.classList.remove("rise","fade"),8800); },1400); };
+  const step=()=>{ for(const w of live){ const u=w._u; if(u.seen) continue;
+      const op=w===u.sec?1:parseFloat(getComputedStyle(w).opacity); if(op>.3) u.dwell+=200; if(u.dwell>=500) mark(u); }
+    if(!live.size){ clearInterval(tick); tick=0; } };
+  const io=new IntersectionObserver(es=>{ for(const e of es){ const w=e.target, u=w._u;
+      if(e.isIntersecting){ live.add(w); if(u===hall){ hallIn=true; maybeRise(); } if(!tick) tick=setInterval(step,200); }
+      else{ live.delete(w); if(u===hall) hallIn=[...live].some(x=>x._u===hall); } } },
+    {rootMargin:"-30% 0px -30% 0px",threshold:0});
+  let armed=false; const arm=()=>{ if(armed) return; armed=true; root.classList.add("on");
+    units.forEach(u=>u.wraps.forEach(w=>{ w._u=u; io.observe(w); })); };
+  const rainEl=document.getElementById("rain");
+  if(!rainEl||rainEl.classList.contains("gone")||getComputedStyle(rainEl).display==="none") arm();
+  else{ addEventListener("hall:rainDone",()=>setTimeout(arm,600),{once:true}); setTimeout(arm,16000); }
+  /* menu */
+  function shut(){ root.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+  btn.addEventListener("click",()=>{ const o=!root.classList.contains("open"); root.classList.toggle("open",o); btn.setAttribute("aria-expanded",o?"true":"false"); });
+  document.addEventListener("pointerdown",e=>{ if(!root.contains(e.target)) shut(); });
+  addEventListener("keydown",e=>{ if(e.key==="Escape"&&root.classList.contains("open")){ shut(); btn.focus(); } });
+  window.__flower={units,paint,get complete(){return complete;},arm};
 })();
 const mouse = new THREE.Vector2();
 addEventListener("pointermove",e=>{ mouse.set(e.clientX/innerWidth-.5, e.clientY/innerHeight-.5); });
