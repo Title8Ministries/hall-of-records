@@ -188,35 +188,36 @@ footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking f
 #answer{height:300vh}
 @media (min-width:1000px) and (orientation:landscape){
   #answer{height:210vh}
-  #answer .hold{padding-bottom:9vh}
+  #answer .hold{padding-bottom:11vh}
   #answer .wrap{max-width:80rem;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
     column-gap:clamp(2.5rem,5vw,6rem);align-items:start}
   #answer .wrap>*{margin:0;max-width:none}
   #answer .kicker{grid-area:1/1;margin-bottom:.9rem}
   #answer h2{grid-area:2/1;font-size:clamp(2rem,4.1vw,3.6rem)}
   #answer .quote{grid-area:3/1;margin-top:1rem;font-size:clamp(1.35rem,2.2vw,2.05rem)}
-  #answer .a-seats{grid-area:4/1;margin-top:1.5rem}
-  #answer .a-reg{grid-area:5/1;margin-top:.9rem}
-  #answer #mirror{grid-area:6/1/10/2;margin-top:1.6rem}
+  #answer .quote+.quote{grid-area:4/1;margin-top:.7rem}   /* the 2nd quote had no row of its own — both sat in 3/1 and printed on top of each other (Joseph 11/18) */
+  #answer .a-seats{grid-area:5/1;margin-top:1.5rem}
+  #answer .a-reg{grid-area:6/1;margin-top:.9rem}
+  #answer #mirror{grid-area:7/1/11/2;margin-top:1.6rem}
   #answer #mirror>.caption{margin-top:0!important}
   #answer .a-trust,#answer .a-jer{align-self:center;padding:1.3rem 1.5rem;border-radius:4px;
     background:linear-gradient(180deg,rgba(255,252,244,.62),rgba(255,252,244,.42));
     border:1px solid rgba(107,84,35,.32);border-left:3px solid rgba(138,107,47,.8);
     box-shadow:0 2px 14px rgba(60,45,20,.10)}
   #answer .a-trust{grid-area:1/2/4/3}
-  #answer .a-jer{grid-area:4/2/6/3}
+  #answer .a-jer{grid-area:4/2/7/3}
   #answer .a-trust .chip,#answer .a-jer .chip{display:block;width:fit-content;margin:.85rem 0 0;
     white-space:normal;border-radius:14px;line-height:1.55}
-  #answer .a-nbw{grid-area:6/2;margin-top:1.4rem}
-  #answer .a-listen{grid-area:7/2;margin-top:.5rem}
+  #answer .a-nbw{grid-area:7/2;margin-top:1.4rem}
+  #answer .a-listen{grid-area:8/2;margin-top:.5rem}
   #answer .a-listen .chip{margin-left:0}
-  #answer .a-hand{grid-area:8/2;margin-top:.5rem}
-  #answer .a-help{grid-area:9/2;margin-top:.2rem}
+  #answer .a-hand{grid-area:9/2;margin-top:.5rem}
+  #answer .a-help{grid-area:10/2;margin-top:.2rem}
   #answer .a-help .chip{margin-left:0}
 }
 /* short laptop screens: tighter so the whole composition still fits one screen (no flow mode) */
 @media (min-width:1000px) and (orientation:landscape) and (max-height:820px){
-  #answer .hold{padding-bottom:7vh}
+  #answer .hold{padding-bottom:9vh}
   #answer h2{font-size:clamp(1.8rem,3.5vw,2.9rem)}
   #answer .quote{margin-top:.6rem;font-size:clamp(1.2rem,1.9vw,1.7rem)}
   #answer .a-seats{margin-top:.9rem}
@@ -275,7 +276,7 @@ footer p{color:rgba(16,20,32,.78)}   /* the bare p{} ivory rule was outranking f
 #hall .plaque.sealed .pl-name{color:rgba(74,56,22,.96)}
 #hall .plaque.sealed .pl-quote{color:rgba(16,20,32,.72)}
 #hall .doors{margin-top:1.1rem;font:400 .92rem/2 "JetBrains Mono",monospace;letter-spacing:.04em}
-#hall .doors a{color:rgba(122,94,40,.95);text-decoration:none;border-bottom:1px solid rgba(138,107,47,.35)}
+#hall .doors a{white-space:nowrap;color:rgba(122,94,40,.95);text-decoration:none;border-bottom:1px solid rgba(138,107,47,.35)}
 footer{position:relative;z-index:1;padding:5rem clamp(1.4rem,6vw,7rem) 4rem;
  border-top:1px solid rgba(138,107,47,.30);font-size:.98rem;color:rgba(16,20,32,.78)}
  /* the page ends in the morning room — the footer is ink on that ivory, not ghost-ivory
