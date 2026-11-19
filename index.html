@@ -2677,6 +2677,7 @@ function fitSections(){
     const wrap = sec.querySelector(".wrap");
     if (!wrap) continue;
     sec.classList.remove("flow");
+    if ("h0" in sec.dataset && !PORTRAIT_H[sec.id]) sec.style.height = sec.dataset.h0;   /* undo a phone bump (rotate / resize) */
     const hold = sec.querySelector(".hold");
     if (hold) hold.style.removeProperty("--flowtop");
     if (wrap.scrollHeight > innerHeight * 0.86){
@@ -2686,6 +2687,16 @@ function fitSections(){
          the reader before the section does */
       const over = (hold ? hold.scrollHeight : wrap.scrollHeight) - innerHeight;
       if (hold) hold.style.setProperty("--flowtop", (-Math.max(0, over + innerHeight*0.02)) + "px");
+      /* phones: bigger type makes some copy taller than its fixed section, so its tail spilled
+         into the NEXT scene (the 1933 listen chip under the Wall's first line, 11/18 final pass).
+         Never let a flowing section be shorter than its own copy plus a short pin. */
+      if (hold && portrait){
+        const need = Math.ceil(hold.scrollHeight + innerHeight*0.4);
+        if (sec.offsetHeight < need){
+          if (!("h0" in sec.dataset)) sec.dataset.h0 = sec.style.height;
+          sec.style.height = need + "px";
+        }
+      }
     }
   }
   buildActs();
